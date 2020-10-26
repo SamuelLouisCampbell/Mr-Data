@@ -158,12 +158,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="MyException.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BarebonesWindows.h" />
+    <ClInclude Include="Keyboard.h" />
     <ClInclude Include="MyException.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Window.h" />

@@ -48,7 +48,7 @@ Window::Window(int width, int height, LPWSTR name)
 	wr.right = width + wr.left;
 	wr.top = 100;
 	wr.bottom = height + wr.top;
-	if (FAILED(AdjustWindowRect(&wr, WS_CAPTION | WS_MINIMIZE | WS_SYSMENU, FALSE)))
+	if ((AdjustWindowRect(&wr, WS_CAPTION | WS_MINIMIZE | WS_SYSMENU, FALSE)) == 0)
 	{
 		throw MD_WND_LAST_EXCEPT();
 	}
@@ -63,11 +63,10 @@ Window::Window(int width, int height, LPWSTR name)
 	{
 		throw MD_WND_LAST_EXCEPT();
 	}
-	ShowWindow(hWnd, SW_SHOWDEFAULT);
-
-	//some demo exceptions
-	//throw MD_WND_EXCEPT(ERROR_ABANDONED_WAIT_0);
-	//throw std::runtime_error("You've hit an error Mr.Data");
+	if ((ShowWindow(hWnd, SW_SHOWDEFAULT) != 0))
+	{
+		throw MD_WND_LAST_EXCEPT();
+	}
 }
 
 
@@ -110,11 +109,36 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 	case WM_CLOSE:
 		PostQuitMessage(0);
 		return 0;
+	case WM_KILLFOCUS: //Clear keystates on loss of window focus to prevent 'zombie' states. 
+		kbd.ClearState();
+		break;
+	
+	// keyboard input //
+	case WM_KEYDOWN:
+	case WM_SYSKEYDOWN:
+		if (!(lParam & 0x40000000) || kbd.AutoRepeatEnabled()) // filter autorepeat messages.
+		{
+			kbd.OnKeyPressed(static_cast<unsigned char>(wParam));
+		}
+		break;
+	case WM_KEYUP:
+	case WM_SYSKEYUP:
+		kbd.OnKeyReleased(static_cast<unsigned char>(wParam));
+		break;
+	case WM_CHAR:
+		kbd.OnChar(static_cast<unsigned char>(wParam));
+		break;
+
+	// mouse messages //
+
 	default:
 		break;
 	}
 	return DefWindowProc(hWnd, msg, wParam, lParam);
 }
+
+
+// ERROR HANDLING BELOW...
 
 Window::Exception::Exception(int line, const char* file, HRESULT hr)
 	:

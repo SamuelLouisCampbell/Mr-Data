@@ -35,6 +35,11 @@ int CALLBACK WinMain(
 		BOOL gResult;
 		while ((gResult = GetMessage(&msg, nullptr, 0, 0)) > 0)
 		{
+			if (wnd.kbd.KeyIsPressed(VK_SPACE))
+			{
+				MessageBoxA(nullptr, "A button was pressed", "The Space BAR", 0);
+			}
+
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}

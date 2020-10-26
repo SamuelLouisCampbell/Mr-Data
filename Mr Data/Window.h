@@ -2,6 +2,7 @@
 #include "BarebonesWindows.h"
 #include "MyException.h"
 #include "resource.h"
+#include "Keyboard.h"
 
 class Window
 {
@@ -47,6 +48,9 @@ private:
 	int width;
 	int height;
 	HWND hWnd;
+	
+public:
+	Keyboard kbd;
 
 	//error exception helper macro
 #define MD_WND_EXCEPT(hr) Window::Exception(__LINE__,__FILE__, hr)
