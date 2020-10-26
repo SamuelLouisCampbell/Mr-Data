@@ -111,11 +111,13 @@ private:
 	void OnWheelDown(int x, int y) noexcept;
 	void OnMouseLeave() noexcept;
 	void OnMouseEnter() noexcept;
+	void OnWheelDelta(int x, int y, int delta) noexcept;
 	void TrimBuffer() noexcept;
 private:
 	static constexpr unsigned int bufferSize = 4u;
 	int x = 0;
 	int y = 0;
+	int wheelDelta = 0;
 	bool leftIsPressed = false;
 	bool rightIsPressed = false;
 	bool centerIsPressed = false;

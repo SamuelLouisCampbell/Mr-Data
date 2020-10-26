@@ -1,4 +1,5 @@
 #include "Mouse.h"
+#include "BarebonesWindows.h"
 
 void Mouse::OnMouseMove(int new_x, int new_y) noexcept
 {
@@ -74,6 +75,21 @@ void Mouse::OnMouseEnter() noexcept
 	isInWindow = true;
 	buffer.push(Mouse::Event(Mouse::Event::Type::Enter, *this));
 	TrimBuffer();
+}
+
+void Mouse::OnWheelDelta(int x, int y, int delta) noexcept
+{
+	wheelDelta += delta;
+	while (wheelDelta >= WHEEL_DELTA)
+	{
+		wheelDelta -= WHEEL_DELTA;
+		OnWheelUp(x, y);
+	}
+	while (wheelDelta <= -WHEEL_DELTA)
+	{
+		wheelDelta += WHEEL_DELTA;
+		OnWheelUp(x, y);
+	}
 }
 
 void Mouse::TrimBuffer() noexcept
