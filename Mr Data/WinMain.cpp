@@ -7,6 +7,7 @@
 #include "Window.h"
 #include <vector>
 #include <string>
+#include <sstream>
 
 //void ConvertToWide(const char* mbstr, wchar_t* buffer_in)
 //{
@@ -35,13 +36,24 @@ int CALLBACK WinMain(
 		BOOL gResult;
 		while ((gResult = GetMessage(&msg, nullptr, 0, 0)) > 0)
 		{
-			if (wnd.kbd.KeyIsPressed(VK_SPACE))
+			if (wnd.kbd.KeyIsPressed(VK_MENU))
 			{
-				MessageBoxA(nullptr, "A button was pressed", "The Space BAR", 0);
+				MessageBoxA(nullptr, "A button was pressed", "The ALT ", 0);
 			}
 
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
+
+			while (!wnd.mouse.IsEmpty())
+			{
+				const auto e = wnd.mouse.Read();
+				if (e.GetType() == Mouse::Event::Type::LPress)
+				{
+					std::ostringstream oss;
+					oss << "Mouse Position: " << e.GetPosX() << "," << e.GetPosY();
+					wnd.SetTitle(oss.str());
+				}
+			}
 		}
 		if (gResult == -1)
 		{
