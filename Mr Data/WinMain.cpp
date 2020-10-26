@@ -9,18 +9,6 @@
 #include <string>
 #include <sstream>
 
-//void ConvertToWide(const char* mbstr, wchar_t* buffer_in)
-//{
-//	std::mbstate_t state = std::mbstate_t();
-//	std::size_t len = 1 + std::mbsrtowcs(NULL, &mbstr, 0, &state);
-//	std::vector<wchar_t> wstr(len);
-//	std::mbsrtowcs(&wstr[0], &mbstr, wstr.size(), &state);
-//	for (int i = 0; i <  wstr.size(); i++)
-//	{
-//		buffer_in[i] = wstr[i];
-//	}
-//}
-
 int CALLBACK WinMain(
 	HINSTANCE hInstance,
 	HINSTANCE hPrevInstance,
