@@ -19,7 +19,7 @@ int CALLBACK WinMain(
 	{
 		LPWSTR name = const_cast<LPWSTR>(TEXT("Mr.Data 3D Engine Window"));
 		Window wnd(1280, 720, name);
-
+		int displayDelta = 0;
 		MSG msg;
 		BOOL gResult;
 		while ((gResult = GetMessage(&msg, nullptr, 0, 0)) > 0)
@@ -28,19 +28,27 @@ int CALLBACK WinMain(
 			{
 				MessageBoxA(nullptr, "A button was pressed", "The ALT ", 0);
 			}
+	
 
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
-
+			
 			while (!wnd.mouse.IsEmpty())
 			{
+				
 				const auto e = wnd.mouse.Read();
-				if (e.GetType() == Mouse::Event::Type::LPress)
+				if (e.GetType() == Mouse::Event::Type::WheelUp)
 				{
-					std::ostringstream oss;
-					oss << "Mouse Position: " << e.GetPosX() << "," << e.GetPosY();
-					wnd.SetTitle(oss.str());
+					displayDelta += 1;
 				}
+				if (e.GetType() == Mouse::Event::Type::WheelDown)
+				{
+					displayDelta -= 1;
+				}
+
+				std::ostringstream oss;
+				oss << "Mouse WheelDelta " << displayDelta;
+				wnd.SetTitle(oss.str());
 			}
 		}
 		if (gResult == -1)

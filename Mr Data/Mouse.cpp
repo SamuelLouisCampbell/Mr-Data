@@ -88,7 +88,7 @@ void Mouse::OnWheelDelta(int x, int y, int delta) noexcept
 	while (wheelDelta <= -WHEEL_DELTA)
 	{
 		wheelDelta += WHEEL_DELTA;
-		OnWheelUp(x, y);
+		OnWheelDown(x, y);
 	}
 }
 
