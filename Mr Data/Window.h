@@ -11,12 +11,12 @@ public:
 	class Exception : public MyException
 	{
 	public:
-		Exception(int line, const char* file, HRESULT hr);
-		const char* what() const noexcept override;
-		virtual const char* GetType() const noexcept;
-		static std::string TranslateErrorCode(HRESULT hr) noexcept;
+		Exception(int line, const wchar_t* file, HRESULT hr);
+		const wchar_t* wideWhat() const noexcept;
+		virtual const wchar_t* GetType() const noexcept;
+		static std::wstring TranslateErrorCode(HRESULT hr) noexcept;
 		HRESULT GetErrorCode() const noexcept;
-		std::string GetErrorString() const noexcept;
+		std::wstring GetErrorString() const noexcept;
 	private:
 		HRESULT hr;
 	};
@@ -24,23 +24,23 @@ private:
 	class WindowClass
 	{
 	public:
-		static const char* GetName() noexcept;
+		static const wchar_t* GetName() noexcept;
 		static HINSTANCE GetInstance() noexcept;
 	private:
 		WindowClass() noexcept;
 		~WindowClass();
 		WindowClass(const WindowClass&) = delete;
 		WindowClass& operator = (const WindowClass&) = delete;
-		static constexpr const char* wndClassName = "Mr.Data Direct3D Engine Window";
+		static constexpr const wchar_t* wndClassName = L"Mr.Data 3D Engine Window";
 		static WindowClass wndClass;
 		HINSTANCE hInst;
 	};
 public:
-	Window(int width, int height, LPWSTR name);
+	Window(int width, int height, std::wstring name);
 	~Window();
 	Window(const Window&) = delete;
 	Window& operator=(const Window&) = delete;
-	void SetTitle(const std::string title);
+	void SetTitle(const std::wstring title);
 private:
 	static LRESULT CALLBACK HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
 	static LRESULT CALLBACK HandleMsgThunk(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
@@ -55,7 +55,6 @@ public:
 	Keyboard kbd;
 	Mouse mouse;
 
-	//error exception helper macro
-#define MD_WND_EXCEPT(hr) Window::Exception(__LINE__,__FILE__, hr)
-#define MD_WND_LAST_EXCEPT(hr) Window::Exception(__LINE__,__FILE__, GetLastError())
+
+
 };

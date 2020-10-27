@@ -1,24 +1,24 @@
 #include "MyException.h"
 #include <sstream>
 
-MyException::MyException(int line, const char* file) noexcept
+MyException::MyException(int line, const wchar_t* file) noexcept
 	:
 	line(line),
 	file(file)
 {
 }
 
-const char* MyException::what() const noexcept
+const wchar_t* MyException::wideWhat() const noexcept
 {
-	std::ostringstream oss;
+	std::wostringstream oss;
 	oss << GetType() << std::endl << GetOriginString();
 	whatBuffer = oss.str();
 	return whatBuffer.c_str();
 }
 
-const char* MyException::GetType() const noexcept
+const wchar_t* MyException::GetType() const noexcept
 {
-	return "An Exception Mr Data!";
+	return L"An Exception Mr Data!";
 }
 
 int MyException::GetLine() const noexcept
@@ -26,14 +26,14 @@ int MyException::GetLine() const noexcept
 	return line;
 }
 
-const std::string& MyException::GetFile() const noexcept
+const std::wstring& MyException::GetFile() const noexcept
 {
 	return file;
 }
 
-std::string MyException::GetOriginString() const noexcept
+std::wstring MyException::GetOriginString() const noexcept
 {
-	std::ostringstream oss;
+	std::wostringstream oss;
 	oss << "[File] " << file << std::endl;
 	oss << "[Line] " << line;
 	return oss.str();

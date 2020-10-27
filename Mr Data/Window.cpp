@@ -2,7 +2,7 @@
 #include <string>
 #include <sstream>
 
-const const char* Window::WindowClass::GetName() noexcept
+const const wchar_t* Window::WindowClass::GetName() noexcept
 {
 	return wndClassName;
 }
@@ -16,7 +16,7 @@ Window::WindowClass Window::WindowClass::wndClass;
 
 Window::WindowClass::WindowClass() noexcept
 	: 
-	hInst(GetModuleHandle(nullptr))
+	hInst(GetModuleHandleA(nullptr))
 {
 	WNDCLASSEX wc = { 0 };
 	wc.cbSize = sizeof(wc);
@@ -29,7 +29,7 @@ Window::WindowClass::WindowClass() noexcept
 	wc.hCursor = nullptr;
 	wc.hbrBackground = nullptr;
 	wc.lpszMenuName = nullptr;
-	wc.lpszClassName = LPWSTR(GetName());
+	wc.lpszClassName = GetName();
 	wc.hIconSm = static_cast<HICON>(LoadImage(hInst, MAKEINTRESOURCE(IDI_ICON1), IMAGE_ICON, 16, 16, 0));
 	RegisterClassEx(&wc);
 }
@@ -39,7 +39,7 @@ Window::WindowClass::~WindowClass()
 	UnregisterClass(LPWSTR(wndClassName), GetInstance());
 }
 
-Window::Window(int width, int height, LPWSTR name)
+Window::Window(int width, int height, std::wstring name)
 	: 
 	width(width),
 	height(height)
@@ -51,22 +51,22 @@ Window::Window(int width, int height, LPWSTR name)
 	wr.bottom = height + wr.top;
 	if ((AdjustWindowRect(&wr, WS_CAPTION | WS_MINIMIZE | WS_SYSMENU, FALSE)) == 0)
 	{
-		throw MD_WND_LAST_EXCEPT();
+		throw Window::Exception(52, L"Window.cpp", GetLastError());
 	}
 	//create window and get handle
 	hWnd = CreateWindow(
-		LPWSTR(WindowClass::GetName()), name,
+		WindowClass::GetName(), name.c_str(),
 		WS_CAPTION | WS_MINIMIZE | WS_SYSMENU,
 		CW_USEDEFAULT, CW_USEDEFAULT, wr.right - wr.left, wr.bottom - wr.top,
 		nullptr, nullptr, WindowClass::GetInstance(), this
 	);
 	if (hWnd == nullptr)
 	{
-		throw MD_WND_LAST_EXCEPT();
+		throw Window::Exception(63, L"Window.cpp", GetLastError());
 	}
 	if ((ShowWindow(hWnd, SW_SHOWDEFAULT) != 0))
 	{
-		throw MD_WND_LAST_EXCEPT();
+	    throw Window::Exception(67, L"Window.cpp", GetLastError());
 	}
 }
 
@@ -76,11 +76,11 @@ Window::~Window()
 	DestroyWindow(hWnd);
 }
 
-void Window::SetTitle(const std::string title)
+void Window::SetTitle(const std::wstring title)
 {
-	if (SetWindowTextA(hWnd, title.c_str()) == 0)
+	if (SetWindowText(hWnd, title.c_str()) == 0)
 	{
-		throw MD_WND_LAST_EXCEPT();
+		throw Window::Exception(81, L"Window.cpp", GetLastError());
 	}
 }
 
@@ -227,15 +227,15 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 
 // ERROR HANDLING BELOW...
 
-Window::Exception::Exception(int line, const char* file, HRESULT hr)
+Window::Exception::Exception(int line, const wchar_t* file, HRESULT hr)
 	:
 	MyException(line,file),
 	hr(hr)
 {}
 
-const char* Window::Exception::what() const noexcept
+const wchar_t* Window::Exception::wideWhat() const noexcept
 {
-	std::ostringstream oss;
+	std::wostringstream oss;
 	oss << GetType() << std::endl;
 	oss << "[Error Code] " << GetErrorCode() << std::endl
 		<< "[Description] " << GetErrorString() << std::endl
@@ -244,23 +244,23 @@ const char* Window::Exception::what() const noexcept
 	return whatBuffer.c_str();
 }
 
-const char* Window::Exception::GetType() const noexcept
+const wchar_t* Window::Exception::GetType() const noexcept
 {
-	return "Mr.Data Window Exception";
+	return L"Mr.Data Window Exception";
 }
 
-std::string Window::Exception::TranslateErrorCode(HRESULT hr) noexcept
+std::wstring Window::Exception::TranslateErrorCode(HRESULT hr) noexcept
 {
-	char* pMsgBuff = nullptr;
+	wchar_t* pMsgBuff = nullptr;
 	DWORD nMsgLen = FormatMessageA(
 		FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM |
 		FORMAT_MESSAGE_IGNORE_INSERTS, nullptr, hr, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
 		reinterpret_cast<LPSTR>(&pMsgBuff), 0, nullptr);
 	if (nMsgLen == 0)
 	{
-		return "Unidentified Error Code";
+		return L"Unidentified Error Code";
 	}
-	std::string errorString = pMsgBuff;
+	std::wstring errorString = pMsgBuff;
 	LocalFree(pMsgBuff);
 	return errorString;
 }
@@ -270,7 +270,7 @@ HRESULT Window::Exception::GetErrorCode() const noexcept
 	return hr;
 }
 
-std::string Window::Exception::GetErrorString() const noexcept
+std::wstring Window::Exception::GetErrorString() const noexcept
 {
 	return TranslateErrorCode(hr);
 }

@@ -2,12 +2,9 @@
 #define _CRT_SECURE_NO_WARNINGS
 #endif
 
-
-#include "BarebonesWindows.h"
-#include "Window.h"
-#include <vector>
+#include "App.h"
 #include <string>
-#include <sstream>
+
 
 int CALLBACK WinMain(
 	HINSTANCE hInstance,
@@ -17,7 +14,7 @@ int CALLBACK WinMain(
 {
 	try 
 	{
-		LPWSTR name = const_cast<LPWSTR>(TEXT("Mr.Data 3D Engine Window"));
+		const wchar_t* name = L"Mr.Data 3D Engine Window";
 		Window wnd(1280, 720, name);
 	
 		MSG msg;
@@ -37,7 +34,7 @@ int CALLBACK WinMain(
 	}
 	catch (const MyException& e)
 	{
-		MessageBoxA(nullptr, e.what(), e.GetType(), MB_OK | MB_ICONEXCLAMATION);
+		MessageBox(nullptr, e.wideWhat(), e.GetType(), MB_OK | MB_ICONEXCLAMATION);
 	}
 	catch (const std::exception & e)
 	{

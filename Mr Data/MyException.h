@@ -5,15 +5,15 @@
 class MyException : public std::exception
 {
 public:
-	MyException(int line, const char* file) noexcept;
-	const char* what() const noexcept override;
-	virtual const char* GetType() const noexcept;
+	MyException(int line, const wchar_t* file) noexcept;
+	const wchar_t* wideWhat() const noexcept;
+	virtual const wchar_t* GetType() const noexcept;
 	int GetLine() const noexcept;
-	const std::string& GetFile() const noexcept;
-	std::string GetOriginString() const noexcept;
+	const std::wstring& GetFile() const noexcept;
+	std::wstring GetOriginString() const noexcept;
 private:
 	int line;
-	std::string file;
+	std::wstring file;
 protected:
-	mutable std::string whatBuffer;
+	mutable std::wstring whatBuffer;
 };
