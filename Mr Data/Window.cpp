@@ -51,7 +51,7 @@ Window::Window(int width, int height, std::wstring name)
 	wr.bottom = height + wr.top;
 	if ((AdjustWindowRect(&wr, WS_CAPTION | WS_MINIMIZE | WS_SYSMENU, FALSE)) == 0)
 	{
-		throw Window::Exception(52, L"Window.cpp", GetLastError());
+		throw Window::Exception(__LINE__, L"Window.cpp", GetLastError());
 	}
 	//create window and get handle
 	hWnd = CreateWindow(
@@ -62,12 +62,16 @@ Window::Window(int width, int height, std::wstring name)
 	);
 	if (hWnd == nullptr)
 	{
-		throw Window::Exception(63, L"Window.cpp", GetLastError());
+		throw Window::Exception(__LINE__, L"Window.cpp", GetLastError());
 	}
 	if ((ShowWindow(hWnd, SW_SHOWDEFAULT) != 0))
 	{
-	    throw Window::Exception(67, L"Window.cpp", GetLastError());
+	    throw Window::Exception(__LINE__, L"Window.cpp", GetLastError());
 	}
+
+	//create graphics object
+	pGfx = std::make_unique<Graphics>(hWnd);
+
 }
 
 
@@ -80,7 +84,7 @@ void Window::SetTitle(const std::wstring title)
 {
 	if (SetWindowText(hWnd, title.c_str()) == 0)
 	{
-		throw Window::Exception(81, L"Window.cpp", GetLastError());
+		throw Window::Exception(__LINE__, L"Window.cpp", GetLastError());
 	}
 }
 
@@ -102,6 +106,11 @@ std::optional<int> Window::ProcessMessages()
 	}
 	//return empty optional when not quitting
 	return {};
+}
+
+Graphics& Window::Gfx()
+{
+	return *pGfx;
 }
 
 LRESULT Window::HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept

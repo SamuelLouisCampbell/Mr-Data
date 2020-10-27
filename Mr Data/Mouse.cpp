@@ -94,7 +94,7 @@ void Mouse::OnWheelDelta(int x, int y, int delta) noexcept
 
 void Mouse::TrimBuffer() noexcept
 {
-	while (buffer.size() > bufferSize)
+	while (buffer.size() >= bufferSize)
 	{
 		buffer.pop();
 	}

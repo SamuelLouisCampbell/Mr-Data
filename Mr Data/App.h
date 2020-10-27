@@ -14,8 +14,8 @@ private:
 	void ComposeFrame();
 	
 private:
-	Window wnd;
 	Time time;
+	Window wnd;
 
 };
 

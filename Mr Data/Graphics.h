@@ -1,0 +1,42 @@
+#pragma once
+#include "BarebonesWindows.h"
+#include "MyException.h"
+#include <d3d11.h>
+
+class Graphics
+{
+public:
+	class HrException : public MyException
+	{
+	public:
+		HrException(int line, const wchar_t* file, HRESULT hr) noexcept;
+		const wchar_t* wideWhat() const noexcept override;
+		const wchar_t* GetType() const noexcept override;
+		HRESULT GetErrorCode() const noexcept;
+		std::wstring GetErrorString() const noexcept;
+		std::wstring GetErrorDescription() const noexcept;
+	private:
+		HRESULT hr;
+	};
+	class DeviceRemovedException : public HrException
+	{
+		using HrException::HrException;
+	public:
+		const wchar_t* GetType() const noexcept override;
+	};
+public:
+	Graphics(HWND hWnd);
+	Graphics(const Graphics&) = delete;
+	Graphics& operator=(const Graphics&) = delete;
+	~Graphics();
+	void EndFrame();
+	void ClearBuffer(float red, float green, float blue) noexcept;
+
+private:
+	ID3D11Device*			pDevice = nullptr;
+	IDXGISwapChain*			pSwapChain = nullptr;
+	ID3D11DeviceContext*	pContext = nullptr;
+	ID3D11RenderTargetView*	pTarget = nullptr;
+
+};
+

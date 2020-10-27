@@ -1,12 +1,13 @@
 #pragma once
 #include <exception>
 #include <string>
+#include <sstream>
 
 class MyException : public std::exception
 {
 public:
 	MyException(int line, const wchar_t* file) noexcept;
-	const wchar_t* wideWhat() const noexcept;
+	virtual const wchar_t* wideWhat() const noexcept;
 	virtual const wchar_t* GetType() const noexcept;
 	int GetLine() const noexcept;
 	const std::wstring& GetFile() const noexcept;
