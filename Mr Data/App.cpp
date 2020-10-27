@@ -1,30 +1,34 @@
 #include "App.h"
+#include <sstream>
 
-App::App(int width, int height, std::wstring name)
+App::App()
 	:
-	wnd(width, height, name)
+	wnd(1280, 768, L"Mr.Data 3D Window")
 {}
 
 int App::Setup()
 {
-	MSG msg;
-	BOOL gResult;
-	while ((gResult = GetMessage(&msg, nullptr, 0, 0)) > 0)
+	while (true)
 	{
+		if (const auto exitCode = Window::ProcessMessages())
+		{
+			return *exitCode;
+		}
 
-		TranslateMessage(&msg);
-		DispatchMessage(&msg);
+		ComposeFrame();
 
+		RenderFrame();
 	}
-	if (gResult == -1)
-	{
-		return -1;
-	}
-	return msg.wParam;
+
 }
 
 void App::ComposeFrame()
 {
+	
+	std::wostringstream oss;
+	oss << L"Time Elapsed: " << std::setprecision(3) << time.Peek();
+	
+	wnd.SetTitle(oss.str());
 }
 
 void App::RenderFrame()

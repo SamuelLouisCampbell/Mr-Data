@@ -14,7 +14,7 @@ int CALLBACK WinMain(
 {
 	try 
 	{
-		return App{1280,768,L"Mr.Data 3D Window"}.Setup();
+		return App{}.Setup();
 	}
 	catch (const MyException& e)
 	{

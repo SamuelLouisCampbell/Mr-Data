@@ -2,22 +2,20 @@
 #include "Window.h"
 #include <vector>
 #include <string>
+#include "Time.h"
 
 class App
 {
 public:
-	App(int width, int height, std::wstring name);
+	App();
 	int Setup();
-	void RenderFrame();
 private:
+	void RenderFrame();
 	void ComposeFrame();
-
-
+	
 private:
 	Window wnd;
-	int width;
-	int height;
-	std::string name;
+	Time time;
 
 };
 
