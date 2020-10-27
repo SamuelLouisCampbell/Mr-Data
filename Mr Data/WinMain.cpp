@@ -14,23 +14,7 @@ int CALLBACK WinMain(
 {
 	try 
 	{
-		const wchar_t* name = L"Mr.Data 3D Engine Window";
-		Window wnd(1280, 720, name);
-	
-		MSG msg;
-		BOOL gResult;
-		while ((gResult = GetMessage(&msg, nullptr, 0, 0)) > 0)
-		{
-		
-			TranslateMessage(&msg);
-			DispatchMessage(&msg);
-		
-		}
-		if (gResult == -1)
-		{
-			return -1;
-		}
-		return msg.wParam;
+		return App{1280,768,L"Mr.Data 3D Window"}.Setup();
 	}
 	catch (const MyException& e)
 	{

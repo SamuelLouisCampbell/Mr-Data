@@ -7,10 +7,11 @@ class App
 {
 public:
 	App(int width, int height, std::wstring name);
-	void ComposeFrame();
+	int Setup();
 	void RenderFrame();
 private:
-	void DoFrame();
+	void ComposeFrame();
+
 
 private:
 	Window wnd;
