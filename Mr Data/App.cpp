@@ -35,4 +35,5 @@ void App::RenderFrame()
 {
 	wnd.Gfx().EndFrame();
 	wnd.Gfx().ClearBuffer(1.0f, 0.2f, 0.4f);
+	wnd.Gfx().DrawTestTrtiangle();
 }

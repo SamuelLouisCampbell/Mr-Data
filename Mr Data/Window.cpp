@@ -60,6 +60,7 @@ Window::Window(int width, int height, std::wstring name)
 		CW_USEDEFAULT, CW_USEDEFAULT, wr.right - wr.left, wr.bottom - wr.top,
 		nullptr, nullptr, WindowClass::GetInstance(), this
 	);
+	
 	if (hWnd == nullptr)
 	{
 		throw Window::Exception(__LINE__, L"Window.cpp", GetLastError());
@@ -110,6 +111,10 @@ std::optional<int> Window::ProcessMessages()
 
 Graphics& Window::Gfx()
 {
+	if (!pGfx)
+	{
+		throw Window::NoGfxException(__LINE__, L"Window.cpp", 666);
+	}
 	return *pGfx;
 }
 
@@ -281,10 +286,10 @@ const wchar_t* Window::Exception::GetType() const noexcept
 std::wstring Window::Exception::TranslateErrorCode(HRESULT hr) noexcept
 {
 	wchar_t* pMsgBuff = nullptr;
-	DWORD nMsgLen = FormatMessageA(
+	DWORD nMsgLen = FormatMessage(
 		FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM |
 		FORMAT_MESSAGE_IGNORE_INSERTS, nullptr, hr, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-		reinterpret_cast<LPSTR>(&pMsgBuff), 0, nullptr);
+		reinterpret_cast<LPTSTR>(&pMsgBuff), 0, nullptr);
 	if (nMsgLen == 0)
 	{
 		return L"Unidentified Error Code";
@@ -302,4 +307,9 @@ HRESULT Window::Exception::GetErrorCode() const noexcept
 std::wstring Window::Exception::GetErrorString() const noexcept
 {
 	return TranslateErrorCode(hr);
+}
+
+const wchar_t* Window::NoGfxException::GetType() const noexcept
+{
+	return L"No Graphics Exception";
 }

@@ -22,7 +22,6 @@ int CALLBACK WinMain(
 	}
 	catch (const std::exception & e)
 	{
-
 		MessageBoxA(nullptr, e.what(), "Standard Exception", MB_OK | MB_ICONEXCLAMATION);
 	}
 	catch (...) //catch all

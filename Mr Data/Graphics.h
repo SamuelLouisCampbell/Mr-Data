@@ -2,6 +2,8 @@
 #include "BarebonesWindows.h"
 #include "MyException.h"
 #include <d3d11.h>
+#include <wrl.h>
+#include "Vertex.h"
 
 class Graphics
 {
@@ -22,6 +24,7 @@ public:
 	{
 		using HrException::HrException;
 	public:
+		DeviceRemovedException(int line, const wchar_t* file, HRESULT hr) noexcept;
 		const wchar_t* GetType() const noexcept override;
 	};
 public:
@@ -31,12 +34,14 @@ public:
 	~Graphics();
 	void EndFrame();
 	void ClearBuffer(float red, float green, float blue) noexcept;
+	void DrawTestTrtiangle();
+
 
 private:
-	ID3D11Device*			pDevice = nullptr;
-	IDXGISwapChain*			pSwapChain = nullptr;
-	ID3D11DeviceContext*	pContext = nullptr;
-	ID3D11RenderTargetView*	pTarget = nullptr;
+	Microsoft::WRL::ComPtr<ID3D11Device>			pDevice = nullptr;
+	Microsoft::WRL::ComPtr<IDXGISwapChain>			pSwapChain = nullptr;
+	Microsoft::WRL::ComPtr<ID3D11DeviceContext>		pContext = nullptr;
+	Microsoft::WRL::ComPtr<ID3D11RenderTargetView>	pTarget = nullptr;
 
 };
 
