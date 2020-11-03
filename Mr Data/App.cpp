@@ -3,7 +3,7 @@
 
 App::App()
 	:
-	wnd(1280, 768, L"Mr.Data 3D Window")
+	wnd(1280, 720, L"Mr.Data 3D Window")
 {}
 
 int App::Setup()
@@ -25,15 +25,23 @@ int App::Setup()
 void App::ComposeFrame()
 {
 	
-	std::wostringstream oss;
-	oss << L"Time Elapsed: " << std::setprecision(3) << time.Peek();
-	
-	wnd.SetTitle(oss.str());
 }
 
 void App::RenderFrame()
 {
+	std::wostringstream oss;
+	oss << "Mouse X : " << wnd.mouse.GetPosX() << " Y : " << wnd.mouse.GetPosY();
+	wnd.SetTitle(oss.str());
+
+	float cScl = sin(time.Peek()) * 1.0f;
+	float cSclCos = cos(time.Peek()) * 1.0f;
 	wnd.Gfx().EndFrame();
-	wnd.Gfx().ClearBuffer(1.0f, 0.2f, 0.4f);
-	wnd.Gfx().DrawTestTrtiangle();
+	wnd.Gfx().ClearBuffer(0.0f, 0.0f,0.0f);
+
+	wnd.Gfx().DrawTestTrtiangle(time.Peek(), cScl, 0.0f, cScl * 3.0f);
+	wnd.Gfx().DrawTestTrtiangle(time.Peek(), cScl, cSclCos, 5.0f);
+	wnd.Gfx().DrawTestTrtiangle(time.Peek(),
+		(float)wnd.mouse.GetPosX() / 640.0f - 1.0f,
+		(float)wnd.mouse.GetPosY() / 360.0f - 1.0f,
+		cSclCos * 5.0f);
 }

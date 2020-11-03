@@ -34,7 +34,8 @@ public:
 	~Graphics();
 	void EndFrame();
 	void ClearBuffer(float red, float green, float blue) noexcept;
-	void DrawTestTrtiangle();
+	void DrawTestTrtiangle(float angle, float x, float y, float z);
+	float NormaliseVal(float val, float max, float min);
 
 
 private:
@@ -42,6 +43,7 @@ private:
 	Microsoft::WRL::ComPtr<IDXGISwapChain>			pSwapChain = nullptr;
 	Microsoft::WRL::ComPtr<ID3D11DeviceContext>		pContext = nullptr;
 	Microsoft::WRL::ComPtr<ID3D11RenderTargetView>	pTarget = nullptr;
+	Microsoft::WRL::ComPtr<ID3D11DepthStencilView>	pDSV = nullptr;
 
 };
 

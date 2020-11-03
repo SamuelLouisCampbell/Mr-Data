@@ -1,12 +1,19 @@
 #include "Graphics.h"
 #include <vector>
 #include <d3dcompiler.h>
+#include <DirectXMath.h>
 
 #pragma comment(lib,"d3d11.lib")
 #pragma comment(lib,"D3DCompiler.lib" )
 
 
+#define WIDE2(x) L##x
+#define WIDE1(x) WIDE2(x)
+#define WFILE WIDE1(__FILE__)
+#define GFX_THROW_INFO(hr) if(hr != 0) {throw Graphics::HrException(__LINE__,WFILE, hr);}
+
 namespace wrl = Microsoft::WRL;
+namespace dx = DirectX;
 
 Graphics::Graphics(HWND hWnd)
 {
@@ -44,27 +51,56 @@ Graphics::Graphics(HWND hWnd)
 		&pDevice,
 		nullptr,
 		&pContext);
-	if (hr != 0)
-	{
-		throw Graphics::HrException(__LINE__, L"Graphics.cpp", hr);
-	}
+	GFX_THROW_INFO(hr);
 
 	wrl::ComPtr<ID3D11Resource> pBackBuffer = nullptr;
 	
 	hr = pSwapChain->GetBuffer(0, __uuidof(ID3D11Resource),&pBackBuffer);
-	if (hr != 0)
-	{
-		throw Graphics::HrException(__LINE__, L"Graphics.cpp", hr);
-	}
+	GFX_THROW_INFO(hr)
 
 	hr = pDevice->CreateRenderTargetView(
 		pBackBuffer.Get(),
 		nullptr,
 		&pTarget);
-	if (hr != 0)
-	{
-		throw Graphics::HrException(__LINE__, L"Graphics.cpp", hr);
-	}
+	GFX_THROW_INFO(hr);
+
+	D3D11_DEPTH_STENCIL_DESC dsDesc = {};
+	dsDesc.DepthEnable = TRUE;
+	dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+	dsDesc.DepthFunc = D3D11_COMPARISON_LESS;
+	wrl::ComPtr<ID3D11DepthStencilState> pDSState;
+	hr = pDevice->CreateDepthStencilState(&dsDesc, &pDSState);
+	GFX_THROW_INFO(hr)
+
+	//bind depth stencil
+	pContext->OMSetDepthStencilState(pDSState.Get(), 1u);
+
+	//depth stencil texture
+	wrl::ComPtr<ID3D11Texture2D> pDepthStencil;
+	D3D11_TEXTURE2D_DESC descDepth = {};
+	descDepth.Width = 1280u;
+	descDepth.Height = 720u;
+	descDepth.MipLevels = 1u;
+	descDepth.ArraySize = 1u;
+	descDepth.Format = DXGI_FORMAT_D32_FLOAT;
+	descDepth.SampleDesc.Count = 1u;
+	descDepth.SampleDesc.Quality = 0u;
+	descDepth.Usage = D3D11_USAGE_DEFAULT;
+	descDepth.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+
+	hr = pDevice->CreateTexture2D(&descDepth, nullptr, &pDepthStencil);
+	GFX_THROW_INFO(hr)
+
+	D3D11_DEPTH_STENCIL_VIEW_DESC descDSV = {};
+	descDSV.Format = DXGI_FORMAT_D32_FLOAT;
+	descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+	descDSV.Texture2D.MipSlice = 0u;
+	
+	hr = pDevice->CreateDepthStencilView(pDepthStencil.Get(), &descDSV, &pDSV);
+	GFX_THROW_INFO(hr);
+
+	pContext->OMSetRenderTargets(1u, pTarget.GetAddressOf(), pDSV.Get());
+
 }
 
 Graphics::~Graphics()
@@ -77,12 +113,10 @@ void Graphics::EndFrame()
 	{
 		if (hr == DXGI_ERROR_DEVICE_REMOVED)
 		{
-			throw DeviceRemovedException(__LINE__, L"Graphics.cpp",pDevice->GetDeviceRemovedReason());
+			throw DeviceRemovedException(__LINE__, L"Graphics.cpp", pDevice->GetDeviceRemovedReason());
 		}
 		else
-		{
-			throw Graphics::HrException(__LINE__, L"Graphics.cpp", hr);
-		}
+			GFX_THROW_INFO(hr);
 	}
 }
 
@@ -90,18 +124,43 @@ void Graphics::ClearBuffer(float red, float green, float blue) noexcept
 {
 	const float color[] = { red, green, blue, 1.0f };
 	pContext->ClearRenderTargetView(pTarget.Get(), color);
+	pContext->ClearDepthStencilView(pDSV.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0u);
 }
 
-void Graphics::DrawTestTrtiangle()
+void Graphics::DrawTestTrtiangle(float angle, float x, float y, float z)
 {
 	namespace wrl = Microsoft::WRL;
 	HRESULT hr;
 
 	const Vertex verts[] = {
-		{0.0f, 0.5f},
-		{0.5f, -0.5f},
-		{-0.5f, -0.5f},
-	
+		{-0.5f, -0.5f, -0.5f,	1.0f, 0.0f, 0.0f},
+		{ 0.5f, -0.5f, -0.5f,	0.0f, 1.0f, 0.0f},
+		{-0.5f,  0.5f, -0.5f,	0.0f, 0.0f, 1.0f},
+		{ 0.5f,  0.5f, -0.5f,	1.0f, 0.5f, 0.0f},
+		{-0.5f, -0.5f,  0.5f,	1.0f, 0.0f, 1.0f},
+		{ 0.5f, -0.5f,  0.5f,	1.0f, 1.0f, 0.0f},
+		{-0.5f,  0.5f,  0.5f,	0.0f, 1.0f, 1.0f},
+		{ 0.5f,  0.5f,  0.5f,	1.0f, 0.0f, 0.5f},
+	};
+	/*const Vertex verts[] = {
+		{-0.5f, -0.5f, -0.5f},
+		{ 0.5f, -0.5f, -0.5f},
+		{-0.5f,  0.5f, -0.5f},
+		{ 0.5f,  0.5f, -0.5f},
+		{-0.5f, -0.5f,  0.5f},
+		{ 0.5f, -0.5f,  0.5f},
+		{-0.5f,  0.5f,  0.5f},
+		{ 0.5f,  0.5f,  0.5f},
+	};
+	*/
+	const unsigned short indices[] =
+	{
+		0,2,1,	2,3,1,
+		1,3,5,	3,7,5,
+		2,6,3,	3,6,7,
+		4,5,7,	4,7,6,
+		0,4,2,	2,4,6,
+		0,1,4,	1,5,4,
 	};
 
 
@@ -114,35 +173,130 @@ void Graphics::DrawTestTrtiangle()
 	bd.MiscFlags = 0u;
 	bd.ByteWidth = sizeof(verts);
 	bd.StructureByteStride = sizeof(Vertex);
-
 	D3D11_SUBRESOURCE_DATA sd = {};
 	sd.pSysMem = verts;
-	sd.SysMemPitch = 0u;
-	sd.SysMemSlicePitch = 0u;
 
 	hr = pDevice->CreateBuffer(&bd, &sd, &pVertexBuffer);
-	if (hr != 0)
-	{
-		throw Graphics::HrException(__LINE__, L"Graphics.cpp", hr);
-	}
+	GFX_THROW_INFO(hr);
+
 	//Bind Vertex Buffer to pipeline.
 	const UINT stride = sizeof(Vertex);
 	const UINT offset = 0u;
-	pContext->IASetVertexBuffers(0u, 1u,pVertexBuffer.GetAddressOf(),&stride, & offset);
+	pContext->IASetVertexBuffers(0u,1u,pVertexBuffer.GetAddressOf(),&stride, & offset);
+
+
+	//Create Index Buffer
+	wrl::ComPtr<ID3D11Buffer>pIndexBuffer;
+	D3D11_BUFFER_DESC ibd = {};
+	ibd.BindFlags = D3D11_BIND_INDEX_BUFFER;
+	ibd.Usage = D3D11_USAGE_DEFAULT;
+	ibd.CPUAccessFlags = 0u;
+	ibd.MiscFlags = 0u;
+	ibd.ByteWidth = sizeof(indices);
+	ibd.StructureByteStride = sizeof(int);
+	D3D11_SUBRESOURCE_DATA isd = {};
+	isd.pSysMem = indices;
+	hr = pDevice->CreateBuffer(&ibd, &isd, &pIndexBuffer);
+	GFX_THROW_INFO(hr);
+
+	//bind index buffer to pipeline
+	pContext->IASetIndexBuffer(pIndexBuffer.Get(), DXGI_FORMAT_R16_UINT, 0u);
+
+	//create constant buffer for transformation matrix
+	struct ConstantBuffer
+	{
+		dx::XMMATRIX transform;
+	};
+
+	const float screenCrush =  1280.0f / 720.0f;
+	const ConstantBuffer cb =
+	{
+		{
+			dx::XMMatrixTranspose(
+			dx::XMMatrixRotationZ(angle) * 
+			dx::XMMatrixRotationX(angle * 0.23f) *
+			dx::XMMatrixRotationX(angle * 0.4f) *
+			dx::XMMatrixTranslation(x / screenCrush, -y, z + 3.0f) *
+			dx::XMMatrixPerspectiveFovLH(1.0f,screenCrush, 0.5f, 30.0f))
+		}
+	};
+
+	wrl::ComPtr<ID3D11Buffer> pConstantBuffer;
+	D3D11_BUFFER_DESC cbd;
+	cbd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	cbd.Usage = D3D11_USAGE_DYNAMIC;
+	cbd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	cbd.MiscFlags = 0u;
+	cbd.ByteWidth = sizeof(cb);
+	cbd.StructureByteStride = 0u;
+	D3D11_SUBRESOURCE_DATA csd = {};
+	csd.pSysMem = &cb;
+	hr = pDevice->CreateBuffer(&cbd, &csd, &pConstantBuffer);
+	if (hr != 0)
+	{
+		throw Graphics::HrException(__LINE__, L"Graphics.cpp", hr);
+	}
+
+	//bind constant buffers to vertex shader
+	pContext->VSSetConstantBuffers(0u, 1u, pConstantBuffer.GetAddressOf());
+
+	//create another constant buffer for face colors
+	struct ConstantColBuff
+	{
+		struct 
+		{
+			float r; 
+			float g;
+			float b;
+			float a;
+		}face_colors;
+	};
+	ConstantColBuff ccb[6] =
+	{
+		{1.0f, 0.0f, 0.0f },
+		{0.0f, 1.0f, 0.0f },
+		{0.0f, 0.0f, 1.0f },
+		{1.0f, 0.5f, 0.0f },
+		{1.0f, 0.0f, 1.0f },
+		{1.0f, 1.0f, 0.0f },
+	};
+	wrl::ComPtr<ID3D11Buffer> pConstantColorBuffer;
+	D3D11_BUFFER_DESC ccbd;
+	ccbd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	ccbd.Usage = D3D11_USAGE_DYNAMIC;
+	ccbd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	ccbd.MiscFlags = 0u;
+	ccbd.ByteWidth = sizeof(ccb);
+	ccbd.StructureByteStride = 0u;
+	D3D11_SUBRESOURCE_DATA ccsd = {};
+	ccsd.pSysMem = &ccb;
+	hr = pDevice->CreateBuffer(&ccbd, &ccsd, &pConstantColorBuffer);
+	GFX_THROW_INFO(hr)
+
+	//bind constant buffer to pixel shader
+	pContext->PSSetConstantBuffers(0u, 1u, pConstantColorBuffer.GetAddressOf());
+
+
+	//create PIXEL shader
+	wrl::ComPtr<ID3D11PixelShader> pPixelShader;
+	wrl::ComPtr<ID3DBlob> pBlob;
+	hr = D3DReadFileToBlob(L"PixelShader.cso", &pBlob);
+	//hr = D3DReadFileToBlob(L"PixelShaderFaces.cso", &pBlob);
+	GFX_THROW_INFO(hr)
+
+	hr = pDevice->CreatePixelShader(pBlob->GetBufferPointer(), pBlob->GetBufferSize(), nullptr, &pPixelShader);
+	GFX_THROW_INFO(hr)
+	//bind pixel shader
+	pContext->PSSetShader(pPixelShader.Get(), nullptr, 0);
+
 
 	//create vertex shader
 	wrl::ComPtr<ID3D11VertexShader> pVertexShader;
-	wrl::ComPtr<ID3DBlob> pBlob;
 	hr = D3DReadFileToBlob(L"VertexShader.cso", &pBlob);
-	if (hr != 0)
-	{
-		throw Graphics::HrException(__LINE__, L"Graphics.cpp", hr);
-	}
+	//hr = D3DReadFileToBlob(L"VertexShaderFaces.cso", &pBlob);
+	GFX_THROW_INFO(hr)
 	hr = pDevice->CreateVertexShader(pBlob->GetBufferPointer(), pBlob->GetBufferSize(), nullptr, &pVertexShader);
-	if (hr != 0)
-	{
-		throw Graphics::HrException(__LINE__, L"Graphics.cpp", hr);
-	}
+	GFX_THROW_INFO(hr)
 	//bind vertex shader
 	pContext->VSSetShader(pVertexShader.Get(), nullptr, 0);
 
@@ -151,7 +305,9 @@ void Graphics::DrawTestTrtiangle()
 	wrl::ComPtr<ID3D11InputLayout> pInputLayout;
 	const D3D11_INPUT_ELEMENT_DESC ied[] =
 	{
-		{"Position",0,DXGI_FORMAT_R32G32_FLOAT,0,0,D3D11_INPUT_PER_VERTEX_DATA,0}
+		{"Position",0,DXGI_FORMAT_R32G32B32_FLOAT,0,0,D3D11_INPUT_PER_VERTEX_DATA,0},
+		{"Color",0,DXGI_FORMAT_R32G32B32_FLOAT,0,12u,D3D11_INPUT_PER_VERTEX_DATA,0}
+		
 	};
 	hr = pDevice->CreateInputLayout(
 		ied,
@@ -160,15 +316,15 @@ void Graphics::DrawTestTrtiangle()
 		pBlob->GetBufferSize(),
 		&pInputLayout
 	);
-	if (hr != 0)
-	{
-		throw Graphics::HrException(__LINE__, L"Graphics.cpp", hr);
-	}
+	GFX_THROW_INFO(hr)
 	
 	pContext->IASetInputLayout(pInputLayout.Get());
 
-	//Set Primitve Topology to Triangle
-	pContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	//Set Primitve Topology
+	//pContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	//pContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
+	pContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
+
 
 
 	//Create Viewport
@@ -182,27 +338,12 @@ void Graphics::DrawTestTrtiangle()
 	// Bind viewport
 	pContext->RSSetViewports(1u, &vp);
 
+	pContext->DrawIndexed((UINT)std::size(indices),0u,0u);
+}
 
-	//create PIXEL shader
-	wrl::ComPtr<ID3D11PixelShader> pPixelShader;
-	hr = D3DReadFileToBlob(L"PixelShader.cso", &pBlob);
-	if (hr != 0) //exception
-	{
-		throw Graphics::HrException(__LINE__, L"Graphics.cpp", hr);
-	}
-	hr = pDevice->CreatePixelShader(pBlob->GetBufferPointer(), pBlob->GetBufferSize(), nullptr, &pPixelShader);
-	if (hr != 0) //exception
-	{
-		throw Graphics::HrException(__LINE__, L"Graphics.cpp", hr);
-	}
-	//bind pixel shader
-	pContext->PSSetShader(pPixelShader.Get(), nullptr, 0);
-
-#
-	//Bind Render Target
-	pContext->OMSetRenderTargets(1u, pTarget.GetAddressOf(), nullptr);
-
-	pContext->Draw(sizeof(verts), 0u);
+float Graphics::NormaliseVal(float val, float max, float min)
+{
+	return (val - min) / (max - min);
 }
 
 Graphics::HrException::HrException(int line, const wchar_t* file, HRESULT hr) noexcept
@@ -265,3 +406,5 @@ const wchar_t* Graphics::DeviceRemovedException::GetType() const noexcept
 {
 	return L"Mr.Data Graphics Device Removed Exception!";
 }
+
+
