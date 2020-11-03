@@ -16,6 +16,9 @@
     <Filter Include="Shaders">
       <UniqueIdentifier>{2902f43a-08a3-405b-a758-4884f5ea878b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Exception Macros">
+      <UniqueIdentifier>{dcef010d-1ed9-46fd-99ba-c692e23d4d77}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">
@@ -70,6 +73,12 @@
     </ClInclude>
     <ClInclude Include="Vertex.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Gfx_Exception_Macros.h">
+      <Filter>Header Files\Exception Macros</Filter>
+    </ClInclude>
+    <ClInclude Include="Window_Exception_Macros.h">
+      <Filter>Header Files\Exception Macros</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -169,6 +169,7 @@
   <ItemGroup>
     <ClInclude Include="App.h" />
     <ClInclude Include="BarebonesWindows.h" />
+    <ClInclude Include="Gfx_Exception_Macros.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="Keyboard.h" />
     <ClInclude Include="Mouse.h" />
@@ -177,6 +178,7 @@
     <ClInclude Include="Time.h" />
     <ClInclude Include="Vertex.h" />
     <ClInclude Include="Window.h" />
+    <ClInclude Include="Window_Exception_Macros.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Mr Data.rc" />

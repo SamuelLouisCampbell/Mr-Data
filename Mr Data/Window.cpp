@@ -1,7 +1,7 @@
 #include "Window.h"
 #include <string>
 #include <sstream>
-
+#include "Window_Exception_Macros.h"
 const const wchar_t* Window::WindowClass::GetName() noexcept
 {
 	return wndClassName;
@@ -51,7 +51,7 @@ Window::Window(int width, int height, std::wstring name)
 	wr.bottom = height + wr.top;
 	if ((AdjustWindowRect(&wr, WS_CAPTION | WS_MINIMIZE | WS_SYSMENU, FALSE)) == 0)
 	{
-		throw Window::Exception(__LINE__, L"Window.cpp", GetLastError());
+		THROW_LAST_ERROR
 	}
 	//create window and get handle
 	hWnd = CreateWindow(
@@ -63,11 +63,11 @@ Window::Window(int width, int height, std::wstring name)
 	
 	if (hWnd == nullptr)
 	{
-		throw Window::Exception(__LINE__, L"Window.cpp", GetLastError());
+		THROW_LAST_ERROR
 	}
 	if ((ShowWindow(hWnd, SW_SHOWDEFAULT) != 0))
 	{
-	    throw Window::Exception(__LINE__, L"Window.cpp", GetLastError());
+		THROW_LAST_ERROR
 	}
 
 	//create graphics object
@@ -85,7 +85,7 @@ void Window::SetTitle(const std::wstring title)
 {
 	if (SetWindowText(hWnd, title.c_str()) == 0)
 	{
-		throw Window::Exception(__LINE__, L"Window.cpp", GetLastError());
+		THROW_LAST_ERROR
 	}
 }
 
@@ -113,7 +113,7 @@ Graphics& Window::Gfx()
 {
 	if (!pGfx)
 	{
-		throw Window::NoGfxException(__LINE__, L"Window.cpp", 666);
+		THROW_NO_GFX
 	}
 	return *pGfx;
 }

@@ -2,15 +2,10 @@
 #include <vector>
 #include <d3dcompiler.h>
 #include <DirectXMath.h>
+#include "Gfx_Exception_Macros.h"
 
 #pragma comment(lib,"d3d11.lib")
 #pragma comment(lib,"D3DCompiler.lib" )
-
-
-#define WIDE2(x) L##x
-#define WIDE1(x) WIDE2(x)
-#define WFILE WIDE1(__FILE__)
-#define GFX_THROW_INFO(hr) if(hr != 0) {throw Graphics::HrException(__LINE__,WFILE, hr);}
 
 namespace wrl = Microsoft::WRL;
 namespace dx = DirectX;
@@ -113,7 +108,7 @@ void Graphics::EndFrame()
 	{
 		if (hr == DXGI_ERROR_DEVICE_REMOVED)
 		{
-			throw DeviceRemovedException(__LINE__, L"Graphics.cpp", pDevice->GetDeviceRemovedReason());
+			GFX_DEVICE_REMOVED();
 		}
 		else
 			GFX_THROW_INFO(hr);
