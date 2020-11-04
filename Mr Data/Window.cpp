@@ -71,7 +71,7 @@ Window::Window(int width, int height, std::wstring name)
 	}
 
 	//create graphics object
-	pGfx = std::make_unique<Graphics>(hWnd);
+	pGfx = std::make_unique<Graphics>(hWnd, width, height);
 
 }
 
@@ -116,6 +116,16 @@ Graphics& Window::Gfx()
 		THROW_NO_GFX
 	}
 	return *pGfx;
+}
+
+int Window::GetWidth() const noexcept
+{
+	return width;
+}
+
+int Window::GetHeight() const noexcept
+{
+	return height;
 }
 
 LRESULT Window::HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept

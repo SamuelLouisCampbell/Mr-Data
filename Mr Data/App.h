@@ -2,7 +2,10 @@
 #include "Window.h"
 #include <vector>
 #include <string>
+#include <random>
 #include "Time.h"
+#include "BindableBase.h"
+#include "Box.h"
 
 class App
 {
@@ -16,6 +19,7 @@ private:
 private:
 	Time time;
 	Window wnd;
+	std::vector<std::unique_ptr<Box>> boxes;
 
 };
 
