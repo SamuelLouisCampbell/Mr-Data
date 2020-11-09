@@ -6,6 +6,7 @@
 #include "Time.h"
 #include "BindableBase.h"
 #include "Box.h"
+#include "ImGuiManager.h"
 
 class App
 {
@@ -17,9 +18,11 @@ private:
 	void ComposeFrame();
 	
 private:
+	ImGuiManager imgui_mgr;
 	Time time;
 	Window wnd;
-	std::vector<std::unique_ptr<Box>> boxes;
-
+	std::vector<std::unique_ptr<class Drawable>> drawables;
+	static constexpr size_t nDrawables = 180;
+	float SpeedDivisor = 3.0f;
 };
 

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <random>
 #include"Drawable.h"
 #include "IndexBuffer.h"
 #include <assert.h>

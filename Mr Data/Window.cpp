@@ -2,6 +2,8 @@
 #include <string>
 #include <sstream>
 #include "Window_Exception_Macros.h"
+#include "imgui_impl_win32.h"
+
 const const wchar_t* Window::WindowClass::GetName() noexcept
 {
 	return wndClassName;
@@ -70,6 +72,9 @@ Window::Window(int width, int height, std::wstring name)
 		THROW_LAST_ERROR
 	}
 
+	//init imgui
+	ImGui_ImplWin32_Init(hWnd);
+
 	//create graphics object
 	pGfx = std::make_unique<Graphics>(hWnd, width, height);
 
@@ -78,6 +83,7 @@ Window::Window(int width, int height, std::wstring name)
 
 Window::~Window()
 {
+	ImGui_ImplWin32_Shutdown();
 	DestroyWindow(hWnd);
 }
 
@@ -157,7 +163,10 @@ LRESULT Window::HandleMsgThunk(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 
 LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
 {
-	
+	if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam))
+	{
+		return true;
+	}
 	switch (msg)
 	{
 	case WM_CLOSE:
