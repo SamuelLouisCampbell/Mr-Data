@@ -2,7 +2,6 @@
 #include <vector>
 #include <d3dcompiler.h>
 #include <DirectXMath.h>
-#include <SpriteBatch.h>
 #include "Gfx_Exception_Macros.h"
 #include "imgui_impl_dx11.h"
 
@@ -109,10 +108,33 @@ Graphics::Graphics(HWND hWnd, int width, int height)
 	pContext->RSSetViewports(1u, &vp);
 
 	ImGui_ImplDX11_Init(pDevice.Get(), pContext.Get());
+
+	m_screenPos.x = WindowWidth / 2.f;
+	m_screenPos.y = WindowHeight / 2.f;
+
+	m_spriteBatch = std::make_unique<DirectX::SpriteBatch>(pContext.Get());
+	wrl::ComPtr<ID3D11Resource> resource;
+	hr = DirectX::CreateWICTextureFromFile(pDevice.Get(), L"textures/spray_grunge.jpg", resource.GetAddressOf(), m_texture.ReleaseAndGetAddressOf());
+	GFX_THROW_INFO(hr);
+
+	wrl::ComPtr<ID3D11Texture2D> tex;
+	hr = resource.As(&tex);
+	GFX_THROW_INFO(hr);
+	
+	CD3D11_TEXTURE2D_DESC texDesc;
+	tex->GetDesc(&texDesc);
+
+	m_origin.x = float(texDesc.Width / 2);
+	m_origin.y = float(texDesc.Height / 2);
+
+	
+
 }
 
 Graphics::~Graphics()
 {
+	m_texture.Reset();
+	m_spriteBatch.reset();
 	ImGui_ImplDX11_Shutdown();
 }
 
@@ -147,6 +169,11 @@ void Graphics::DrawIndexed(UINT count) noexcept
 	assert(pContext != nullptr);
 	assert(count != 0u);
 	pContext->DrawIndexed(count, 0u, 0u);
+	m_spriteBatch->Begin();
+
+	m_spriteBatch->Draw(m_texture.Get(), m_screenPos, nullptr, DirectX::Colors::White, 0.0f, m_origin);
+
+	m_spriteBatch->End();
 }
 
 DirectX::XMMATRIX Graphics::GetProjection() const noexcept

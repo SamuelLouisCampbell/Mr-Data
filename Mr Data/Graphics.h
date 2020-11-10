@@ -1,6 +1,9 @@
 #pragma once
 #include "BarebonesWindows.h"
 #include "MyException.h"
+#include <SpriteBatch.h>
+#include <SimpleMath.h>
+#include <WICTextureLoader.h>
 #include <d3d11.h>
 #include <d3dcompiler.h>
 #include <DirectXMath.h>
@@ -52,6 +55,12 @@ private:
 	Microsoft::WRL::ComPtr<ID3D11DeviceContext>		pContext = nullptr;
 	Microsoft::WRL::ComPtr<ID3D11RenderTargetView>	pTarget = nullptr;
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilView>	pDSV = nullptr;
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>m_texture = nullptr;
+
+	//image texture stuff
+	std::unique_ptr<DirectX::SpriteBatch> m_spriteBatch;
+	DirectX::SimpleMath::Vector2 m_screenPos;
+	DirectX::SimpleMath::Vector2 m_origin;
 
 };
 
