@@ -5,6 +5,7 @@ bool Keyboard::KeyIsPressed(unsigned char keycode) const noexcept
 	return keyStates[keycode];
 }
 
+
 Keyboard::Event Keyboard::ReadKey() noexcept
 {
 	if (keyBuffer.size() > 0u)

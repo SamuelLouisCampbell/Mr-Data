@@ -114,7 +114,7 @@ Graphics::Graphics(HWND hWnd, int width, int height)
 
 	m_spriteBatch = std::make_unique<DirectX::SpriteBatch>(pContext.Get());
 	wrl::ComPtr<ID3D11Resource> resource;
-	hr = DirectX::CreateWICTextureFromFile(pDevice.Get(), L"textures/spray_grunge.jpg", resource.GetAddressOf(), m_texture.ReleaseAndGetAddressOf());
+	hr = DirectX::CreateWICTextureFromFile(pDevice.Get(), L"assets/textures/spray_grunge.jpg", resource.GetAddressOf(), m_texture.ReleaseAndGetAddressOf());
 	GFX_THROW_INFO(hr);
 
 	wrl::ComPtr<ID3D11Texture2D> tex;
@@ -169,6 +169,10 @@ void Graphics::DrawIndexed(UINT count) noexcept
 	assert(pContext != nullptr);
 	assert(count != 0u);
 	pContext->DrawIndexed(count, 0u, 0u);
+}
+
+void Graphics::Draw2DTextures() noexcept
+{
 	m_spriteBatch->Begin();
 
 	m_spriteBatch->Draw(m_texture.Get(), m_screenPos, nullptr, DirectX::Colors::White, 0.0f, m_origin);
@@ -185,6 +189,17 @@ void Graphics::SetProjection(DirectX::FXMMATRIX proj) noexcept
 {
 	projection = proj;
 }
+
+auto Graphics::GetDevice() noexcept
+{
+	return pDevice;
+}
+
+auto Graphics::GetContext()  noexcept
+{
+	return pContext;
+}
+
 
 Graphics::HrException::HrException(int line, const wchar_t* file, HRESULT hr) noexcept
 	:

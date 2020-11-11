@@ -9,6 +9,7 @@
 #include <DirectXMath.h>
 #include <wrl.h>
 #include "Vertex.h"
+#include "Color.h"
 
 class Graphics
 {
@@ -42,8 +43,12 @@ public:
 	void ClearBuffer(float red = 0.0f, float green = 0.0f, float blue = 0.0f) noexcept;
 	float NormaliseVal(float val, float max, float min);
 	void DrawIndexed(UINT count) noexcept;
+	void Draw2DTextures() noexcept;
 	DirectX::XMMATRIX GetProjection() const noexcept;
 	void SetProjection(DirectX::FXMMATRIX proj) noexcept;
+	auto GetDevice() noexcept;
+	auto GetContext() noexcept;
+
 private:
 	DirectX::XMMATRIX projection;
 	int WindowWidth = 0;

@@ -5,8 +5,8 @@
 #include <random>
 #include "Time.h"
 #include "BindableBase.h"
-#include "Box.h"
 #include "ImGuiManager.h"
+#include "TextNode.h"
 
 class App
 {
@@ -21,8 +21,8 @@ private:
 	ImGuiManager imgui_mgr;
 	Time time;
 	Window wnd;
-	std::vector<std::unique_ptr<class Drawable>> drawables;
-	static constexpr size_t nDrawables = 180;
-	float SpeedDivisor = 3.0f;
+	TextNode txt;
+	DirectX::SimpleMath::Vector2 centre = { 0.0f, 0.0f };
+	Color textCol;
 };
 

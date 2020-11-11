@@ -251,6 +251,12 @@
     <ClInclude Include="imstb_truetype.h">
       <Filter>Header Files\Imgui</Filter>
     </ClInclude>
+    <ClInclude Include="TextNode.h">
+      <Filter>Header Files\Bindables</Filter>
+    </ClInclude>
+    <ClInclude Include="Color.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Mr Data.rc">
@@ -261,13 +267,13 @@
     <Image Include="sclighting.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="textures\butnrt_wood.jpg">
+    <Image Include="assets\cat.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="textures\grey_concrete.jpg">
+    <Image Include="assets\sunset.jpg">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="textures\spray_grunge.jpg">
+    <Image Include="assets\cat.DDS">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
@@ -287,5 +293,23 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="assets\courier_new_32.spritefont">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="assets\courier_new_32_i.spritefont">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="assets\SpriteFont Instructions">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="assets\arial_64.spritefont">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="assets\arial_64_Bold.spritefont">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="assets\arial_64_Italic.spritefont">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

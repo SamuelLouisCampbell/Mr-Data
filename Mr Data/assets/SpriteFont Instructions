@@ -1,0 +1,24 @@
+The text renderer in DirectX Tool Kit makes use of bitmap fonts, so the first step is to create a .spritefont file by capturing a system TrueType font using the makespritefont command-line utility.
+
+Download the MakeSpriteFont.exe from the DirectX Tool Kit site save the EXE into your project's folder.
+Open a command-prompt and then change to your project's folder.
+Run the following command-line
+
+	MakeSpriteFont "Courier New" myfile.spritefont /FontSize:32
+
+Then from the top menu in Visual Studio select Project / Add Existing Item.... Select myfile.spritefont and click "OK".
+
+If you are using a Universal Windows Platform (UWP) app, Windows Store, or Xbox One project rather than a Windows desktop app, you need to manually edit the Visual Studio project properties on the myfile.spritefont file and make sure "Content" is set to "Yes" so the data file will be included in your packaged build.
+
+To get a Bold version of the font, run the following command-line:
+
+	MakeSpriteFont "Courier New" myfileb.spritefont /FontSize:32 /FontStyle:Bold
+For an Italic version of the font, run the following command-line:
+
+	MakeSpriteFont "Courier New" myfilei.spritefont /FontSize:32 /FontStyle:Italic
+For a Strikeout version of the font, run the following command-line:
+
+	MakeSpriteFont "Courier New" myfiles.spritefont /FontSize:32 /FontStyle:Strikeout
+For a Underline version of the font, run the following command-line:
+
+	MakeSpriteFont "Courier New" myfileu.spritefont /FontSize:32 /FontStyle:Underline
