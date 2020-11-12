@@ -166,7 +166,6 @@
     <ClCompile Include="Drawable.cpp" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="imgui.cpp" />
-    <ClCompile Include="ImGuiManager.cpp" />
     <ClCompile Include="imgui_demo.cpp" />
     <ClCompile Include="imgui_draw.cpp" />
     <ClCompile Include="imgui_impl_dx11.cpp" />
@@ -223,6 +222,7 @@
     <ClInclude Include="Prism.h" />
     <ClInclude Include="Pyramid.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="StringHandling.h" />
     <ClInclude Include="TextNode.h" />
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="Time.h" />

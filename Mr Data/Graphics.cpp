@@ -3,7 +3,6 @@
 #include <d3dcompiler.h>
 #include <DirectXMath.h>
 #include "Gfx_Exception_Macros.h"
-#include "imgui_impl_dx11.h"
 
 #pragma comment(lib,"d3d11.lib")
 #pragma comment(lib,"D3DCompiler.lib" )
@@ -107,8 +106,10 @@ Graphics::Graphics(HWND hWnd, int width, int height)
 	vp.TopLeftY = 0.0f;
 	pContext->RSSetViewports(1u, &vp);
 
+	// imgui
 	ImGui_ImplDX11_Init(pDevice.Get(), pContext.Get());
 
+	// text
 	m_screenPos.x = WindowWidth / 2.f;
 	m_screenPos.y = WindowHeight / 2.f;
 
@@ -127,20 +128,23 @@ Graphics::Graphics(HWND hWnd, int width, int height)
 	m_origin.x = float(texDesc.Width / 2);
 	m_origin.y = float(texDesc.Height / 2);
 
-	
-
 }
 
 Graphics::~Graphics()
 {
+	
+	ImGui_ImplDX11_Shutdown();
 	m_texture.Reset();
 	m_spriteBatch.reset();
-	ImGui_ImplDX11_Shutdown();
 }
 
 void Graphics::EndFrame()
 {
-	
+	if (IMGuiEnabled)
+	{
+		ImGui::Render();;
+		ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+	}
 	if (HRESULT hr = pSwapChain->Present(1u, 0))
 	{
 		if (hr == DXGI_ERROR_DEVICE_REMOVED)
@@ -152,11 +156,18 @@ void Graphics::EndFrame()
 	}
 }
 
-void Graphics::ClearBuffer(float red, float green, float blue) noexcept
+void Graphics::BeginFrame(Color clearColor) noexcept
 {
-	const float color[] = { red, green, blue, 1.0f };
+	if (IMGuiEnabled)
+	{
+		ImGui_ImplDX11_NewFrame();
+		ImGui_ImplWin32_NewFrame();
+		ImGui::NewFrame();
+	}
+	const float color[] = { clearColor.r,  clearColor.g,  clearColor.b, 1.0f };
 	pContext->ClearRenderTargetView(pTarget.Get(), color);
 	pContext->ClearDepthStencilView(pDSV.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0u);
+
 }
 
 float Graphics::NormaliseVal(float val, float max, float min)
@@ -198,6 +209,31 @@ auto Graphics::GetDevice() noexcept
 auto Graphics::GetContext()  noexcept
 {
 	return pContext;
+}
+
+void Graphics::EnableIMGui() noexcept
+{
+	IMGuiEnabled = true;
+}
+
+void Graphics::DisableIMGui() noexcept
+{
+	IMGuiEnabled = false;
+}
+
+bool Graphics::IsIMGuiEnabled() const noexcept
+{
+	return IMGuiEnabled;
+}
+
+int Graphics::GetWindowWidth() const noexcept
+{
+	return WindowWidth;
+}
+
+int Graphics::GetWindowHeight() const noexcept
+{
+	return WindowHeight;
 }
 
 

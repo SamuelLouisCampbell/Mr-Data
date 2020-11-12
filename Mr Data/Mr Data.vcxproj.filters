@@ -117,9 +117,6 @@
     <ClCompile Include="imgui_impl_win32.cpp">
       <Filter>Source Files\Imgui</Filter>
     </ClCompile>
-    <ClCompile Include="ImGuiManager.cpp">
-      <Filter>Source Files\Imgui</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BarebonesWindows.h">
@@ -255,6 +252,9 @@
       <Filter>Header Files\Bindables</Filter>
     </ClInclude>
     <ClInclude Include="Color.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StringHandling.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

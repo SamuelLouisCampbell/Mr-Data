@@ -10,6 +10,7 @@
 #include <wrl.h>
 #include "Vertex.h"
 #include "Color.h"
+#include "ImGuiManager.h"
 
 class Graphics
 {
@@ -40,7 +41,7 @@ public:
 	Graphics& operator=(const Graphics&) = delete;
 	~Graphics();
 	void EndFrame();
-	void ClearBuffer(float red = 0.0f, float green = 0.0f, float blue = 0.0f) noexcept;
+	void BeginFrame(Color clearColor) noexcept;
 	float NormaliseVal(float val, float max, float min);
 	void DrawIndexed(UINT count) noexcept;
 	void Draw2DTextures() noexcept;
@@ -48,8 +49,14 @@ public:
 	void SetProjection(DirectX::FXMMATRIX proj) noexcept;
 	auto GetDevice() noexcept;
 	auto GetContext() noexcept;
+	void EnableIMGui() noexcept;
+	void DisableIMGui() noexcept;
+	bool IsIMGuiEnabled() const noexcept;
+	int GetWindowWidth() const noexcept;
+	int GetWindowHeight() const noexcept;
 
 private:
+	bool IMGuiEnabled = true;
 	DirectX::XMMATRIX projection;
 	int WindowWidth = 0;
 	int WindowHeight = 0;
@@ -61,6 +68,7 @@ private:
 	Microsoft::WRL::ComPtr<ID3D11RenderTargetView>	pTarget = nullptr;
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilView>	pDSV = nullptr;
 	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>m_texture = nullptr;
+	
 
 	//image texture stuff
 	std::unique_ptr<DirectX::SpriteBatch> m_spriteBatch;
