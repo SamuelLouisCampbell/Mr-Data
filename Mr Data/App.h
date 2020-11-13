@@ -25,10 +25,14 @@ private:
 
 	//text control
 	Color textCol = { 1.0f, 1.0f, 1.0f, 1.0f };
+	Color OldTextCol = { 1.0f, 1.0f, 1.0f, 1.0f };
 	float scale = 1.0f;
 	float rotation = 0.0f;
 	float lineSpacing = 1.5f;
 	char buffer[512] = {'\0'};
 	std::wstring oldMessage;
+	bool holdingLastMsg = false;
+	float alpha = 1.0f;
+	float deltaAlpha = 1.0f;
 };
 

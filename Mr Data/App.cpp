@@ -43,13 +43,14 @@ void App::ComposeFrame()
 	wnd.Gfx().BeginFrame(clearCol);
 
 	
-
+	
 	if (ImGui::Begin("Text Controller"))
 	{
 		ImGui::SliderFloat("Scale", &scale, 0.0f, 3.0f);
 		ImGui::SliderFloat("Rotation", &rotation, -3.14159f, +3.14159f);
 		ImGui::SliderFloat("Line Spacing", &lineSpacing, 0.0f, 3.0f);
-		ImGui::ColorPicker4("Color", &textCol.r, ImGuiColorEditFlags_::ImGuiColorEditFlags_PickerHueWheel);
+		ImGui::SliderFloat("Delta Alpha (time)", &deltaAlpha, 0.0f, 3.0f);
+		ImGui::ColorPicker4("Color", &OldTextCol.r, ImGuiColorEditFlags_::ImGuiColorEditFlags_PickerHueWheel);
 		if (ImGui::Button("Reset"))
 		{
 			textCol = { 1.0f, 1.0f, 1.0f, 1.0f };
@@ -59,15 +60,18 @@ void App::ComposeFrame()
 		}
 		txt.setScale(scale);
 		txt.setRotation(rotation);
-		txt.setColor(textCol);
+		if (!holdingLastMsg)
+		{
+			txt.setColor(OldTextCol);
+		}
 
 		ImGui::InputTextMultiline("Input Text: ", buffer, sizeof(buffer));
 
 
 	}
 	ImGui::End();
-
 }
+
 
 void App::RenderFrame()
 {
@@ -78,16 +82,31 @@ void App::RenderFrame()
 	mbstowcs_s(&outSize, wbuffer, size, buffer, size);
 	std::wstring message = wbuffer;
 	
+
 	if(message.size() > 0)
 	{
+		alpha = 1.0f;
+		textCol = OldTextCol;
+		txt.setColor(textCol);
 		txt.DrawCentreAlign(message, lineSpacing);
 		oldMessage = message;
+		OldTextCol = textCol;
+		holdingLastMsg = false;
 	}
 	else if(message.size() == 0)
 	{
-	
-		txt.DrawCentreAlign(oldMessage, lineSpacing);
+		holdingLastMsg = true;
 		
+		Color preMulAplpha =
+		{
+			textCol.r *= alpha,
+			textCol.g *= alpha,
+			textCol.b *= alpha,
+			textCol.a *= alpha
+		};
+		txt.setColor(preMulAplpha);
+		alpha -= 0.001 * deltaAlpha;
+		txt.DrawCentreAlign(oldMessage, lineSpacing);
 	}
 
 }
