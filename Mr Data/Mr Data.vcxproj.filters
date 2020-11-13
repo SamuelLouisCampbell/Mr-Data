@@ -117,6 +117,9 @@
     <ClCompile Include="imgui_impl_win32.cpp">
       <Filter>Source Files\Imgui</Filter>
     </ClCompile>
+    <ClCompile Include="NDI_Send.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BarebonesWindows.h">
@@ -255,6 +258,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="StringHandling.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NDI_Send.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

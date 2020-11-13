@@ -39,7 +39,7 @@ void App::ComposeFrame()
 {	
 	txt.Bind(wnd.Gfx());
 		
-	Color clearCol = { 0.0f, 0.0f, 0.0f };
+	Color clearCol = { 1.0f, 0.0f, 0.0f };
 	wnd.Gfx().BeginFrame(clearCol);
 
 	
@@ -107,6 +107,10 @@ void App::RenderFrame()
 		txt.setColor(preMulAplpha);
 		alpha -= 0.001 * deltaAlpha;
 		txt.DrawCentreAlign(oldMessage, lineSpacing);
+
+
+		//test getpixel
+		wnd.Gfx().GetPixel(10, 10);
 	}
 
 }

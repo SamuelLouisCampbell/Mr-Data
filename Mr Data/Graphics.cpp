@@ -109,24 +109,7 @@ Graphics::Graphics(HWND hWnd, int width, int height)
 	// imgui
 	ImGui_ImplDX11_Init(pDevice.Get(), pContext.Get());
 
-	// text
-	m_screenPos.x = WindowWidth / 2.f;
-	m_screenPos.y = WindowHeight / 2.f;
 
-	m_spriteBatch = std::make_unique<DirectX::SpriteBatch>(pContext.Get());
-	wrl::ComPtr<ID3D11Resource> resource;
-	hr = DirectX::CreateWICTextureFromFile(pDevice.Get(), L"assets/textures/spray_grunge.jpg", resource.GetAddressOf(), m_texture.ReleaseAndGetAddressOf());
-	GFX_THROW_INFO(hr);
-
-	wrl::ComPtr<ID3D11Texture2D> tex;
-	hr = resource.As(&tex);
-	GFX_THROW_INFO(hr);
-	
-	CD3D11_TEXTURE2D_DESC texDesc;
-	tex->GetDesc(&texDesc);
-
-	m_origin.x = float(texDesc.Width / 2);
-	m_origin.y = float(texDesc.Height / 2);
 
 }
 
@@ -234,6 +217,41 @@ int Graphics::GetWindowWidth() const noexcept
 int Graphics::GetWindowHeight() const noexcept
 {
 	return WindowHeight;
+}
+
+Color Graphics::GetPixel(int x, int y) const
+{
+	//Frame Pointer Setup;
+	CD3D11_TEXTURE2D_DESC pFrameDesc;
+	pFrameDesc.Width = WindowWidth;
+	pFrameDesc.Height = WindowHeight;
+	pFrameDesc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
+	pFrameDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
+	pFrameDesc.MipLevels = 1u;
+	pFrameDesc.ArraySize = 1u;
+	pFrameDesc.SampleDesc.Count = 1u;
+	pFrameDesc.SampleDesc.Quality = 0u;
+	pFrameDesc.Usage = D3D11_USAGE_DEFAULT;
+	pFrameDesc.BindFlags = D3D11_BIND_UNORDERED_ACCESS;
+	pFrameDesc.MiscFlags = 0u;
+
+	wrl::ComPtr<ID3D11Texture2D>	pFrame = nullptr;
+	HRESULT hr = pDevice->CreateTexture2D(&pFrameDesc, nullptr, &pFrame);
+	GFX_THROW_INFO(hr);
+
+	hr = pSwapChain->GetBuffer(0, __uuidof(pFrame), &pFrame);
+	GFX_THROW_INFO(hr);
+	
+	
+	D3D11_MAPPED_SUBRESOURCE map;
+	map.RowPitch = WindowWidth * 4;
+	map.DepthPitch = WindowHeight * 4;
+	hr = pContext->Map(pFrame.Get(), 0u, D3D11_MAP_READ, 0u, &map);
+	GFX_THROW_INFO(hr);
+
+	pContext->Unmap(pFrame.Get(), 0u);
+	
+	return { 0.0f, 0.4f, 0.0f, 0.0f };
 }
 
 

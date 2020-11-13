@@ -54,6 +54,7 @@ public:
 	bool IsIMGuiEnabled() const noexcept;
 	int GetWindowWidth() const noexcept;
 	int GetWindowHeight() const noexcept;
+	Color GetPixel(int x, int y) const;
 
 private:
 	bool IMGuiEnabled = true;
