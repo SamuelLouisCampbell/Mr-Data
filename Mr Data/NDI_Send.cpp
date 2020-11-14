@@ -33,11 +33,11 @@ void NDI_Send::SendNDIFrame(Graphics& gfx)
 	{
 		for (unsigned int x = 0; x < resX; x++)
 		{
-			Color c = gfx.GetPixel(x, y);
-			p_frame.push_back(c.r * 255.0f);
-			p_frame.push_back(c.g * 255.0f);
-			p_frame.push_back(c.b * 255.0f);
-			p_frame.push_back(c.a * 255.0f);
+			ColorWord c = gfx.GetPixel(x, y);
+			p_frame.push_back(c.r);
+			p_frame.push_back(c.g);
+			p_frame.push_back(c.b);
+			p_frame.push_back(c.a);
 
 		}
 	}

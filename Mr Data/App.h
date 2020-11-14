@@ -6,6 +6,7 @@
 #include "Time.h"
 #include "BindableBase.h"
 #include "TextNode.h"
+#include "NDI_Send.h"
 
 class App
 {

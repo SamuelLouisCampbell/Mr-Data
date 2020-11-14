@@ -38,13 +38,13 @@ int App::Setup()
 void App::ComposeFrame()
 {	
 	txt.Bind(wnd.Gfx());
-		
-	Color clearCol = { 1.0f, 0.0f, 0.0f };
+	
+	Color clearCol = { cosf(time.Peek()), sinf(time.Peek() /2.0f), tanf(time.Peek()) };
 	wnd.Gfx().BeginFrame(clearCol);
 
 	
 	
-	if (ImGui::Begin("Text Controller"))
+	if (ImGui::Begin("Text Controls"))
 	{
 		ImGui::SliderFloat("Scale", &scale, 0.0f, 3.0f);
 		ImGui::SliderFloat("Rotation", &rotation, -3.14159f, +3.14159f);
@@ -108,9 +108,11 @@ void App::RenderFrame()
 		alpha -= 0.001 * deltaAlpha;
 		txt.DrawCentreAlign(oldMessage, lineSpacing);
 
-
-		//test getpixel
-		wnd.Gfx().GetPixel(10, 10);
 	}
+	//test getpixel
+	ColorWord test = wnd.Gfx().GetPixel(10, 10);
+	std::wstringstream wss;
+	wss << L"Red: " << test.r << L" Green: " << test.g << L" Blue: " << test.b << L" Alpha: " << test.a;
+	wnd.SetTitle(wss.str());
 
 }

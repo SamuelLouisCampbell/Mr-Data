@@ -219,39 +219,35 @@ int Graphics::GetWindowHeight() const noexcept
 	return WindowHeight;
 }
 
-Color Graphics::GetPixel(int x, int y) const
+ColorWord Graphics::GetPixel(int x, int y) const
 {
-	//Frame Pointer Setup;
-	CD3D11_TEXTURE2D_DESC pFrameDesc;
-	pFrameDesc.Width = WindowWidth;
-	pFrameDesc.Height = WindowHeight;
-	pFrameDesc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
-	pFrameDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
-	pFrameDesc.MipLevels = 1u;
-	pFrameDesc.ArraySize = 1u;
-	pFrameDesc.SampleDesc.Count = 1u;
-	pFrameDesc.SampleDesc.Quality = 0u;
-	pFrameDesc.Usage = D3D11_USAGE_DEFAULT;
-	pFrameDesc.BindFlags = D3D11_BIND_UNORDERED_ACCESS;
-	pFrameDesc.MiscFlags = 0u;
-
-	wrl::ComPtr<ID3D11Texture2D>	pFrame = nullptr;
-	HRESULT hr = pDevice->CreateTexture2D(&pFrameDesc, nullptr, &pFrame);
+	wrl::ComPtr<ID3D11Texture2D> pFrame = nullptr;
+	HRESULT hr = pSwapChain->GetBuffer(0, __uuidof(pFrame), &pFrame);
 	GFX_THROW_INFO(hr);
 
-	hr = pSwapChain->GetBuffer(0, __uuidof(pFrame), &pFrame);
+	CD3D11_TEXTURE2D_DESC pStageDesc;
+	wrl::ComPtr<ID3D11Texture2D> pStage = nullptr;
+
+	pFrame->GetDesc(&pStageDesc);
+	pStageDesc.BindFlags = 0u;
+	pStageDesc.Usage = D3D11_USAGE_STAGING;
+	pStageDesc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
+	hr = pDevice->CreateTexture2D(&pStageDesc, nullptr, &pStage);
 	GFX_THROW_INFO(hr);
-	
-	
+
+	pContext->CopyResource(pStage.Get(), pFrame.Get());
+
+	//Map that gimmie my pointer to pixels fool
 	D3D11_MAPPED_SUBRESOURCE map;
-	map.RowPitch = WindowWidth * 4;
-	map.DepthPitch = WindowHeight * 4;
-	hr = pContext->Map(pFrame.Get(), 0u, D3D11_MAP_READ, 0u, &map);
+	map.RowPitch = WindowWidth;
+	map.DepthPitch = WindowHeight;
+	hr = pContext->Map(pStage.Get(), 0u, D3D11_MAP_READ, 0u, &map);
 	GFX_THROW_INFO(hr);
 
-	pContext->Unmap(pFrame.Get(), 0u);
+	ColorWord* res = reinterpret_cast<ColorWord*>(map.pData);
+	ColorWord col = res[x * y + x];
 	
-	return { 0.0f, 0.4f, 0.0f, 0.0f };
+	return col;
 }
 
 
