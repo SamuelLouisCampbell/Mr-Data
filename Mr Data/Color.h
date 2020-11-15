@@ -9,7 +9,7 @@ struct Color
 	float a = 1.0f;
 };
 
-struct ColorWord
+struct ColorChar
 {
 	unsigned char b;
 	unsigned char g;

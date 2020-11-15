@@ -54,7 +54,8 @@ public:
 	bool IsIMGuiEnabled() const noexcept;
 	int GetWindowWidth() const noexcept;
 	int GetWindowHeight() const noexcept;
-	ColorWord GetPixel(int x, int y) const;
+	ColorChar GetPixel(int x, int y) const;
+	uint8_t* GetFramePtr() const;
 
 private:
 	bool IMGuiEnabled = true;
@@ -69,6 +70,7 @@ private:
 	Microsoft::WRL::ComPtr<ID3D11RenderTargetView>	pTarget = nullptr;
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilView>	pDSV = nullptr;
 	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>m_texture = nullptr;
+	
 	
 
 	//image texture stuff

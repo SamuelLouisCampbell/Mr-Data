@@ -219,8 +219,11 @@ int Graphics::GetWindowHeight() const noexcept
 	return WindowHeight;
 }
 
-ColorWord Graphics::GetPixel(int x, int y) const
+ColorChar Graphics::GetPixel(int x, int y) const
 {
+	//Don't try to fill another buffer with this function, 
+	//too much creation and destruction makes the app hang.
+
 	wrl::ComPtr<ID3D11Texture2D> pFrame = nullptr;
 	HRESULT hr = pSwapChain->GetBuffer(0, __uuidof(pFrame), &pFrame);
 	GFX_THROW_INFO(hr);
@@ -244,10 +247,46 @@ ColorWord Graphics::GetPixel(int x, int y) const
 	hr = pContext->Map(pStage.Get(), 0u, D3D11_MAP_READ, 0u, &map);
 	GFX_THROW_INFO(hr);
 
-	ColorWord* res = reinterpret_cast<ColorWord*>(map.pData);
-	ColorWord col = res[x * y + x];
-	
+	ColorChar* res = reinterpret_cast<ColorChar*>(map.pData);
+	ColorChar col = res[x * y + x];
+	pFrame.Reset();
+	pStage.Reset();
 	return col;
+}
+
+uint8_t* Graphics::GetFramePtr() const
+{
+	//Create copying/buffer texture
+	wrl::ComPtr<ID3D11Texture2D> pFrame = nullptr;
+	HRESULT hr = pSwapChain->GetBuffer(0, __uuidof(pFrame), &pFrame);
+	GFX_THROW_INFO(hr);
+
+	//Create staging texture
+	CD3D11_TEXTURE2D_DESC pStageDesc;
+	wrl::ComPtr<ID3D11Texture2D> pStage = nullptr;
+
+	//Copy descriptors from backbuffer texture
+	pFrame->GetDesc(&pStageDesc);
+	pStageDesc.BindFlags = 0u;
+	pStageDesc.Usage = D3D11_USAGE_STAGING;
+	pStageDesc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
+	hr = pDevice->CreateTexture2D(&pStageDesc, nullptr, &pStage);
+	GFX_THROW_INFO(hr);
+
+	//Copy into staging texture
+	pContext->CopyResource(pStage.Get(), pFrame.Get());
+
+	//Map that & gimmie my pointer to pixels fool
+	D3D11_MAPPED_SUBRESOURCE map;
+	map.RowPitch = WindowWidth;
+	map.DepthPitch = WindowHeight;
+	hr = pContext->Map(pStage.Get(), 0u, D3D11_MAP_READ, 0u, &map);
+	GFX_THROW_INFO(hr);
+
+	//Make nice for others
+	uint8_t* res = reinterpret_cast<uint8_t*>(map.pData);
+
+	return res;
 }
 
 

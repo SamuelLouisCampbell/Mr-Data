@@ -24,6 +24,9 @@ private:
 	TextNode txt;
 	DirectX::SimpleMath::Vector2 centre = { 0.0f, 0.0f };
 
+	//NDI stuff
+	NDI_Send ndi;
+
 	//text control
 	Color textCol = { 1.0f, 1.0f, 1.0f, 1.0f };
 	Color OldTextCol = { 1.0f, 1.0f, 1.0f, 1.0f };

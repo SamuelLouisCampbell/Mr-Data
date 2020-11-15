@@ -11,7 +11,8 @@
 App::App()
 	:
 	wnd(1280, 720, L"Mr.Data 3D Window"),
-	txt(wnd.Gfx(),1.0f, 0.0f, L"assets/arial_64.spritefont")
+	txt(wnd.Gfx(), 1.0f, 0.0f, L"assets/arial_64.spritefont"),
+	ndi(1280, 720)
 {
 	wnd.Gfx().SetProjection(DirectX::XMMatrixPerspectiveLH(1.0f, float(wnd.GetHeight()) / float(wnd.GetWidth()), 0.2f, 50.0f));
 	centre.x = float(wnd.GetWidth()) / 2.0f;
@@ -39,7 +40,7 @@ void App::ComposeFrame()
 {	
 	txt.Bind(wnd.Gfx());
 	
-	Color clearCol = { cosf(time.Peek()), sinf(time.Peek() /2.0f), tanf(time.Peek()) };
+	Color clearCol = { 0.1f, 0.0f, 0.2f, 1.0f};
 	wnd.Gfx().BeginFrame(clearCol);
 
 	
@@ -110,9 +111,12 @@ void App::RenderFrame()
 
 	}
 	//test getpixel
-	ColorWord test = wnd.Gfx().GetPixel(10, 10);
+	ColorChar test = wnd.Gfx().GetPixel(10, 10);
 	std::wstringstream wss;
 	wss << L"Red: " << test.r << L" Green: " << test.g << L" Blue: " << test.b << L" Alpha: " << test.a;
 	wnd.SetTitle(wss.str());
+	
+	//Send NDI Frames
+	ndi.SendNDIFrame(wnd.Gfx());
 
 }
