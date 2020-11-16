@@ -40,7 +40,7 @@ void App::ComposeFrame()
 {	
 	txt.Bind(wnd.Gfx());
 	
-	Color clearCol = { 0.05f, 0.0f, 0.1f, 1.0f};
+	Color clearCol = { 0.0f, 0.0f, 0.0f, 1.0f};
 	wnd.Gfx().BeginFrame(clearCol);
 
 	
@@ -86,38 +86,42 @@ void App::RenderFrame()
 	mbstowcs_s(&outSize, wbuffer, size, buffer, size);
 	std::wstring message = wbuffer;
 	
-
-	if(message.size() > 0)
+	try
 	{
-		alpha = 1.0f;
-		textCol = OldTextCol;
-		txt.setColor(textCol);
-		txt.DrawCentreAlign(message, lineSpacing);
-		oldMessage = message;
-		OldTextCol = textCol;
-		holdingLastMsg = false;
-	}
-	else if(message.size() == 0)
-	{
-		holdingLastMsg = true;
-		
-		Color preMulAplpha =
+		if (message.size() > 0)
 		{
-			textCol.r *= alpha,
-			textCol.g *= alpha,
-			textCol.b *= alpha,
-			textCol.a *= alpha
-		};
-		txt.setColor(preMulAplpha);
-		alpha -= 0.001 * deltaAlpha;
-		txt.DrawCentreAlign(oldMessage, lineSpacing);
+			alpha = 1.0f;
+			textCol = OldTextCol;
+			txt.setColor(textCol);
+			txt.DrawCentreAlign(message, lineSpacing);
+			oldMessage = message;
+			OldTextCol = textCol;
+			holdingLastMsg = false;
+		}
+		else if (message.size() == 0)
+		{
+			holdingLastMsg = true;
 
+			Color preMulAplpha =
+			{
+				textCol.r *= alpha,
+				textCol.g *= alpha,
+				textCol.b *= alpha,
+				textCol.a *= alpha
+			};
+			txt.setColor(preMulAplpha);
+			alpha -= 0.001 * deltaAlpha;
+			txt.DrawCentreAlign(oldMessage, lineSpacing);
+
+		}
 	}
-	//test getpixel
-	ColorChar test = wnd.Gfx().GetPixel(10, 10);
-	std::wstringstream wss;
-	wss << L"Red: " << test.r << L" Green: " << test.g << L" Blue: " << test.b << L" Alpha: " << test.a;
-	wnd.SetTitle(wss.str());
+	catch (const MyException& e)
+	{
+		MessageBox(nullptr, e.wideWhat(), e.GetType(), MB_OK | MB_ICONASTERISK);
+	}
+
+	
+	
 	
 #if NDEBUG
 	//Send NDI Frames

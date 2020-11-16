@@ -218,12 +218,6 @@
     <ClInclude Include="Prism.h">
       <Filter>Header Files\Drawables\Primitives</Filter>
     </ClInclude>
-    <ClInclude Include="Melon.h">
-      <Filter>Header Files\Drawables</Filter>
-    </ClInclude>
-    <ClInclude Include="Pyramid.h">
-      <Filter>Header Files\Drawables</Filter>
-    </ClInclude>
     <ClInclude Include="imconfig.h">
       <Filter>Header Files\Imgui</Filter>
     </ClInclude>

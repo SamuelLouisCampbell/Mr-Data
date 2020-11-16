@@ -38,10 +38,12 @@ void NDI_Send::SendNDIFrame(Graphics& gfx)
 		{
 			// B G R A
 			// 0 1 2 3
-			p_frame.push_back(c[gfx.GetWindowWidth() * y + x + 2]); //R
-			p_frame.push_back(c[gfx.GetWindowWidth() * y + x + 1]); //G
-			p_frame.push_back(c[gfx.GetWindowWidth() * y + x]); //B
-			p_frame.push_back(c[gfx.GetWindowWidth() * y + x + 3]); //A
+			//Precalc start
+			int preCalc = gfx.GetWindowWidth() * y + x;
+			p_frame.push_back(c[preCalc + 2]); //R
+			p_frame.push_back(c[preCalc + 1]); //G
+			p_frame.push_back(c[preCalc]); //B
+			p_frame.push_back(c[preCalc + 3]); //A
 		}
 	}
 	NDI_video_frame.p_data = &p_frame[0];
