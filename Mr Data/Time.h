@@ -14,9 +14,10 @@ public:
 	{
 		const auto old = last;
 		last = std::chrono::steady_clock::now();
-		const std::chrono::duration<float> elapsedTime = last - old;
+		const std::chrono::duration<float, std::milli> elapsedTime = last - old;
 		return elapsedTime.count();
 	}
+
 	float Peek()
 	{
 		return std::chrono::duration<float>(

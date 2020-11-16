@@ -40,13 +40,16 @@ void App::ComposeFrame()
 {	
 	txt.Bind(wnd.Gfx());
 	
-	Color clearCol = { 0.1f, 0.0f, 0.2f, 1.0f};
+	Color clearCol = { 0.05f, 0.0f, 0.1f, 1.0f};
 	wnd.Gfx().BeginFrame(clearCol);
 
 	
 	
 	if (ImGui::Begin("Text Controls"))
 	{
+		std::stringstream ss;
+		ss << "Time :" << time.Mark();
+		ImGui::Text(ss.str().c_str());
 		ImGui::SliderFloat("Scale", &scale, 0.0f, 3.0f);
 		ImGui::SliderFloat("Rotation", &rotation, -3.14159f, +3.14159f);
 		ImGui::SliderFloat("Line Spacing", &lineSpacing, 0.0f, 3.0f);
@@ -116,7 +119,8 @@ void App::RenderFrame()
 	wss << L"Red: " << test.r << L" Green: " << test.g << L" Blue: " << test.b << L" Alpha: " << test.a;
 	wnd.SetTitle(wss.str());
 	
+#if NDEBUG
 	//Send NDI Frames
 	ndi.SendNDIFrame(wnd.Gfx());
-
+#endif
 }
