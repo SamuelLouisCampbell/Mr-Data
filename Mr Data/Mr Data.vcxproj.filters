@@ -90,12 +90,6 @@
     <ClCompile Include="Box.cpp">
       <Filter>Source Files\Drawable</Filter>
     </ClCompile>
-    <ClCompile Include="Melon.cpp">
-      <Filter>Source Files\Drawable</Filter>
-    </ClCompile>
-    <ClCompile Include="Pyramid.cpp">
-      <Filter>Source Files\Drawable</Filter>
-    </ClCompile>
     <ClCompile Include="imgui.cpp">
       <Filter>Source Files\Imgui</Filter>
     </ClCompile>
@@ -119,6 +113,9 @@
     </ClCompile>
     <ClCompile Include="NDI_Send.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Planar.cpp">
+      <Filter>Source Files\Drawable</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -256,6 +253,12 @@
     </ClInclude>
     <ClInclude Include="NDI_Send.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Planar.h">
+      <Filter>Header Files\Drawables</Filter>
+    </ClInclude>
+    <ClInclude Include="Quad.h">
+      <Filter>Header Files\Drawables\Primitives</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,7 +1,5 @@
 #include "App.h"
 #include <sstream>
-#include "Melon.h"
-#include "Pyramid.h"
 #include "MD_Math.h"
 #include "Box.h"
 #include <algorithm>
@@ -14,10 +12,13 @@ App::App()
 	txt(wnd.Gfx(), 1.0f, 0.0f, L"assets/arial_64.spritefont"),
 	ndi(1280, 720)
 {
+	
 	wnd.Gfx().SetProjection(DirectX::XMMatrixPerspectiveLH(1.0f, float(wnd.GetHeight()) / float(wnd.GetWidth()), 0.2f, 50.0f));
 	centre.x = float(wnd.GetWidth()) / 2.0f;
 	centre.y = float(wnd.GetHeight()) / 2.0f;
 	txt.SetPos(centre);
+	quad = std::make_unique<Planar>(wnd.Gfx());
+	
 }
 
 int App::Setup()
@@ -42,8 +43,6 @@ void App::ComposeFrame()
 	
 	Color clearCol = { 0.0f, 0.0f, 0.0f, 1.0f};
 	wnd.Gfx().BeginFrame(clearCol);
-
-	
 	
 	if (ImGui::Begin("Text Controls"))
 	{
@@ -54,7 +53,7 @@ void App::ComposeFrame()
 		ImGui::SliderFloat("Rotation", &rotation, -3.14159f, +3.14159f);
 		ImGui::SliderFloat("Line Spacing", &lineSpacing, 0.0f, 3.0f);
 		ImGui::SliderFloat("Delta Alpha (time)", &deltaAlpha, 0.0f, 3.0f);
-		ImGui::ColorPicker4("Color", &OldTextCol.r, ImGuiColorEditFlags_::ImGuiColorEditFlags_PickerHueWheel);
+		ImGui::ColorPicker4("Color", &oldTextCol.r, ImGuiColorEditFlags_::ImGuiColorEditFlags_PickerHueWheel);
 		if (ImGui::Button("Reset"))
 		{
 			textCol = { 1.0f, 1.0f, 1.0f, 1.0f };
@@ -66,13 +65,23 @@ void App::ComposeFrame()
 		txt.setRotation(rotation);
 		if (!holdingLastMsg)
 		{
-			txt.setColor(OldTextCol);
+			txt.setColor(oldTextCol);
 		}
-
 		ImGui::InputTextMultiline("Input Text: ", buffer, sizeof(buffer));
 
-
 	}
+	ImGui::End();
+	
+	if (ImGui::Begin("Quad Control"))
+	{
+		ImGui::SliderFloat("X", &posX, 1.0f, 64.0f);
+		ImGui::SliderFloat("Y", &posY, 1.0f, 36.0f);
+		ImGui::SliderFloat("Z", &posZ, 0.0f, 10.0f);
+	}
+
+	float diff = float(wnd.Gfx().GetWindowWidth()) / float(wnd.Gfx().GetWindowHeight());
+	quad->SetTransform(posX * diff, posY, posZ);
+	
 	ImGui::End();
 }
 
@@ -85,17 +94,19 @@ void App::RenderFrame()
 	size_t outSize;
 	mbstowcs_s(&outSize, wbuffer, size, buffer, size);
 	std::wstring message = wbuffer;
+
+	quad->Draw(wnd.Gfx());
 	
 	try
 	{
 		if (message.size() > 0)
 		{
 			alpha = 1.0f;
-			textCol = OldTextCol;
+			textCol = oldTextCol;
 			txt.setColor(textCol);
 			txt.DrawCentreAlign(message, lineSpacing);
 			oldMessage = message;
-			OldTextCol = textCol;
+			oldTextCol = textCol;
 			holdingLastMsg = false;
 		}
 		else if (message.size() == 0)
@@ -119,9 +130,6 @@ void App::RenderFrame()
 	{
 		MessageBox(nullptr, e.wideWhat(), e.GetType(), MB_OK | MB_ICONASTERISK);
 	}
-
-	
-	
 	
 #if NDEBUG
 	//Send NDI Frames

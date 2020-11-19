@@ -7,6 +7,7 @@
 #include "BindableBase.h"
 #include "TextNode.h"
 #include "NDI_Send.h"
+#include "Planar.h"
 
 class App
 {
@@ -29,7 +30,7 @@ private:
 
 	//text control
 	Color textCol = { 1.0f, 1.0f, 1.0f, 1.0f };
-	Color OldTextCol = { 1.0f, 1.0f, 1.0f, 1.0f };
+	Color oldTextCol = { 1.0f, 1.0f, 1.0f, 1.0f };
 	float scale = 1.0f;
 	float rotation = 0.0f;
 	float lineSpacing = 1.5f;
@@ -38,5 +39,13 @@ private:
 	bool holdingLastMsg = false;
 	float alpha = 1.0f;
 	float deltaAlpha = 1.0f;
+
+	//BG Quad
+	std::unique_ptr<Drawable> quad;
+	float posX = 1.0f;
+	float posY = 1.0f;
+	float posZ = 1.0f;
+
+	
 };
 

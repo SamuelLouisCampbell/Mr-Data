@@ -16,6 +16,7 @@ public:
 	void Draw( Graphics& gfx ) const noexcept;
 	virtual void Update( float dt ) noexcept = 0;
 	virtual ~Drawable() = default;
+	virtual void SetTransform(float x, float y, float z) noexcept = 0;
 protected:
 	void AddBind(std::unique_ptr<Bindable> bind) noexcept;
 	void AddIndexBuffer(std::unique_ptr<class IndexBuffer> ibuf) noexcept;
