@@ -1,10 +1,9 @@
-#include "Planar.h"
-#include "Plane.h"
+#include "LineMaker.h"
+#include "Line.h"
 #include "BindableBase.h"
 #include "Gfx_Exception_Macros.h"
-#include "Quad.h"
 
-Planar::Planar(Graphics& gfx)
+LineMaker::LineMaker(Graphics& gfx, DirectX::XMFLOAT3& pos_a, DirectX::XMFLOAT3& pos_b, Color& col)
 {
 	namespace dx = DirectX;
 
@@ -12,7 +11,8 @@ Planar::Planar(Graphics& gfx)
 	{
 		dx::XMFLOAT3 pos;
 	};
-	auto model = Quad::Make<Vertex>();
+
+	auto model = Line::Make<Vertex>(pos_a, pos_b);
 	model.Transform(dx::XMMatrixScaling(1.0f, 1.0f, 1.0f));
 
 	AddStaticBind(std::make_unique<VertexBuffer>(gfx, model.vertices));
@@ -23,7 +23,7 @@ Planar::Planar(Graphics& gfx)
 	AddStaticBind(std::move(pvs));
 
 	//AddStaticBind( std::make_unique<PixelShader>( gfx,L"PixelShaderFaces.cso" ) );
-	AddStaticBind(std::make_unique<PixelShader>(gfx, L"ColorIndex_PS.cso"));
+	AddStaticBind(std::make_unique<PixelShader>(gfx, L"ColorIndexSingle_PS.cso"));
 
 	AddStaticIndexBuffer(std::make_unique<IndexBuffer>(gfx, model.indices));
 	struct PixelShaderConstants
@@ -34,17 +34,15 @@ Planar::Planar(Graphics& gfx)
 			float g;
 			float b;
 			float a;
-		} face_colors[4];
+		} face_colors[1];
 	};
 	const PixelShaderConstants cb2 =
 	{
 		{
-			{ 1.0f,0.0f,1.0f },
-			{ 0.0f,1.0f,1.0f },
-			{ 1.0f,1.0f,0.0f },
-			{ 0.0f,0.0f,1.0f }
+			{col.r, col.g, col.b, col.a }
 		}
 	};
+
 	AddStaticBind(std::make_unique<PixelConstantBuffer<PixelShaderConstants>>(gfx, cb2));
 
 	const std::vector<D3D11_INPUT_ELEMENT_DESC> ied =
@@ -60,16 +58,16 @@ Planar::Planar(Graphics& gfx)
 	dx::XMStoreFloat3x3(&mt, dx::XMMatrixScaling(1.0f, 1.0f, 0.5f));
 }
 
-void Planar::Update(float dt) noexcept
+void LineMaker::Update(float dt) noexcept
 {
 }
 
-DirectX::XMMATRIX Planar::GetTransformXM() const noexcept
+DirectX::XMMATRIX LineMaker::GetTransformXM() const noexcept
 {
 	return DirectX::XMLoadFloat3x3(&mt);
 }
 
-void Planar::SetTransform(float tX, float tY, float tZ) noexcept
+void LineMaker::SetTransform(float tX, float tY, float tZ) noexcept
 {
 	DirectX::XMStoreFloat3x3(&mt, DirectX::XMMatrixScaling(tX, tY, tZ));
 }

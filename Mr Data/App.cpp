@@ -13,11 +13,13 @@ App::App()
 	ndi(1280, 720)
 {
 	
-	wnd.Gfx().SetProjection(DirectX::XMMatrixPerspectiveLH(1.0f, float(wnd.GetHeight()) / float(wnd.GetWidth()), 0.2f, 50.0f));
+	wnd.Gfx().SetProjection(DirectX::XMMatrixOrthographicOffCenterLH(0.0f, float(wnd.Gfx().GetWindowWidth()), 
+																	 float(wnd.Gfx().GetWindowHeight()), 0.0f, 0.0f, 1.0f));
 	centre.x = float(wnd.GetWidth()) / 2.0f;
 	centre.y = float(wnd.GetHeight()) / 2.0f;
 	txt.SetPos(centre);
 	quad = std::make_unique<Planar>(wnd.Gfx());
+	line = std::make_unique<LineMaker>(wnd.Gfx(), pos_1, pos_2, lineCol);
 	
 }
 
@@ -74,14 +76,15 @@ void App::ComposeFrame()
 	
 	if (ImGui::Begin("Quad Control"))
 	{
-		ImGui::SliderFloat("X", &posX, 1.0f, 64.0f);
-		ImGui::SliderFloat("Y", &posY, 1.0f, 36.0f);
-		ImGui::SliderFloat("Z", &posZ, 0.0f, 10.0f);
+		ImGui::InputFloat("X", &posX, -0.5f, 4.0f);
+		ImGui::InputFloat("Y", &posY, -0.5f, 4.0f);
+		ImGui::InputFloat ("Z", &posZ, 0.0f, 1.0f);
 	}
 
 	float diff = float(wnd.Gfx().GetWindowWidth()) / float(wnd.Gfx().GetWindowHeight());
-	quad->SetTransform(posX * diff, posY, posZ);
-	
+	quad->SetTransform(posX , posY, posZ);
+	line->SetTransform(1.0 , 1.0f, 1.0f);
+
 	ImGui::End();
 }
 
@@ -96,7 +99,7 @@ void App::RenderFrame()
 	std::wstring message = wbuffer;
 
 	quad->Draw(wnd.Gfx());
-	
+	line->Draw(wnd.Gfx());
 	try
 	{
 		if (message.size() > 0)

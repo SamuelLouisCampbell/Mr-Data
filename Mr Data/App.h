@@ -8,6 +8,7 @@
 #include "TextNode.h"
 #include "NDI_Send.h"
 #include "Planar.h"
+#include "LineMaker.h"
 
 class App
 {
@@ -46,6 +47,11 @@ private:
 	float posY = 1.0f;
 	float posZ = 1.0f;
 
+	//Line
+	std::unique_ptr<Drawable> line;
+	Color lineCol = { 1.0f, 1.0f, 0.0f };
+	DirectX::XMFLOAT3 pos_1 = { -1.0f, -1.0f, 1.0f };
+	DirectX::XMFLOAT3 pos_2 = { 0.0f, 0.0f, 1.0f };
 	
 };
 

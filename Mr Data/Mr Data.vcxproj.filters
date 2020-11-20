@@ -117,6 +117,9 @@
     <ClCompile Include="Planar.cpp">
       <Filter>Source Files\Drawable</Filter>
     </ClCompile>
+    <ClCompile Include="LineMaker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BarebonesWindows.h">
@@ -260,6 +263,15 @@
     <ClInclude Include="Quad.h">
       <Filter>Header Files\Drawables\Primitives</Filter>
     </ClInclude>
+    <ClInclude Include="IndexedLineList.h">
+      <Filter>Header Files\Drawables</Filter>
+    </ClInclude>
+    <ClInclude Include="Line.h">
+      <Filter>Header Files\Drawables\Primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="LineMaker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Mr Data.rc">
@@ -291,6 +303,9 @@
       <Filter>Shaders</Filter>
     </FxCompile>
     <FxCompile Include="ColorBlend_VS.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="ColorIndexSingle_PS.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
   </ItemGroup>

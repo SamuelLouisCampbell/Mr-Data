@@ -91,6 +91,7 @@ public:
 		spriteBatchFont->End();
 	}
 
+
 protected:
 	Graphics& gfx;
 	DirectX::SimpleMath::Vector2 fontPos = { 0.0f, 0.0f };
@@ -98,7 +99,6 @@ protected:
 	float rotation;
 	std::wstring filename;
 	std::vector<std::unique_ptr<DirectX::SpriteFont>> fonts;
-	//std::unique_ptr<DirectX::SpriteFont> font;
 	std::unique_ptr<DirectX::SpriteBatch> spriteBatchFont;
 	Color col;
 

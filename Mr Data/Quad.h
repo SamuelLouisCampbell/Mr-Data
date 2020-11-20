@@ -11,10 +11,10 @@ public:
 		namespace dx = DirectX;
 
 		std::vector<dx::XMFLOAT3> vertices;
-		vertices.emplace_back(-1.0f, -1.0f, 1.0f);
-		vertices.emplace_back(-1.0f,  1.0f, 1.0f);
 		vertices.emplace_back( 1.0f,  1.0f, 1.0f);
-		vertices.emplace_back( 1.0f, -1.0f, 1.0f);
+		vertices.emplace_back( 200.0f,  1.0f, 1.0f);
+		vertices.emplace_back( 200.0f,  500.0f, 1.0f);
+		vertices.emplace_back( 1.0f,  500.0f, 1.0f);
 	
 
 		std::vector<V> verts(vertices.size());

@@ -109,8 +109,6 @@ Graphics::Graphics(HWND hWnd, int width, int height)
 	// imgui
 	ImGui_ImplDX11_Init(pDevice.Get(), pContext.Get());
 
-
-
 }
 
 Graphics::~Graphics()
