@@ -6,15 +6,15 @@ class Quad
 {
 public:
 	template<class V>
-	static IndexedTriangleList<V> Make()
+	static IndexedTriangleList<V> Make(const DirectX::XMFLOAT3& pos_a, const DirectX::XMFLOAT3& pos_b)
 	{
 		namespace dx = DirectX;
 
 		std::vector<dx::XMFLOAT3> vertices;
-		vertices.emplace_back( 1.0f,  1.0f, 1.0f);
-		vertices.emplace_back( 200.0f,  1.0f, 1.0f);
-		vertices.emplace_back( 200.0f,  500.0f, 1.0f);
-		vertices.emplace_back( 1.0f,  500.0f, 1.0f);
+		vertices.emplace_back(pos_a);
+		vertices.emplace_back(pos_b.x, pos_a.y, pos_a.z);
+		vertices.emplace_back(pos_b);
+		vertices.emplace_back(pos_a.x, pos_b.y, pos_b.z);
 	
 
 		std::vector<V> verts(vertices.size());

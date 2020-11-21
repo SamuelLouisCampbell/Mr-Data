@@ -6,7 +6,7 @@
 #include "Time.h"
 #include "BindableBase.h"
 #include "TextNode.h"
-//#include "NDI_Send.h"
+#include "NDI_Send.h"
 #include "Planar.h"
 #include "LineMaker.h"
 
@@ -27,7 +27,7 @@ private:
 	DirectX::SimpleMath::Vector2 centre = { 0.0f, 0.0f };
 
 	//NDI stuff
-	//NDI_Send ndi;
+	NDI_Send ndi;
 
 	//text control
 	Color textCol = { 1.0f, 1.0f, 1.0f, 1.0f };
@@ -45,10 +45,10 @@ private:
 	std::vector<std::unique_ptr<class Drawable>> lines;
 	static constexpr Color Cyan = { 0.0f, 1.0f, 1.0f };
 	static constexpr Color Red = { 1.0f, 0.0f, 0.0f };
-	DirectX::XMFLOAT3 pos_1;
-	DirectX::XMFLOAT3 pos_2;
-	DirectX::XMFLOAT3 pos_3;
-	DirectX::XMFLOAT3 pos_4;
+	static constexpr DirectX::XMFLOAT3 pos_1 = { 20.0f, 360.0f, 1.0f };
+	static constexpr DirectX::XMFLOAT3 pos_2 = { 1260.0f, 360.0f, 1.0f };
+	static constexpr DirectX::XMFLOAT3 pos_3 = { 640.0f, 20.0f, 1.0f };
+	static constexpr DirectX::XMFLOAT3 pos_4 = { 640.0f, 700.0f, 1.0f };
 	
 };
 

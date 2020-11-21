@@ -9,25 +9,19 @@
 App::App()
 	:
 	wnd(1280, 720, L"Mr.Data Window"),
-	txt(wnd.Gfx(), 1.0f, 0.0f, L"assets/arial_64.spritefont")//,
-	//ndi(1280, 720)
+	txt(wnd.Gfx(), 1.0f, 0.0f, L"assets/arial_64.spritefont"),
+	ndi(1280, 720)
 {
 	centre.x = float(wnd.GetWidth()) / 2.0f;
 	centre.y = float(wnd.GetHeight()) / 2.0f;
 	txt.SetPos(centre);
-
-	pos_1 = { 0.0f, 360.0f, 1.0f };
-	pos_2 = { 1280, 360.0f, 1.0f };
-	pos_3 = { 640.0f, 0.0f, 1.0f };
-	pos_4 = { 640.0f, 720.0f, 1.0f };
 	
 	lines.emplace_back(std::make_unique<LineMaker>(wnd.Gfx(), pos_1, pos_2, Red));
-	lines.emplace_back(std::make_unique<Planar>(wnd.Gfx()));
 	lines.emplace_back(std::make_unique<LineMaker>(wnd.Gfx(), pos_3, pos_4, Cyan));
+	//lines.emplace_back(std::make_unique<Planar>(wnd.Gfx(), pos_2, pos_4));
+	//lines.emplace_back(std::make_unique<Planar>(wnd.Gfx(), pos_1, pos_3));
 	wnd.Gfx().SetProjection(DirectX::XMMatrixOrthographicOffCenterLH(0.0f, float(wnd.Gfx().GetWindowWidth()),
 		float(wnd.Gfx().GetWindowHeight()), 0.0f, 0.0f, 1.0f));
-
-	
 }
 
 int App::Setup()
@@ -132,6 +126,6 @@ void App::RenderFrame()
 	
 #if NDEBUG
 	//Send NDI Frames
-	//ndi.SendNDIFrame(wnd.Gfx());
+	ndi.SendNDIFrame(wnd.Gfx());
 #endif
 }
