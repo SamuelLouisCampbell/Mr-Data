@@ -6,7 +6,6 @@
 
 void Drawable::Draw( Graphics& gfx ) const noexcept
 {
-	OutputDebugStringW(L"Drawing a drawable\n");
 	for( auto& b : binds )
 	{
 		b->Bind( gfx );

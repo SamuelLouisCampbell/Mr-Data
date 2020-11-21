@@ -21,8 +21,8 @@ App::App()
 	pos_3 = { 640.0f, 0.0f, 1.0f };
 	pos_4 = { 640.0f, 720.0f, 1.0f };
 	
-	lines.emplace_back(std::make_unique<Planar>(wnd.Gfx()));
 	lines.emplace_back(std::make_unique<LineMaker>(wnd.Gfx(), pos_1, pos_2, Red));
+	lines.emplace_back(std::make_unique<Planar>(wnd.Gfx()));
 	lines.emplace_back(std::make_unique<LineMaker>(wnd.Gfx(), pos_3, pos_4, Cyan));
 	wnd.Gfx().SetProjection(DirectX::XMMatrixOrthographicOffCenterLH(0.0f, float(wnd.Gfx().GetWindowWidth()),
 		float(wnd.Gfx().GetWindowHeight()), 0.0f, 0.0f, 1.0f));
