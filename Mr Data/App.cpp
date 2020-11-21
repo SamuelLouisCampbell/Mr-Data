@@ -132,6 +132,6 @@ void App::RenderFrame()
 	
 #if NDEBUG
 	//Send NDI Frames
-	ndi.SendNDIFrame(wnd.Gfx());
+	//ndi.SendNDIFrame(wnd.Gfx());
 #endif
 }
