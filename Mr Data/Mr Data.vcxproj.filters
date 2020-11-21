@@ -118,7 +118,7 @@
       <Filter>Source Files\Drawable</Filter>
     </ClCompile>
     <ClCompile Include="LineMaker.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Drawable</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

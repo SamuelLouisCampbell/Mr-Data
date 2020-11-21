@@ -3,7 +3,7 @@
 #include "BindableBase.h"
 #include "Gfx_Exception_Macros.h"
 
-LineMaker::LineMaker(Graphics& gfx, DirectX::XMFLOAT3& pos_a, DirectX::XMFLOAT3& pos_b, Color& col)
+LineMaker::LineMaker(Graphics& gfx, const DirectX::XMFLOAT3& pos_a, const DirectX::XMFLOAT3& pos_b, const Color& col)
 {
 	namespace dx = DirectX;
 
@@ -13,16 +13,20 @@ LineMaker::LineMaker(Graphics& gfx, DirectX::XMFLOAT3& pos_a, DirectX::XMFLOAT3&
 	};
 
 	auto model = Line::Make<Vertex>(pos_a, pos_b);
+
+	std::wstringstream wss;
+	wss << L"Made line positions A : " << pos_a.x << ":" << pos_a.y << ":" << pos_a.z << std::endl;
+	wss << L"Made line positions B : " << pos_b.x << ":" << pos_b.y << ":" << pos_b.z << std::endl;
+	OutputDebugStringW(wss.str().c_str());
+
 	model.Transform(dx::XMMatrixScaling(1.0f, 1.0f, 1.0f));
 
 	AddStaticBind(std::make_unique<VertexBuffer>(gfx, model.vertices));
 
-	//auto pvs = std::make_unique<VertexShader>( gfx,L"VertexShaderFaces.cso" );
 	auto pvs = std::make_unique<VertexShader>(gfx, L"ColorIndex_VS.cso");
 	auto pvsbc = pvs->GetBytecode();
 	AddStaticBind(std::move(pvs));
 
-	//AddStaticBind( std::make_unique<PixelShader>( gfx,L"PixelShaderFaces.cso" ) );
 	AddStaticBind(std::make_unique<PixelShader>(gfx, L"ColorIndexSingle_PS.cso"));
 
 	AddStaticIndexBuffer(std::make_unique<IndexBuffer>(gfx, model.indices));

@@ -6,6 +6,7 @@
 
 void Drawable::Draw( Graphics& gfx ) const noexcept
 {
+	OutputDebugStringW(L"Drawing a drawable\n");
 	for( auto& b : binds )
 	{
 		b->Bind( gfx );
@@ -15,6 +16,7 @@ void Drawable::Draw( Graphics& gfx ) const noexcept
 		b->Bind( gfx );
 	}
 	gfx.DrawIndexed( pIndexBuffer->GetCount() );
+
 }
 
 void Drawable::AddBind( std::unique_ptr<Bindable> bind ) noexcept

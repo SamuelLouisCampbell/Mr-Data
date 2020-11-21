@@ -8,18 +8,25 @@
 
 App::App()
 	:
-	wnd(1280, 720, L"Mr.Data 3D Window"),
-	txt(wnd.Gfx(), 1.0f, 0.0f, L"assets/arial_64.spritefont"),
-	ndi(1280, 720)
+	wnd(1280, 720, L"Mr.Data Window"),
+	txt(wnd.Gfx(), 1.0f, 0.0f, L"assets/arial_64.spritefont")//,
+	//ndi(1280, 720)
 {
-	
-	wnd.Gfx().SetProjection(DirectX::XMMatrixOrthographicOffCenterLH(0.0f, float(wnd.Gfx().GetWindowWidth()), 
-																	 float(wnd.Gfx().GetWindowHeight()), 0.0f, 0.0f, 1.0f));
 	centre.x = float(wnd.GetWidth()) / 2.0f;
 	centre.y = float(wnd.GetHeight()) / 2.0f;
 	txt.SetPos(centre);
-	quad = std::make_unique<Planar>(wnd.Gfx());
-	line = std::make_unique<LineMaker>(wnd.Gfx(), pos_1, pos_2, lineCol);
+
+	pos_1 = { 0.0f, 360.0f, 1.0f };
+	pos_2 = { 1280, 360.0f, 1.0f };
+	pos_3 = { 640.0f, 0.0f, 1.0f };
+	pos_4 = { 640.0f, 720.0f, 1.0f };
+	
+	lines.emplace_back(std::make_unique<Planar>(wnd.Gfx()));
+	lines.emplace_back(std::make_unique<LineMaker>(wnd.Gfx(), pos_1, pos_2, Red));
+	lines.emplace_back(std::make_unique<LineMaker>(wnd.Gfx(), pos_3, pos_4, Cyan));
+	wnd.Gfx().SetProjection(DirectX::XMMatrixOrthographicOffCenterLH(0.0f, float(wnd.Gfx().GetWindowWidth()),
+		float(wnd.Gfx().GetWindowHeight()), 0.0f, 0.0f, 1.0f));
+
 	
 }
 
@@ -73,33 +80,22 @@ void App::ComposeFrame()
 
 	}
 	ImGui::End();
-	
-	if (ImGui::Begin("Quad Control"))
-	{
-		ImGui::InputFloat("X", &posX, -0.5f, 4.0f);
-		ImGui::InputFloat("Y", &posY, -0.5f, 4.0f);
-		ImGui::InputFloat ("Z", &posZ, 0.0f, 1.0f);
-	}
-
-	float diff = float(wnd.Gfx().GetWindowWidth()) / float(wnd.Gfx().GetWindowHeight());
-	quad->SetTransform(posX , posY, posZ);
-	line->SetTransform(1.0 , 1.0f, 1.0f);
-
-	ImGui::End();
 }
 
 
 void App::RenderFrame()
 {
-	//wnd.Gfx().Draw2DTextures();
 	size_t size = sizeof(buffer) + 1;
 	static wchar_t wbuffer[512];
 	size_t outSize;
 	mbstowcs_s(&outSize, wbuffer, size, buffer, size);
 	std::wstring message = wbuffer;
 
-	quad->Draw(wnd.Gfx());
-	line->Draw(wnd.Gfx());
+	for (auto& line : lines)
+	{
+		line->Draw(wnd.Gfx());
+	}
+
 	try
 	{
 		if (message.size() > 0)
