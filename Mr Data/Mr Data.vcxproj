@@ -197,6 +197,7 @@
     <ClCompile Include="NDI_Send.cpp" />
     <ClCompile Include="PixelShader.cpp" />
     <ClCompile Include="BoxOutline.cpp" />
+    <ClCompile Include="RenderMode.cpp" />
     <ClCompile Include="Topology.cpp" />
     <ClCompile Include="TransformCbuf.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
@@ -244,6 +245,7 @@
     <ClInclude Include="Plane.h" />
     <ClInclude Include="Prism.h" />
     <ClInclude Include="Quad.h" />
+    <ClInclude Include="RenderMode.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="StringHandling.h" />
     <ClInclude Include="TextNode.h" />
