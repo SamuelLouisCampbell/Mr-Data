@@ -74,7 +74,7 @@ public:
 		float totalY = 0.0f;
 		if (strings.size() >= 1)
 		{
-			totalY = -int((strings.size() * (fontHeight.y / 2.0f )));
+			totalY = -float((strings.size() * (fontHeight.y / 2.0f )));
 		}
 
 		for (int i = 0; i < size; i++)

@@ -1,9 +1,9 @@
-#include "BoxOutline.h"
+#include "BoxFill.h"
 #include "BindableBase.h"
 #include "Gfx_Exception_Macros.h"
 #include "Quad.h"
 
-BoxOutline::BoxOutline(Graphics& gfx, const DirectX::XMFLOAT3& pos_a, const DirectX::XMFLOAT3& pos_b, const Color& col)
+BoxFill::BoxFill(Graphics& gfx, const DirectX::XMFLOAT3& pos_a, const DirectX::XMFLOAT3& pos_b, const Color& col)
 {
 	namespace dx = DirectX;
 
@@ -48,7 +48,7 @@ BoxOutline::BoxOutline(Graphics& gfx, const DirectX::XMFLOAT3& pos_a, const Dire
 		};
 		AddStaticBind(std::make_unique<InputLayout>(gfx, ied, pvsbc));
 
-		AddStaticBind(std::make_unique<Topology>(gfx, D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP));
+		AddStaticBind(std::make_unique<Topology>(gfx, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST));
 	}
 	else
 	{
@@ -59,16 +59,16 @@ BoxOutline::BoxOutline(Graphics& gfx, const DirectX::XMFLOAT3& pos_a, const Dire
 	dx::XMStoreFloat3x3(&mt, dx::XMMatrixScaling(1.0f, 1.0f, 0.5f));
 }
 
-void BoxOutline::Update(float dt) noexcept
+void BoxFill::Update(float dt) noexcept
 {
 }
 
-DirectX::XMMATRIX BoxOutline::GetTransformXM() const noexcept
+DirectX::XMMATRIX BoxFill::GetTransformXM() const noexcept
 {
 	return DirectX::XMLoadFloat3x3(&mt);
 }
 
-void BoxOutline::SetTransform(float tX, float tY, float tZ) noexcept
+void BoxFill::SetTransform(float tX, float tY, float tZ) noexcept
 {
 	DirectX::XMStoreFloat3x3(&mt, DirectX::XMMatrixScaling(tX, tY, tZ));
 }

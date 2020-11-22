@@ -9,6 +9,7 @@
 #include "NDI_Send.h"
 #include "BoxOutline.h"
 #include "LineMaker.h"
+#include "BoxFill.h"
 
 class App
 {

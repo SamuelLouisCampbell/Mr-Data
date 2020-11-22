@@ -19,6 +19,7 @@ App::App()
 	lines.emplace_back(std::make_unique<LineMaker>(wnd.Gfx(), pos_1, pos_2, Colors::Red));
 	lines.emplace_back(std::make_unique<LineMaker>(wnd.Gfx(), pos_3, pos_4, Colors::Orange));
 	lines.emplace_back(std::make_unique<BoxOutline>(wnd.Gfx(), pos_5, pos_6,Colors::Teal));
+	lines.emplace_back(std::make_unique<BoxFill>(wnd.Gfx(), pos_5, pos_4, Colors::Cyan));
 	wnd.Gfx().SetProjection(DirectX::XMMatrixOrthographicOffCenterLH(0.0f, float(wnd.Gfx().GetWindowWidth()),
 		float(wnd.Gfx().GetWindowHeight()), 0.0f, 0.0f, 1.0f));
 }
@@ -43,8 +44,7 @@ void App::ComposeFrame()
 {	
 	txt.Bind(wnd.Gfx());
 	
-	Color clearCol = { Colors::Black };
-	wnd.Gfx().BeginFrame(clearCol);
+	wnd.Gfx().BeginFrame(Colors::Black);
 	
 	if (ImGui::Begin("Text Controls"))
 	{
@@ -109,7 +109,7 @@ void App::RenderFrame()
 				textCol.a *= alpha
 			};
 			txt.setColor(preMulAplpha);
-			alpha -= 0.001 * deltaAlpha;
+			alpha -= 0.001f * deltaAlpha;
 			txt.DrawCentreAlign(oldMessage, lineSpacing);
 
 		}
