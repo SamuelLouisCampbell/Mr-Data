@@ -4,7 +4,7 @@
 #include "Gfx_Exception_Macros.h"
 #include "Quad.h"
 
-BoxOutline::BoxOutline(Graphics& gfx, const DirectX::XMFLOAT3& pos_a, const DirectX::XMFLOAT3& pos_b)
+BoxOutline::BoxOutline(Graphics& gfx, const DirectX::XMFLOAT3& pos_a, const DirectX::XMFLOAT3& pos_b, const Color& col)
 {
 	namespace dx = DirectX;
 
@@ -30,7 +30,7 @@ BoxOutline::BoxOutline(Graphics& gfx, const DirectX::XMFLOAT3& pos_a, const Dire
 	const PixelShaderConstants cb2 =
 	{
 		{
-			 1.0f,1.0f,0.25f 
+			 col.r,col.g,col.b
 		}
 	};
 	AddBind(std::make_unique<PixelConstantBuffer<PixelShaderConstants>>(gfx, cb2));
