@@ -18,8 +18,8 @@ App::App()
 	
 	lines.emplace_back(std::make_unique<LineMaker>(wnd.Gfx(), pos_1, pos_2, Red));
 	lines.emplace_back(std::make_unique<LineMaker>(wnd.Gfx(), pos_3, pos_4, Cyan));
-	//lines.emplace_back(std::make_unique<Planar>(wnd.Gfx(), pos_2, pos_4));
-	//lines.emplace_back(std::make_unique<Planar>(wnd.Gfx(), pos_1, pos_3));
+	lines.emplace_back(std::make_unique<BoxOutline>(wnd.Gfx(), pos_5, pos_6));
+	//lines.emplace_back(std::make_unique<BoxOutline>(wnd.Gfx(), pos_1, pos_3));
 	wnd.Gfx().SetProjection(DirectX::XMMatrixOrthographicOffCenterLH(0.0f, float(wnd.Gfx().GetWindowWidth()),
 		float(wnd.Gfx().GetWindowHeight()), 0.0f, 0.0f, 1.0f));
 }
@@ -85,10 +85,6 @@ void App::RenderFrame()
 	mbstowcs_s(&outSize, wbuffer, size, buffer, size);
 	std::wstring message = wbuffer;
 
-	for (auto& line : lines)
-	{
-		line->Draw(wnd.Gfx());
-	}
 
 	try
 	{
@@ -128,4 +124,10 @@ void App::RenderFrame()
 	//Send NDI Frames
 	ndi.SendNDIFrame(wnd.Gfx());
 #endif
+
+	for (auto& line : lines)
+	{
+		line->Draw(wnd.Gfx());
+	}
+
 }

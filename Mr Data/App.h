@@ -7,7 +7,7 @@
 #include "BindableBase.h"
 #include "TextNode.h"
 #include "NDI_Send.h"
-#include "Planar.h"
+#include "BoxOutline.h"
 #include "LineMaker.h"
 
 class App
@@ -49,6 +49,8 @@ private:
 	static constexpr DirectX::XMFLOAT3 pos_2 = { 1260.0f, 360.0f, 1.0f };
 	static constexpr DirectX::XMFLOAT3 pos_3 = { 640.0f, 20.0f, 1.0f };
 	static constexpr DirectX::XMFLOAT3 pos_4 = { 640.0f, 700.0f, 1.0f };
+	static constexpr DirectX::XMFLOAT3 pos_5 = { 20.0f, 20.0f, 1.0f };
+	static constexpr DirectX::XMFLOAT3 pos_6 = { 1260.0f, 700.0f, 1.0f };
 	
 };
 

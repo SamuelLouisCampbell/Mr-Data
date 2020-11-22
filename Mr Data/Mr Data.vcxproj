@@ -195,7 +195,7 @@
     <ClCompile Include="MyException.cpp" />
     <ClCompile Include="NDI_Send.cpp" />
     <ClCompile Include="PixelShader.cpp" />
-    <ClCompile Include="Planar.cpp" />
+    <ClCompile Include="BoxOutline.cpp" />
     <ClCompile Include="Topology.cpp" />
     <ClCompile Include="TransformCbuf.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
@@ -238,7 +238,7 @@
     <ClInclude Include="MyException.h" />
     <ClInclude Include="NDI_Send.h" />
     <ClInclude Include="PixelShader.h" />
-    <ClInclude Include="Planar.h" />
+    <ClInclude Include="BoxOutline.h" />
     <ClInclude Include="Plane.h" />
     <ClInclude Include="Prism.h" />
     <ClInclude Include="Quad.h" />

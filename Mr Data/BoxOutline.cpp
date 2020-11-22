@@ -1,10 +1,10 @@
-#include "Planar.h"
+#include "BoxOutline.h"
 #include "Plane.h"
 #include "BindableBase.h"
 #include "Gfx_Exception_Macros.h"
 #include "Quad.h"
 
-Planar::Planar(Graphics& gfx, const DirectX::XMFLOAT3& pos_a, const DirectX::XMFLOAT3& pos_b)
+BoxOutline::BoxOutline(Graphics& gfx, const DirectX::XMFLOAT3& pos_a, const DirectX::XMFLOAT3& pos_b)
 {
 	namespace dx = DirectX;
 
@@ -30,7 +30,7 @@ Planar::Planar(Graphics& gfx, const DirectX::XMFLOAT3& pos_a, const DirectX::XMF
 	const PixelShaderConstants cb2 =
 	{
 		{
-			 1.0f,0.0f,1.0f 
+			 1.0f,1.0f,0.25f 
 		}
 	};
 	AddBind(std::make_unique<PixelConstantBuffer<PixelShaderConstants>>(gfx, cb2));
@@ -63,16 +63,16 @@ Planar::Planar(Graphics& gfx, const DirectX::XMFLOAT3& pos_a, const DirectX::XMF
 	dx::XMStoreFloat3x3(&mt, dx::XMMatrixScaling(1.0f, 1.0f, 0.5f));
 }
 
-void Planar::Update(float dt) noexcept
+void BoxOutline::Update(float dt) noexcept
 {
 }
 
-DirectX::XMMATRIX Planar::GetTransformXM() const noexcept
+DirectX::XMMATRIX BoxOutline::GetTransformXM() const noexcept
 {
 	return DirectX::XMLoadFloat3x3(&mt);
 }
 
-void Planar::SetTransform(float tX, float tY, float tZ) noexcept
+void BoxOutline::SetTransform(float tX, float tY, float tZ) noexcept
 {
 	DirectX::XMStoreFloat3x3(&mt, DirectX::XMMatrixScaling(tX, tY, tZ));
 }

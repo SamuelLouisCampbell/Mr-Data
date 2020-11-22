@@ -114,10 +114,10 @@
     <ClCompile Include="NDI_Send.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Planar.cpp">
+    <ClCompile Include="LineMaker.cpp">
       <Filter>Source Files\Drawable</Filter>
     </ClCompile>
-    <ClCompile Include="LineMaker.cpp">
+    <ClCompile Include="BoxOutline.cpp">
       <Filter>Source Files\Drawable</Filter>
     </ClCompile>
   </ItemGroup>
@@ -257,9 +257,6 @@
     <ClInclude Include="NDI_Send.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Planar.h">
-      <Filter>Header Files\Drawables</Filter>
-    </ClInclude>
     <ClInclude Include="Quad.h">
       <Filter>Header Files\Drawables\Primitives</Filter>
     </ClInclude>
@@ -271,6 +268,9 @@
     </ClInclude>
     <ClInclude Include="LineMaker.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BoxOutline.h">
+      <Filter>Header Files\Drawables</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
