@@ -31,6 +31,7 @@ private:
 	std::wstring largeMessage;
 	std::wstring smallMessage;
 	float txtOff = 10.0f;
+	char buffer[512];
 };
 
 

@@ -117,5 +117,6 @@ protected:
 	std::vector<std::unique_ptr<DirectX::SpriteFont>> fonts;
 	std::unique_ptr<DirectX::SpriteBatch> spriteBatchFont;
 	Color col;
+	
 
 };

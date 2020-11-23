@@ -76,6 +76,12 @@ void SendTextMode::Update(Window& wnd)
 		focusArea0 = false;
 		focusArea1 = false;
 	}
+	while (!wnd.kbd.CharIsEmpty())
+	{
+		int i = 0;
+		buffer[i] = wnd.kbd.ReadChar();
+		i++;
+	}
 	
 }
 
@@ -90,6 +96,7 @@ void SendTextMode::Render(Graphics& gfx)
 		sysText.SetPos({ pos_3.x, pos_3.y });
 		sysText.Draw(L"Large Text");
 	} 
+
 	smallText.Draw(L"Hello");
 	largeText.Draw(L"World");
 	for (auto& line : borders)
