@@ -2,8 +2,8 @@
 #include "Time.h"
 #include "BindableBase.h"
 #include "TextNode.h"
-#include "NDI_Send.h"
 #include "Window.h"
+#include "TextCursor.h"
 
 class SendTextMode
 {
@@ -24,6 +24,8 @@ private:
 	DirectX::XMFLOAT3 pos_2;
 	DirectX::XMFLOAT3 pos_3;
 	DirectX::XMFLOAT3 pos_4;
+	Time time;
+	TextCursor tc;
 };
 
 

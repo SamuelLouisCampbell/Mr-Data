@@ -77,5 +77,5 @@ DirectX::XMMATRIX LineMaker::GetTransformXM() const noexcept
 
 void LineMaker::SetTransform(float tX, float tY, float tZ) noexcept
 {
-	DirectX::XMStoreFloat3x3(&mt, DirectX::XMMatrixScaling(tX, tY, tZ));
+	DirectX::XMStoreFloat3x3(&mt, DirectX::XMMatrixTranslation(tX, tY, tZ));
 }

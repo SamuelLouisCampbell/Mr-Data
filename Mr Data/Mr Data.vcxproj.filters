@@ -129,6 +129,9 @@
     <ClCompile Include="SendTextMode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TextCursor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BarebonesWindows.h">
@@ -288,6 +291,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SendTextMode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TextCursor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

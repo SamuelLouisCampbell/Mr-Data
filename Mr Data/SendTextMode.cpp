@@ -9,7 +9,8 @@ SendTextMode::SendTextMode(Graphics& gfx)
 	:
 	smallText(gfx, 1.0f, 0.0f, L"assets/arial_32.spritefont"),
 	largeText(gfx, 1.0f, 0.0f, L"assets/arial_64.spritefont"),
-	sysText(gfx, 1.0f, 0.0f, L"assets/consolas_16.spritefont")
+	sysText(gfx, 1.0f, 0.0f, L"assets/consolas_16.spritefont"),
+	tc(gfx, { 20.0f, 20.0f, 1.0f }, 20.0f, Colors::White)
 
 {
 	sysText.Bind(gfx);
@@ -23,8 +24,6 @@ SendTextMode::SendTextMode(Graphics& gfx)
 	borders.emplace_back(std::make_unique<BoxFill>(gfx, pos_1, pos_2, Colors::Black));
 	borders.emplace_back(std::make_unique<BoxOutline>(gfx, pos_3, pos_4, Colors::Grey));
 	borders.emplace_back(std::make_unique<BoxFill>(gfx, pos_3, pos_4, Colors::Black));
-
-	
 }
 
 void SendTextMode::SetCursorCollision(const std::pair<int, int>& mp, const DirectX::XMFLOAT3& pos_1,
@@ -42,6 +41,8 @@ void SendTextMode::Update(Window& wnd)
 	auto mp = wnd.mouse.GetPos();
 	SetCursorCollision(mp, pos_1, pos_2, ImGuiMouseCursor_TextInput);
 	SetCursorCollision(mp, pos_3, pos_4, ImGuiMouseCursor_TextInput);
+	tc.UpdatePos(wnd.Gfx(),{ float(mp.first), float(mp.second), 1.0f });
+	tc.UpdateBlink(time.Peek());
 }
 
 void SendTextMode::Render(Graphics& gfx)
@@ -58,4 +59,6 @@ void SendTextMode::Render(Graphics& gfx)
 	{
 		line->Draw(gfx);
 	}
+	tc.Draw(gfx);
+
 }
