@@ -21,5 +21,6 @@ private:
 	RenderMode rm;
 	SendTextMode stm;	
 	bool isRenderMode = true;
+	Color clearColor = Colors::Black;
 };
 

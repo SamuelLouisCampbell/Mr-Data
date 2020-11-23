@@ -16,9 +16,13 @@ private:
 
 	TextNode smallText;
 	TextNode largeText;
-	TextNode systemText;
+	TextNode sysText;
 	std::wstring message;
 	std::vector<std::unique_ptr<class Drawable>> borders;
+	DirectX::XMFLOAT3 pos_1;
+	DirectX::XMFLOAT3 pos_2;
+	DirectX::XMFLOAT3 pos_3;
+	DirectX::XMFLOAT3 pos_4;
 };
 
 

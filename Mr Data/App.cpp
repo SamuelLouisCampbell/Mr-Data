@@ -8,7 +8,7 @@
 
 App::App()
 	:
-	wnd(1920, 1080, L"Mr.Data Window"),
+	wnd(1440, 900, L"A&B Text 1440x900"),
 	rm(wnd.Gfx()),
 	stm(wnd.Gfx())
 {
@@ -34,8 +34,7 @@ int App::Setup()
 
 void App::ComposeFrame()
 {
-	wnd.Gfx().BeginFrame(Colors::Black);
-
+	wnd.Gfx().BeginFrame(clearColor);
 
 	if (ImGui::Begin("Mode Selection"))
 	{
@@ -44,11 +43,13 @@ void App::ComposeFrame()
 		{
 			rm.Update(wnd.Gfx());
 			ImGui::TextColored({ 255,0,0,255 }, "Render Mode");
+			clearColor = Colors::Black;
 		}
 		else
 		{
 			stm.Update(wnd.Gfx());
 			ImGui::TextColored({ 0,255,0,255 }, "Input Mode");
+			clearColor = Colors::Navy;
 		}
 	}
 	

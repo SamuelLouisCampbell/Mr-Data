@@ -50,8 +50,9 @@ public:
 		spriteBatchFont->Begin();
 
 		DirectX::SimpleMath::Vector2 origin = fonts[0]->MeasureString(msg.c_str());
-		origin.x /= 2.0f;
-		origin.y /= 2.0f;
+
+		origin.x = 0.0f;
+		//origin.y /= 2.0f;
 		fonts[0]->DrawString(spriteBatchFont.get(), msg.c_str(),
 			fontPos,{col.r, col.g, col.b, col.a}, rotation, origin, scale);
 
