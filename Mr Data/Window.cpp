@@ -247,6 +247,7 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 				mouse.OnMouseLeave();
 			}
 		}
+		break;
 	}
 	//left
 	case WM_LBUTTONDOWN:

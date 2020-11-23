@@ -13,7 +13,7 @@ public:
 	void Render(Graphics& gfx);
 
 private:
-	void SetCursorCollision(const std::pair<int, int>& input, const DirectX::XMFLOAT3& pos_1,
+	bool SetCursorCollision(const std::pair<int, int>& input, const DirectX::XMFLOAT3& pos_1,
 		const DirectX::XMFLOAT3& pos_2, ImGuiMouseCursor IMGui_Cursor);
 	TextNode smallText;
 	TextNode largeText;
@@ -26,6 +26,8 @@ private:
 	DirectX::XMFLOAT3 pos_4;
 	Time time;
 	TextCursor tc;
+	bool focusArea0 = false;
+	bool focusArea1 = false;
 };
 
 

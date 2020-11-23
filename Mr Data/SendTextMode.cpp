@@ -26,23 +26,39 @@ SendTextMode::SendTextMode(Graphics& gfx)
 	borders.emplace_back(std::make_unique<BoxFill>(gfx, pos_3, pos_4, Colors::Black));
 }
 
-void SendTextMode::SetCursorCollision(const std::pair<int, int>& mp, const DirectX::XMFLOAT3& pos_1,
+bool SendTextMode::SetCursorCollision(const std::pair<int, int>& mp, const DirectX::XMFLOAT3& pos_1,
 	const DirectX::XMFLOAT3& pos_2, ImGuiMouseCursor IMGui_Cursor)
 {
 	if (mp.first >= pos_1.x && mp.first < pos_2.x &&
 		mp.second >= pos_1.y && mp.second < pos_2.y)
 	{
 		ImGui::SetMouseCursor(IMGui_Cursor);
+		return true;
 	}
+	return false;
 }
   
 void SendTextMode::Update(Window& wnd)
 {
 	auto mp = wnd.mouse.GetPos();
-	SetCursorCollision(mp, pos_1, pos_2, ImGuiMouseCursor_TextInput);
-	SetCursorCollision(mp, pos_3, pos_4, ImGuiMouseCursor_TextInput);
-	tc.UpdatePos(wnd.Gfx(),{ float(mp.first), float(mp.second), 1.0f });
-	tc.UpdateBlink(time.Peek());
+	bool txtArea0 = SetCursorCollision(mp, pos_1, pos_2, ImGuiMouseCursor_TextInput);
+	bool txtArea1 = SetCursorCollision(mp, pos_3, pos_4, ImGuiMouseCursor_TextInput);
+
+	if (wnd.mouse.LeftIsPressed() && txtArea0)
+	{
+		tc.UpdatePos(wnd.Gfx(), { pos_1.x + 10.0f, pos_1.y + 10.0f, 1.0f });
+		tc.UpdateBlink(time.Peek());
+		focusArea0 = true;
+		focusArea1 = false;
+	}
+	if (wnd.mouse.LeftIsPressed() && txtArea1)
+	{
+		tc.UpdatePos(wnd.Gfx(), { pos_3.x + 10.0f, pos_3.y + 10.0f, 1.0f });
+		tc.UpdateBlink(time.Peek());
+		focusArea1 = true;
+		focusArea0 = false;
+	}
+	
 }
 
 void SendTextMode::Render(Graphics& gfx)
@@ -59,6 +75,9 @@ void SendTextMode::Render(Graphics& gfx)
 	{
 		line->Draw(gfx);
 	}
-	tc.Draw(gfx);
+	if (focusArea0 || focusArea1)
+	{
+		tc.Draw(gfx);
+	}
 
 }
