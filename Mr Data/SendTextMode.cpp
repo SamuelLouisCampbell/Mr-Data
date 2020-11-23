@@ -46,6 +46,7 @@ void SendTextMode::Update(Window& wnd)
 
 void SendTextMode::Render(Graphics& gfx)
 {
+
 	//User Interface text
 	{ 
 		sysText.SetPos({ pos_1.x, pos_1.y });
@@ -53,8 +54,6 @@ void SendTextMode::Render(Graphics& gfx)
 		sysText.SetPos({ pos_3.x, pos_3.y });
 		sysText.Draw(L"Large Text");
 	} 
-
-
 	for (auto& line : borders)
 	{
 		line->Draw(gfx);

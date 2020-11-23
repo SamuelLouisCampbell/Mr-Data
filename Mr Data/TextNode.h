@@ -46,6 +46,7 @@ public:
 	}
 	void Draw(std::wstring msg)
 	{
+		fonts.clear();
 		fonts.emplace_back(std::make_unique<DirectX::SpriteFont>(GetDevice(gfx), filename.c_str()));
 		spriteBatchFont->Begin();
 
@@ -57,6 +58,7 @@ public:
 			fontPos,{col.r, col.g, col.b, col.a}, rotation, origin, scale);
 
 		spriteBatchFont->End();
+		
 	}
 	void DrawCentreAlign(const std::wstring msg, const float lineSpacing)
 	{

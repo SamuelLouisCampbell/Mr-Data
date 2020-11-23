@@ -300,15 +300,6 @@
     <Image Include="sclighting.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="assets\cat.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="assets\sunset.jpg">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="assets\cat.DDS">
-      <Filter>Resource Files</Filter>
-    </Image>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="ColorIndex_PS.hlsl">

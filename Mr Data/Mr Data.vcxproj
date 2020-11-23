@@ -265,9 +265,6 @@
     <ResourceCompile Include="Mr Data.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="assets\cat.DDS" />
-    <Image Include="assets\cat.png" />
-    <Image Include="assets\sunset.jpg" />
     <Image Include="sclighting.ico" />
   </ItemGroup>
   <ItemGroup>
