@@ -4,6 +4,7 @@
 #include "BoxFill.h"
 
 
+
 SendTextMode::SendTextMode(Graphics& gfx)
 	:
 	smallText(gfx, 1.0f, 0.0f, L"assets/arial_32.spritefont"),
@@ -26,8 +27,21 @@ SendTextMode::SendTextMode(Graphics& gfx)
 	
 }
 
-void SendTextMode::Update(Graphics& gfx)
+void SendTextMode::SetCursorCollision(const std::pair<int, int>& mp, const DirectX::XMFLOAT3& pos_1,
+	const DirectX::XMFLOAT3& pos_2, ImGuiMouseCursor IMGui_Cursor)
 {
+	if (mp.first >= pos_1.x && mp.first < pos_2.x &&
+		mp.second >= pos_1.y && mp.second < pos_2.y)
+	{
+		ImGui::SetMouseCursor(IMGui_Cursor);
+	}
+}
+  
+void SendTextMode::Update(Window& wnd)
+{
+	auto mp = wnd.mouse.GetPos();
+	SetCursorCollision(mp, pos_1, pos_2, ImGuiMouseCursor_TextInput);
+	SetCursorCollision(mp, pos_3, pos_4, ImGuiMouseCursor_TextInput);
 }
 
 void SendTextMode::Render(Graphics& gfx)

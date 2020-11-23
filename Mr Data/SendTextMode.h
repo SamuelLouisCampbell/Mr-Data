@@ -9,11 +9,12 @@ class SendTextMode
 {
 public:
 	SendTextMode(Graphics& gfx);
-	void Update(Graphics& gfx);
+	void Update(Window& wnd);
 	void Render(Graphics& gfx);
 
 private:
-
+	void SetCursorCollision(const std::pair<int, int>& input, const DirectX::XMFLOAT3& pos_1,
+		const DirectX::XMFLOAT3& pos_2, ImGuiMouseCursor IMGui_Cursor);
 	TextNode smallText;
 	TextNode largeText;
 	TextNode sysText;

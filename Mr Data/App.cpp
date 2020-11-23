@@ -35,7 +35,7 @@ int App::Setup()
 void App::ComposeFrame()
 {
 	wnd.Gfx().BeginFrame(clearColor);
-
+	
 	if (ImGui::Begin("Mode Selection"))
 	{
 		ImGui::Selectable("CHANGE MODE", &isRenderMode);
@@ -47,7 +47,7 @@ void App::ComposeFrame()
 		}
 		else
 		{
-			stm.Update(wnd.Gfx());
+			stm.Update(wnd);
 			ImGui::TextColored({ 0,255,0,255 }, "Input Mode");
 			clearColor = Colors::Navy;
 		}

@@ -82,6 +82,7 @@ public:
 		}
 
 	};
+
 public:
 	Mouse() = default;
 	Mouse(const Mouse&) = delete;
@@ -96,6 +97,7 @@ public:
 	Mouse::Event Read();
 	bool IsEmpty() const noexcept;
 	void Flush() noexcept;
+	bool UpdateMouseCursor();
 
 
 private:
@@ -123,5 +125,6 @@ private:
 	bool centerIsPressed = false;
 	bool isInWindow = false;
 	std::queue<Event> buffer;
+
 };
 
