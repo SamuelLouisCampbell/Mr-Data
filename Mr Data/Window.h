@@ -38,6 +38,7 @@ private:
 	public:
 		static const wchar_t* GetName() noexcept;
 		static HINSTANCE GetInstance() noexcept;
+		static HCURSOR GetCursor() noexcept;
 	private:
 		WindowClass() noexcept;
 		~WindowClass();
@@ -46,6 +47,7 @@ private:
 		static constexpr const wchar_t* wndClassName = L"Mr.Data 3D Engine Window";
 		static WindowClass wndClass;
 		HINSTANCE hInst;
+		HCURSOR hCursor;
 	};
 public:
 	Window(int width, int height, std::wstring name);

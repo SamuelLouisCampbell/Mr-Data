@@ -14,6 +14,11 @@ HINSTANCE Window::WindowClass::GetInstance() noexcept
 	return wndClass.hInst;
 }
 
+HCURSOR Window::WindowClass::GetCursor() noexcept
+{
+	return wndClass.hCursor;
+}
+
 Window::WindowClass Window::WindowClass::wndClass;
 
 Window::WindowClass::WindowClass() noexcept
@@ -28,7 +33,7 @@ Window::WindowClass::WindowClass() noexcept
 	wc.cbWndExtra = NULL;
 	wc.hInstance = GetInstance();
 	wc.hIcon = static_cast<HICON>(LoadImage(hInst, MAKEINTRESOURCE(IDI_ICON1),IMAGE_ICON, 32,32,0));
-	wc.hCursor = nullptr;
+	wc.hCursor = GetCursor();
 	wc.hbrBackground = nullptr;
 	wc.lpszMenuName = nullptr;
 	wc.lpszClassName = GetName();
@@ -94,6 +99,7 @@ void Window::SetTitle(const std::wstring title)
 		THROW_LAST_ERROR
 	}
 }
+
 
 std::optional<int> Window::ProcessMessages()
 {
@@ -209,6 +215,7 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 		// mouse messages //
 
 		//moving
+
 	case WM_MOUSEMOVE:
 	{
 		if (imio.WantCaptureMouse)

@@ -24,7 +24,7 @@ int App::Setup()
 		{
 			return *exitCode;
 		}
-	
+		//wnd.SetWndCursor();
 		ComposeFrame();
 		RenderFrame();
 		wnd.Gfx().EndFrame();
