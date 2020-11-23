@@ -8,16 +8,12 @@
 
 App::App()
 	:
-	wnd(1280, 720, L"Mr.Data Window"),
-	rm(wnd.Gfx())
-	
+	wnd(1920, 1080, L"Mr.Data Window"),
+	rm(wnd.Gfx()),
+	stm(wnd.Gfx())
 {
-	lines.emplace_back(std::make_unique<LineMaker>(wnd.Gfx(), pos_1, pos_2, Colors::Red));
-	lines.emplace_back(std::make_unique<LineMaker>(wnd.Gfx(), pos_3, pos_4, Colors::Orange));
-	lines.emplace_back(std::make_unique<BoxOutline>(wnd.Gfx(), pos_5, pos_6,Colors::Teal));
-	lines.emplace_back(std::make_unique<BoxFill>(wnd.Gfx(), pos_5, pos_4, Colors::Cyan));
 	wnd.Gfx().SetProjection(DirectX::XMMatrixOrthographicOffCenterLH(0.0f, float(wnd.Gfx().GetWindowWidth()),
-		float(wnd.Gfx().GetWindowHeight()), 0.0f, 0.0f, 1.0f));
+							float(wnd.Gfx().GetWindowHeight()), 0.0f, 0.0f, 1.0f));
 }
 
 int App::Setup()
@@ -37,19 +33,43 @@ int App::Setup()
 }
 
 void App::ComposeFrame()
-{	
+{
 	wnd.Gfx().BeginFrame(Colors::Black);
-	rm.Update(wnd.Gfx());
+
+
+	if (ImGui::Begin("Mode Selection"))
+	{
+		ImGui::Selectable("CHANGE MODE", &isRenderMode);
+		if (!isRenderMode)
+		{
+			rm.Update(wnd.Gfx());
+			ImGui::TextColored({ 255,0,0,255 }, "Render Mode");
+		}
+		else
+		{
+			stm.Update(wnd.Gfx());
+			ImGui::TextColored({ 0,255,0,255 }, "Input Mode");
+		}
+	}
+	
+	ImGui::End();
+
+	
+	
 }
 
 
 void App::RenderFrame()
 {
-	rm.Render(wnd.Gfx());
-	for (auto& line : lines)
+	if (!isRenderMode)
 	{
-		line->Draw(wnd.Gfx());
+		rm.Render(wnd.Gfx());
+		rm.SendNDI(wnd.Gfx());
 	}
-	rm.SendNDI(wnd.Gfx());
+	else
+	{
+		stm.Render(wnd.Gfx());
+	}
 
+	
 }

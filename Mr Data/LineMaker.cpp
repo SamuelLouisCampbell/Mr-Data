@@ -15,11 +15,6 @@ LineMaker::LineMaker(Graphics& gfx, const DirectX::XMFLOAT3& pos_a, const Direct
 
 	auto model = Line::Make<Vertex>(pos_a, pos_b);
 
-	std::wstringstream wss;
-	wss << L"Made line positions A : " << pos_a.x << ":" << pos_a.y << ":" << pos_a.z << std::endl;
-	wss << L"Made line positions B : " << pos_b.x << ":" << pos_b.y << ":" << pos_b.z << std::endl;
-	OutputDebugStringW(wss.str().c_str());
-
 	model.Transform(dx::XMMatrixScaling(1.0f, 1.0f, 1.0f));
 	AddBind(std::make_unique<VertexBuffer>(gfx, model.vertices));
 	

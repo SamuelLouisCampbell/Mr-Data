@@ -84,6 +84,7 @@ public:
 			fontPos.y = (gfx.GetWindowHeight() / 2.0f) + ((totalY / 2.0f) * lineSpacing);
 			origin.x /= 2.0f;
 			origin.y /= 2.0f;
+			origin.y += fontHeight.y / 2.0f;
 			fonts[i]->DrawString(spriteBatchFont.get(), strings[i].c_str(),
 				fontPos, { col.r, col.g, col.b, col.a }, rotation, origin, scale);
 		}

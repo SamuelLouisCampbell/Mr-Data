@@ -11,7 +11,7 @@ public:
 	RenderMode(Graphics& gfx);
 	void Update(Graphics& gfx);
 	void Render(Graphics& gfx);
-	void SendNDI(Graphics& gfx);
+	void SendNDI(Graphics& gfx); //switched off in debug. Apply painters algorthm for rendering.
 
 private:
 	Time time;
@@ -26,7 +26,7 @@ private:
 	Color oldTextCol = { 1.0f, 1.0f, 1.0f, 1.0f };
 	float scale = 1.0f;
 	float rotation = 0.0f;
-	float lineSpacing = 1.5f;
+	float lineSpacing = 1.65f;
 	char buffer[512] = { '\0' };
 	std::wstring oldMessage;
 	bool holdingLastMsg = false;
