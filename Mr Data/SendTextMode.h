@@ -30,6 +30,7 @@ private:
 	bool focusArea1 = false;
 	std::wstring largeMessage;
 	std::wstring smallMessage;
+	float txtOff = 10.0f;
 };
 
 

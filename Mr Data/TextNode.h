@@ -44,6 +44,14 @@ public:
 	{
 		rotation = rot_in;
 	}
+	float GetHeight() const
+	{
+		return stringHeight;
+	}
+	float GetWidth() const
+	{
+		return stringWidth;
+	}
 	void Draw(std::wstring msg)
 	{
 		fonts.clear();
@@ -52,6 +60,8 @@ public:
 
 		DirectX::SimpleMath::Vector2 origin = fonts[0]->MeasureString(msg.c_str());
 
+		stringWidth = origin.x;
+		stringHeight = origin.y;
 		origin.x = 0.0f;
 		//origin.y /= 2.0f;
 		fonts[0]->DrawString(spriteBatchFont.get(), msg.c_str(),
@@ -99,6 +109,8 @@ public:
 protected:
 	Graphics& gfx;
 	DirectX::SimpleMath::Vector2 fontPos = { 0.0f, 0.0f };
+	float stringHeight;
+	float stringWidth;
 	float scale;
 	float rotation;
 	std::wstring filename;
