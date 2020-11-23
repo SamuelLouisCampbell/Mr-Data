@@ -44,19 +44,24 @@ void SendTextMode::Update(Window& wnd)
 	bool txtArea0 = SetCursorCollision(mp, pos_1, pos_2, ImGuiMouseCursor_TextInput);
 	bool txtArea1 = SetCursorCollision(mp, pos_3, pos_4, ImGuiMouseCursor_TextInput);
 
-	if (wnd.mouse.LeftIsPressed() && txtArea0)
+	if ((wnd.mouse.LeftIsPressed() && txtArea0) || focusArea0)
 	{
 		tc.UpdatePos(wnd.Gfx(), { pos_1.x + 10.0f, pos_1.y + 10.0f, 1.0f });
 		tc.UpdateBlink(time.Peek());
 		focusArea0 = true;
 		focusArea1 = false;
 	}
-	if (wnd.mouse.LeftIsPressed() && txtArea1)
+	if ((wnd.mouse.LeftIsPressed() && txtArea1) || focusArea1)
 	{
 		tc.UpdatePos(wnd.Gfx(), { pos_3.x + 10.0f, pos_3.y + 10.0f, 1.0f });
 		tc.UpdateBlink(time.Peek());
 		focusArea1 = true;
 		focusArea0 = false;
+	}
+	if (wnd.mouse.LeftIsPressed() && !txtArea0 && !txtArea1)
+	{
+		focusArea0 = false;
+		focusArea1 = false;
 	}
 	
 }

@@ -28,6 +28,8 @@ private:
 	TextCursor tc;
 	bool focusArea0 = false;
 	bool focusArea1 = false;
+	std::wstring largeMessage;
+	std::wstring smallMessage;
 };
 
 
