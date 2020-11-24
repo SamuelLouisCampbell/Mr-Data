@@ -78,9 +78,25 @@ void SendTextMode::Update(Window& wnd)
 	}
 	while (!wnd.kbd.CharIsEmpty())
 	{
-		int i = 0;
-		buffer[i] = wnd.kbd.ReadChar();
-		i++;
+		wchar_t character = wnd.kbd.ReadChar();
+		if (character >= 0x20 && character <= 0x7F) //legit characters
+		{
+			wss << character;
+			OutputDebugStringW(wss.str().c_str());
+			smallMessage = wss.str();
+		}
+		if (character == 0x8 && smallMessage.size() > 0) //backspace
+		{
+			smallMessage.pop_back();
+			wss.str(std::wstring());
+			wss << smallMessage;
+		}
+		if (character == 0xD && smallMessage.size() > 0) //return
+		{
+			wss << "\n";
+			OutputDebugStringW(wss.str().c_str());
+			smallMessage = wss.str();
+		}
 	}
 	
 }
@@ -97,7 +113,7 @@ void SendTextMode::Render(Graphics& gfx)
 		sysText.Draw(L"Large Text");
 	} 
 
-	smallText.Draw(L"Hello");
+	smallText.Draw(smallMessage);
 	largeText.Draw(L"World");
 	for (auto& line : borders)
 	{

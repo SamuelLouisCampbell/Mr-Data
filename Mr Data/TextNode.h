@@ -54,55 +54,76 @@ public:
 	}
 	void Draw(std::wstring msg)
 	{
-		fonts.clear();
-		fonts.emplace_back(std::make_unique<DirectX::SpriteFont>(GetDevice(gfx), filename.c_str()));
-		spriteBatchFont->Begin();
+		try
+		{
+			fonts.clear();
+			fonts.emplace_back(std::make_unique<DirectX::SpriteFont>(GetDevice(gfx), filename.c_str()));
+			spriteBatchFont->Begin();
 
-		DirectX::SimpleMath::Vector2 origin = fonts[0]->MeasureString(msg.c_str());
+			//defult char stops error being thrown in event of no symbol
+			const wchar_t defChar = ' ';
+			fonts[0]->SetDefaultCharacter(defChar);
+			DirectX::SimpleMath::Vector2 origin = fonts[0]->MeasureString(msg.c_str());
 
-		stringWidth = origin.x;
-		stringHeight = origin.y;
-		origin.x = 0.0f;
-		//origin.y /= 2.0f;
-		fonts[0]->DrawString(spriteBatchFont.get(), msg.c_str(),
-			fontPos,{col.r, col.g, col.b, col.a}, rotation, origin, scale);
-
+			stringWidth = origin.x;
+			stringHeight = origin.y;
+			origin.x = 0.0f;
+				
+			fonts[0]->DrawString(spriteBatchFont.get(), msg.c_str(),
+			fontPos, { col.r, col.g, col.b, col.a }, rotation, origin, scale);
+		}
+		catch (const std::exception& e)
+		{
+			msg.clear();
+			MessageBoxA(nullptr, e.what(), "Font Issue", MB_OK | MB_ICONSTOP);
+		}
 		spriteBatchFont->End();
 		
 	}
 	void DrawCentreAlign(const std::wstring msg, const float lineSpacing)
 	{
-		fonts.clear();
-		StringHandling sh(msg);
-		const std::vector<std::wstring> strings = sh.GetStringies();
-		int size = strings.size();
-		DirectX::SimpleMath::Vector2 fontHeight;
-		for (int i = 0; i < size; i++)
+		try
 		{
-			fonts.emplace_back(std::make_unique<DirectX::SpriteFont>(GetDevice(gfx), filename.c_str()));
-			fontHeight = fonts[0]->MeasureString(strings[0].c_str());
-		}
-		spriteBatchFont->Begin();
+			fonts.clear();
+			StringHandling sh(msg);
+			const std::vector<std::wstring> strings = sh.GetStringies();
+			int size = strings.size();
+			DirectX::SimpleMath::Vector2 fontHeight;
 
-		float totalY = 0.0f;
-		if (strings.size() >= 1)
+			const wchar_t defChar = ' ';
+
+			for (int i = 0; i < size; i++)
+			{
+				fonts[0]->SetDefaultCharacter(defChar);
+				fonts.emplace_back(std::make_unique<DirectX::SpriteFont>(GetDevice(gfx), filename.c_str()));
+				fontHeight = fonts[0]->MeasureString(strings[0].c_str());
+			}
+			spriteBatchFont->Begin();
+
+			float totalY = 0.0f;
+			if (strings.size() >= 1)
+			{
+				totalY = -float((strings.size() * (fontHeight.y / 2.0f)));
+			}
+
+			for (int i = 0; i < size; i++)
+			{
+				DirectX::SimpleMath::Vector2 origin = fonts[i]->MeasureString(strings[i].c_str());
+				totalY += origin.y;
+				fontPos.y = (gfx.GetWindowHeight() / 2.0f) + ((totalY / 2.0f) * lineSpacing);
+				origin.x /= 2.0f;
+				origin.y /= 2.0f;
+				origin.y += fontHeight.y / 2.0f;
+				fonts[i]->DrawString(spriteBatchFont.get(), strings[i].c_str(),
+					fontPos, { col.r, col.g, col.b, col.a }, rotation, origin, scale);
+			}
+
+			spriteBatchFont->End();
+		}
+		catch (const std::exception& e)
 		{
-			totalY = -float((strings.size() * (fontHeight.y / 2.0f )));
+			MessageBoxA(nullptr, e.what(), "Font Issue", MB_OK | MB_ICONSTOP);
 		}
-
-		for (int i = 0; i < size; i++)
-		{
-			DirectX::SimpleMath::Vector2 origin = fonts[i]->MeasureString(strings[i].c_str());
-			totalY += origin.y;
-			fontPos.y = (gfx.GetWindowHeight() / 2.0f) + ((totalY / 2.0f) * lineSpacing);
-			origin.x /= 2.0f;
-			origin.y /= 2.0f;
-			origin.y += fontHeight.y / 2.0f;
-			fonts[i]->DrawString(spriteBatchFont.get(), strings[i].c_str(),
-				fontPos, { col.r, col.g, col.b, col.a }, rotation, origin, scale);
-		}
-
-		spriteBatchFont->End();
 	}
 
 

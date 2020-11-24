@@ -28,10 +28,10 @@ private:
 	TextCursor tc;
 	bool focusArea0 = false;
 	bool focusArea1 = false;
+	std::wstringstream wss;
 	std::wstring largeMessage;
 	std::wstring smallMessage;
 	float txtOff = 10.0f;
-	char buffer[512];
 };
 
 
