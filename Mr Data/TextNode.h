@@ -52,7 +52,11 @@ public:
 	{
 		return stringWidth;
 	}
-	void Draw(std::wstring msg)
+	int GetNumTextRows() const
+	{
+		return size;
+	}
+	void DrawSimple(std::wstring msg)
 	{
 		try
 		{
@@ -80,6 +84,48 @@ public:
 		spriteBatchFont->End();
 		
 	}
+	void Draw(std::wstring msg, const float lineSpacing)
+	{
+		try
+		{
+			fonts.clear();
+			StringHandling sh(msg);
+			const std::vector<std::wstring> strings = sh.GetStringies();
+			size = strings.size();
+			DirectX::SimpleMath::Vector2 fontDimmsW;
+			DirectX::SimpleMath::Vector2 fontDimmsH;
+			const wchar_t defChar = ' '; //Set defualt char.
+
+			for (int i = 0; i < size; i++)
+			{
+				fonts.emplace_back(std::make_unique<DirectX::SpriteFont>(GetDevice(gfx), filename.c_str()));
+				fonts[i]->SetDefaultCharacter(defChar);
+				fontDimmsW = fonts[i]->MeasureString(strings[i].c_str(), false); //measure last string for width
+			}
+			if (size > 0)
+			{
+				fontDimmsH = fonts[0]->MeasureString(L"A", false); //meaurse once for height offsets.
+			}
+			stringWidth = fontDimmsW.x;
+			stringHeight = fontDimmsH.y;
+			spriteBatchFont->Begin();
+			DirectX::SimpleMath::Vector2 origin = { 0.0f, 0.0f };
+
+			for (int i = 0; i < size; i++)
+			{
+				fonts[i]->DrawString(spriteBatchFont.get(), strings[i].c_str(),
+					fontPos, { col.r, col.g, col.b, col.a }, rotation, origin, scale);
+				origin.y -= stringHeight;
+			}
+
+			spriteBatchFont->End();
+		}
+		catch (const std::exception& e)
+		{
+			MessageBoxA(nullptr, e.what(), "Font Issue", MB_OK | MB_ICONSTOP);
+		}
+
+	}
 	void DrawCentreAlign(const std::wstring msg, const float lineSpacing)
 	{
 		try
@@ -87,15 +133,15 @@ public:
 			fonts.clear();
 			StringHandling sh(msg);
 			const std::vector<std::wstring> strings = sh.GetStringies();
-			int size = strings.size();
+			size = strings.size();
 			DirectX::SimpleMath::Vector2 fontHeight;
 
 			const wchar_t defChar = ' ';
 
 			for (int i = 0; i < size; i++)
 			{
-				fonts[0]->SetDefaultCharacter(defChar);
 				fonts.emplace_back(std::make_unique<DirectX::SpriteFont>(GetDevice(gfx), filename.c_str()));
+				fonts[0]->SetDefaultCharacter(defChar);
 				fontHeight = fonts[0]->MeasureString(strings[0].c_str());
 			}
 			spriteBatchFont->Begin();
@@ -130,10 +176,11 @@ public:
 protected:
 	Graphics& gfx;
 	DirectX::SimpleMath::Vector2 fontPos = { 0.0f, 0.0f };
-	float stringHeight;
+	float stringHeight = 50.0f;
 	float stringWidth;
 	float scale;
 	float rotation;
+	int size;
 	std::wstring filename;
 	std::vector<std::unique_ptr<DirectX::SpriteFont>> fonts;
 	std::unique_ptr<DirectX::SpriteBatch> spriteBatchFont;

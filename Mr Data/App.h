@@ -4,7 +4,6 @@
 #include <string>
 #include "BindableBase.h"
 #include "RenderMode.h"
-#include "SendTextMode.h"
 
 class App
 {
@@ -19,8 +18,6 @@ private:
 	IMGuiManager img;
 	Window wnd;
 	RenderMode rm;
-	SendTextMode stm;	
-	bool isRenderMode = true;
 	Color clearColor = Colors::Black;
 };
 

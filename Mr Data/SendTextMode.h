@@ -28,7 +28,9 @@ private:
 	TextCursor tc;
 	bool focusArea0 = false;
 	bool focusArea1 = false;
-	std::wstringstream wss;
+	std::wstringstream wss_S;
+	std::wstringstream wss_SpostCursor;
+	std::wstringstream wss_L;
 	std::wstring largeMessage;
 	std::wstring smallMessage;
 	float txtOff = 10.0f;

@@ -9,8 +9,7 @@
 App::App()
 	:
 	wnd(1440, 900, L"A&B Text 1440x900"),
-	rm(wnd.Gfx()),
-	stm(wnd.Gfx())
+	rm(wnd.Gfx())
 {
 	wnd.Gfx().SetProjection(DirectX::XMMatrixOrthographicOffCenterLH(0.0f, float(wnd.Gfx().GetWindowWidth()),
 							float(wnd.Gfx().GetWindowHeight()), 0.0f, 0.0f, 1.0f));
@@ -35,42 +34,13 @@ int App::Setup()
 void App::ComposeFrame()
 {
 	wnd.Gfx().BeginFrame(clearColor);
-	
-	if (ImGui::Begin("Mode Selection"))
-	{
-		ImGui::Selectable("CHANGE MODE", &isRenderMode);
-		if (!isRenderMode)
-		{
-			rm.Update(wnd.Gfx());
-			ImGui::TextColored({ 255,0,0,255 }, "Render Mode");
-			clearColor = Colors::Black;
-		}
-		else
-		{
-			stm.Update(wnd);
-			ImGui::TextColored({ 0,255,0,255 }, "Input Mode");
-			clearColor = Colors::Navy;
-		}
-	}
-	
-	ImGui::End();
-
-	
-	
+	rm.Update(wnd.Gfx());
 }
 
 
 void App::RenderFrame()
 {
-	if (!isRenderMode)
-	{
-		rm.Render(wnd.Gfx());
-		rm.SendNDI(wnd.Gfx());
-	}
-	else
-	{
-		stm.Render(wnd.Gfx());
-	}
-
 	
+	rm.Render(wnd.Gfx());
+	rm.SendNDI(wnd.Gfx());
 }
