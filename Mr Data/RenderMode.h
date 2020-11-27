@@ -4,6 +4,8 @@
 #include "TextNode.h"
 #include "NDI_Send.h"
 #include "Window.h"
+#include "UDPClient.h"
+#include "UDPServer.h"
 
 class RenderMode
 {
@@ -20,6 +22,10 @@ private:
 
 	//NDI stuff
 	NDI_Send ndi;
+
+	//UDP stuff
+	UDPClient udp_c;
+	UDPServer udp_s;
 
 	//text control
 	Color textCol = { 1.0f, 1.0f, 1.0f, 1.0f };

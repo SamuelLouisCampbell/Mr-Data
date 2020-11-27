@@ -40,6 +40,9 @@
     <Filter Include="Header Files\Imgui">
       <UniqueIdentifier>{263c194c-40e8-4ed8-b2b8-bcca3897336c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\UDP">
+      <UniqueIdentifier>{6d75b186-57b2-4b78-955b-e4591b41a7b4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">
@@ -286,6 +289,12 @@
     </ClInclude>
     <ClInclude Include="TextCursor.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UDPClient.h">
+      <Filter>Header Files\UDP</Filter>
+    </ClInclude>
+    <ClInclude Include="UDPServer.h">
+      <Filter>Header Files\UDP</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

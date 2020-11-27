@@ -5,6 +5,7 @@
 #include "BindableBase.h"
 #include "RenderMode.h"
 
+
 class App
 {
 public:
@@ -19,5 +20,6 @@ private:
 	Window wnd;
 	RenderMode rm;
 	Color clearColor = Colors::Black;
+
 };
 
