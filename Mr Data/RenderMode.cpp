@@ -24,12 +24,13 @@ void RenderMode::Update(Graphics& gfx)
 		std::stringstream ss;
 		ss << "Time :" << time.Mark();
 		ImGui::Text(ss.str().c_str());
+		//display where message came from in imgui
 		ImGui::TextColored({ 0.0f, 1.0f, 0.0f, 1.0f }, udp_s.GetStatusReadout().c_str());
 		ImGui::SliderFloat("Scale", &scale, 0.0f, 3.0f);
 		ImGui::SliderFloat("Rotation", &rotation, -3.14159f, +3.14159f);
 		ImGui::SliderFloat("Line Spacing", &lineSpacing, 0.0f, 3.0f);
 		ImGui::SliderFloat("Delta Alpha (time)", &deltaAlpha, 0.0f, 3.0f);
-		ImGui::ColorPicker4("Color", &oldTextCol.r, ImGuiColorEditFlags_::ImGuiColorEditFlags_PickerHueWheel);
+		ImGui::ColorPicker3("Color", &oldTextCol.r, ImGuiColorEditFlags_::ImGuiColorEditFlags_PickerHueWheel);
 		if (ImGui::Button("Reset"))
 		{
 			textCol = { 1.0f, 1.0f, 1.0f, 1.0f };
