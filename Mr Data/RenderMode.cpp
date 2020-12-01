@@ -2,7 +2,7 @@
 
 RenderMode::RenderMode(Graphics& gfx)
 	:
-	txt(gfx, 1.0f, 0.0f, L"assets/arial_64.spritefont"),
+	txt(gfx, 1.0f, 0.0f, L"assets/arial_128.spritefont"),
 	ndi(gfx.GetWindowWidth(), gfx.GetWindowHeight()),
 	udp_s(6000),
 	udp_c(5000)
@@ -49,15 +49,19 @@ void RenderMode::Update(Graphics& gfx)
 void RenderMode::Render(Graphics& gfx)
 {
 	std::string str = udp_s.GetNetworkMessage();
+	std::string controlString = str.substr(0, 7);
+	str.erase(0, 8);
+
 	size_t size = str.size() + 1;
  	static wchar_t wbuffer[512];
 	size_t outSize;
-	mbstowcs_s(&outSize, wbuffer, size, str.c_str(), size);
+	mbstowcs_s(&outSize, wbuffer, size, str.c_str(), size); // convert to wsting
 	std::wstring message = wbuffer;
 	udp_c.UDP_Send(str);
 
 	try
 	{
+		
 		if (message.size() > 0)
 		{
 			alpha = 1.0f;

@@ -44,7 +44,7 @@ private:
 		~WindowClass();
 		WindowClass(const WindowClass&) = delete;
 		WindowClass& operator = (const WindowClass&) = delete;
-		static constexpr const wchar_t* wndClassName = L"Mr.Data 3D Engine Window";
+		static constexpr const wchar_t* wndClassName = L"A&B Text Renderer";
 		static WindowClass wndClass;
 		HINSTANCE hInst;
 		HCURSOR hCursor;
