@@ -25,32 +25,49 @@ void RenderMode::Update(Graphics& gfx)
 		ss << "Time :" << time.Mark();
 		ImGui::Text(ss.str().c_str());
 		//display where message came from in imgui
-		ImGui::TextColored({ 0.0f, 1.0f, 0.0f, 1.0f }, udp_s.GetStatusReadout().c_str());
-		ImGui::SliderFloat("Scale", &scale, 0.0f, 3.0f);
-		ImGui::SliderFloat("Rotation", &rotation, -3.14159f, +3.14159f);
-		ImGui::SliderFloat("Line Spacing", &lineSpacing, 0.0f, 3.0f);
+		ImGui::TextColored({ 1.0f, 0.0f, 0.0f, 1.0f }, udp_s.GetStatusReadout().c_str());
+		ImGui::TextColored({ 0.0f, 1.0f, 0.0f, 1.0f }, udp_s.GetMessageForGUI().c_str());
+		ImGui::InputFloat("Small text size", &smallScale, 0.02f);
+		ImGui::InputFloat("Large text size", &largeScale, 0.02f);
+		ImGui::InputFloat("Small line spacing", &lineSpacingSmall, 0.02f);
+		ImGui::InputFloat("Large line spacing", &lineSpacingLarge, 0.02f);
 		ImGui::SliderFloat("Delta Alpha (time)", &deltaAlpha, 0.0f, 3.0f);
 		ImGui::ColorPicker3("Color", &oldTextCol.r, ImGuiColorEditFlags_::ImGuiColorEditFlags_PickerHueWheel);
 		if (ImGui::Button("Reset"))
 		{
 			textCol = { 1.0f, 1.0f, 1.0f, 1.0f };
-			scale = 1.0f;
-			rotation = 0.0f;
-			lineSpacing = 1.5f;
 		}
-		txt.setScale(scale);
+		txt.setScale(currScale);
 		txt.setRotation(rotation);
-		//ImGui::Text(udp_s.GetStatusReadout().c_str());
-
+		
+		
 	}
 	ImGui::End();
+
+	//update current sizes
+	if (currSmall)
+	{
+		currScale = smallScale;
+		currLineSpacing = lineSpacingSmall;
+	}
+	else
+	{
+		currScale = largeScale;
+		currLineSpacing = lineSpacingLarge;
+	}
 }
 
 void RenderMode::Render(Graphics& gfx)
 {
+	//get messages and parse out control segments
 	std::string str = udp_s.GetNetworkMessage();
-	std::string controlString = str.substr(0, 7);
+	std::string controlString = str.substr(0, 8);
 	str.erase(0, 8);
+
+	if (controlString != "NULL....")
+	{
+		StringControl(controlString, oldTextCol);
+	}
 
 	size_t size = str.size() + 1;
  	static wchar_t wbuffer[512];
@@ -67,7 +84,7 @@ void RenderMode::Render(Graphics& gfx)
 			alpha = 1.0f;
 			textCol = oldTextCol;
 			txt.setColor(textCol);
-			txt.DrawCentreAlign(message, lineSpacing);
+			txt.DrawCentreAlign(message, currLineSpacing);
 			oldMessage = message;
 			oldTextCol = textCol;
 			holdingLastMsg = false;
@@ -85,7 +102,7 @@ void RenderMode::Render(Graphics& gfx)
 			};
 			txt.setColor(preMulAplpha);
 			alpha -= 0.001f * deltaAlpha;
-			txt.DrawCentreAlign(oldMessage, lineSpacing);
+			txt.DrawCentreAlign(oldMessage, currLineSpacing);
 
 		}
 	}
@@ -101,4 +118,42 @@ void RenderMode::SendNDI(Graphics& gfx)
 	//Send NDI Frames
 	ndi.SendNDIFrame(gfx);
 #endif
+}
+
+void RenderMode::StringControl(const std::string& ctrlStr, Color& colChange)
+{
+	if (ctrlStr == "RED.....")
+		colChange = Colors::Red;
+	
+	if (ctrlStr == "GREEN...")
+		colChange = Colors::Green;
+	
+	if (ctrlStr == "BLUE....")
+		colChange = Colors::Blue;
+
+	if (ctrlStr == "CYAN....")
+		colChange = Colors::Cyan;
+
+	if (ctrlStr == "MAGENTA.")
+		colChange = Colors::Magenta;
+
+	if (ctrlStr == "YELLOW..")
+		colChange = Colors::Yellow;
+
+	if (ctrlStr == "WHITE...")
+		colChange = Colors::White;
+
+	if (ctrlStr == "ORANGE..")
+		colChange = Colors::Orange;
+
+	if (ctrlStr == "LARGE...")
+	{
+		currSmall = false;
+	}
+
+	if (ctrlStr == "SMALL...")
+	{
+		currSmall = true;
+		
+	}
 }

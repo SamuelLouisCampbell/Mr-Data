@@ -29,7 +29,7 @@ namespace Colors
 	static Color Orange =	{ 1.0f, 0.5f, 0.0f, 1.0f };
 	static Color Purple =	{ 0.5f, 0.0f, 1.0f, 1.0f };
 	static Color Grey =		{ 0.5f, 0.5f, 0.5f, 1.0f };
-	static Color White =	{ 1.0f, 1.0f, 0.0f, 1.0f };
+	static Color White =	{ 1.0f, 1.0f, 1.0f, 1.0f };
 	static Color Black =	{ 0.0f, 0.0f, 0.0f, 1.0f };
 	static Color Navy =		{ 0.0f, 0.0f, 0.075f, 1.0f };
 }

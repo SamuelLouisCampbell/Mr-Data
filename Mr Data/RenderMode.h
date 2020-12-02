@@ -14,7 +14,8 @@ public:
 	void Update(Graphics& gfx);
 	void Render(Graphics& gfx);
 	void SendNDI(Graphics& gfx); //switched off in debug. Apply painters algorthm for rendering.
-
+private:
+	void StringControl(const std::string& ctrlStr, Color& colChange);
 private:
 	Time time;
 	TextNode txt;
@@ -30,9 +31,14 @@ private:
 	//text control
 	Color textCol = { 1.0f, 1.0f, 1.0f, 1.0f };
 	Color oldTextCol = { 1.0f, 1.0f, 1.0f, 1.0f };
-	float scale = 1.0f;
+	float largeScale = 1.0f;
+	float smallScale = 0.35f;
+	float currScale = smallScale;
+	float lineSpacingLarge = 1.65f;
+	float lineSpacingSmall = 0.7f;
+	float currLineSpacing = lineSpacingSmall;
+	bool currSmall = true;
 	float rotation = 0.0f;
-	float lineSpacing = 1.65f;
 	char buffer[512] = { '\0' };
 	std::wstring oldMessage;
 	bool holdingLastMsg = false;

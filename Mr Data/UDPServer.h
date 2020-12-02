@@ -75,15 +75,24 @@ public:
 
 			inet_ntop(AF_INET, &client.sin_addr, clientIP, 256);
 
+			message = messageBuffer;
+			std::string systemmsg = message.substr(0, 8U);
+			message.erase(0, 8U);
+
 			std::ostringstream oss;
-			oss << "Message From: " << clientIP << " : " << messageBuffer << std::endl;
-			OutputDebugStringA(oss.str().c_str());
+			oss << "Control State: " << clientIP << " : " << systemmsg << std::endl;
 			status = oss.str();
 			return true;
 		}
 		return false;
 	}
 
+	std::string GetMessageForGUI()
+	{
+		std::ostringstream oss;
+		oss << "Message Reads: " << message << std::endl;
+		return oss.str();
+	}
 	std::string GetNetworkMessage()
 	{
 		std::string message = messageBuffer;
@@ -120,5 +129,7 @@ private:
 	unsigned short port;
 	char messageBuffer[bufferSize] = {};
 	std::string status;
+	std::string message;
+	
 };
 
