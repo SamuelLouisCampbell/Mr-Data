@@ -248,7 +248,6 @@
     <ClInclude Include="RenderMode.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="StringHandling.h" />
-    <ClInclude Include="TextCursor.h" />
     <ClInclude Include="TextNode.h" />
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="Time.h" />

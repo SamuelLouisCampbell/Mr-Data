@@ -13,7 +13,8 @@ namespace dx = DirectX;
 Graphics::Graphics(HWND hWnd, int width, int height)
 	:
 	WindowWidth(width),
-	WindowHeight(height)
+	WindowHeight(height),
+	hWnd(hWnd)
 {
 	//Swap Chain Options
 	DXGI_SWAP_CHAIN_DESC SwapDesc = {};
@@ -121,20 +122,22 @@ Graphics::~Graphics()
 
 void Graphics::EndFrame()
 {
+	HRESULT hr;
 	if (IMGuiEnabled)
 	{
 		ImGui::Render();;
 		ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 	}
-	if (HRESULT hr = pSwapChain->Present(1u, 0))
+	
+	if (FAILED(hr = pSwapChain->Present(1u, 0)))
 	{
 		if (hr == DXGI_ERROR_DEVICE_REMOVED)
 		{
 			GFX_DEVICE_REMOVED();
 		}
-		else
-			GFX_THROW_INFO(hr);
+		GFX_THROW_INFO(hr);
 	}
+	
 }
 
 void Graphics::BeginFrame(Color clearColor) noexcept
@@ -286,7 +289,6 @@ uint8_t* Graphics::GetFramePtr() const
 
 	return res;
 }
-
 
 Graphics::HrException::HrException(int line, const wchar_t* file, HRESULT hr) noexcept
 	:

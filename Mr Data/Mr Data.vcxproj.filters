@@ -287,9 +287,6 @@
     <ClInclude Include="RenderMode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TextCursor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="UDPClient.h">
       <Filter>Header Files\UDP</Filter>
     </ClInclude>

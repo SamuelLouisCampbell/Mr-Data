@@ -41,6 +41,10 @@ public:
 			OutputDebugStringA(ss.str().c_str());
 			throw std::exception(ss.str().c_str());
 		}
+		else
+		{
+			OutputDebugString(L"Created and bound client socket Success!\n");
+		}
 	}
 	~UDPClient()
 	{
@@ -57,6 +61,12 @@ public:
 			ss << "Cannot Send Data " << WSAGetLastError();
 			OutputDebugStringA(ss.str().c_str());
 			throw std::exception(ss.str().c_str());
+		}
+		else
+		{
+			std::stringstream ss;
+			ss << "Sent : " << msg << " to :" << ip_addr << " : " << port << std::endl;
+			OutputDebugStringA(ss.str().c_str());
 		}
 	}
 

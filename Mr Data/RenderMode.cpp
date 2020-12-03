@@ -5,7 +5,7 @@ RenderMode::RenderMode(Graphics& gfx)
 	txt(gfx, 1.0f, 0.0f, L"assets/arial_128.spritefont"),
 	ndi(gfx.GetWindowWidth(), gfx.GetWindowHeight()),
 	udp_s(6000),
-	udp_c(5000)
+	echoClient(5000)
 {
 	centre.x = float(gfx.GetWindowWidth()) / 2.0f;
 	centre.y = float(gfx.GetWindowHeight()) / 2.0f;
@@ -74,7 +74,7 @@ void RenderMode::Render(Graphics& gfx)
 	size_t outSize;
 	mbstowcs_s(&outSize, wbuffer, size, str.c_str(), size); // convert to wsting
 	std::wstring message = wbuffer;
-	udp_c.UDP_Send(str);
+	echoClient.UDP_Send(str);
 
 	try
 	{

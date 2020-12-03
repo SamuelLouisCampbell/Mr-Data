@@ -43,7 +43,7 @@ public:
 		}
 		else
 		{
-			OutputDebugString(L"Created and bound socket Success!\n");
+			OutputDebugString(L"Created and bound server socket Success!\n");
 		}
 	}
 	~UDPServer()

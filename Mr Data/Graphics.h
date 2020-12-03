@@ -71,7 +71,7 @@ private:
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilView>	pDSV = nullptr;
 	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>m_texture = nullptr;
 	
-	
+	HWND hWnd;
 
 	//image texture stuff
 	std::unique_ptr<DirectX::SpriteBatch> m_spriteBatch;

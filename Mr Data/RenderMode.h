@@ -25,7 +25,7 @@ private:
 	NDI_Send ndi;
 
 	//UDP stuff
-	UDPClient udp_c;
+	UDPClient echoClient;
 	UDPServer udp_s;
 
 	//text control
