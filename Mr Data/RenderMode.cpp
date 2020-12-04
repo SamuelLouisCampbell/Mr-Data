@@ -1,4 +1,5 @@
 #include "RenderMode.h"
+#include <cmath>
 
 RenderMode::RenderMode(Graphics& gfx)
 	:
@@ -28,10 +29,11 @@ void RenderMode::Update(Graphics& gfx)
 		ImGui::TextColored({ 1.0f, 0.0f, 0.0f, 1.0f }, udp_s.GetStatusReadout().c_str());
 		ImGui::TextColored({ 0.0f, 1.0f, 0.0f, 1.0f }, udp_s.GetMessageForGUI().c_str());
 		ImGui::InputFloat("Small text size", &smallScale, 0.02f);
-		ImGui::InputFloat("Large text size", &largeScale, 0.02f);
 		ImGui::InputFloat("Small line spacing", &lineSpacingSmall, 0.02f);
+		ImGui::InputFloat("Large text size", &largeScale, 0.02f);
 		ImGui::InputFloat("Large line spacing", &lineSpacingLarge, 0.02f);
 		ImGui::SliderFloat("Delta Alpha (time)", &deltaAlpha, 0.0f, 3.0f);
+		ImGui::SliderFloat("Delta Zoom  (time)", &deltaZoom, 0.01f, 1.0f);
 		ImGui::ColorPicker3("Color", &oldTextCol.r, ImGuiColorEditFlags_::ImGuiColorEditFlags_PickerHueWheel);
 		if (ImGui::Button("Reset"))
 		{
@@ -40,21 +42,8 @@ void RenderMode::Update(Graphics& gfx)
 		txt.setScale(currScale);
 		txt.setRotation(rotation);
 		
-		
 	}
 	ImGui::End();
-
-	//update current sizes
-	if (currSmall)
-	{
-		currScale = smallScale;
-		currLineSpacing = lineSpacingSmall;
-	}
-	else
-	{
-		currScale = largeScale;
-		currLineSpacing = lineSpacingLarge;
-	}
 }
 
 void RenderMode::Render(Graphics& gfx)
@@ -68,6 +57,39 @@ void RenderMode::Render(Graphics& gfx)
 	{
 		StringControl(controlString, oldTextCol);
 	}
+
+	//update current sizes
+	if (currSmall)
+	{
+		if(currScale >= smallScale)
+		{
+			currScale -= (smallScale * deltaZoom);
+		}
+		if(currLineSpacing >= lineSpacingSmall)
+		{
+			currLineSpacing -= (lineSpacingSmall *deltaZoom);
+		}
+		if(currScale < smallScale)
+			currScale = smallScale;
+		if (currLineSpacing < lineSpacingSmall)
+			currLineSpacing = lineSpacingSmall;
+	}
+	else
+	{
+		if(currScale <= largeScale)
+		{
+			currScale += (largeScale * deltaZoom);
+		}
+		if(currLineSpacing <= lineSpacingLarge)
+		{
+			currLineSpacing += (lineSpacingLarge * deltaZoom);
+		}
+		if (currScale > largeScale)
+			currScale = largeScale;
+		if (currLineSpacing > lineSpacingLarge)
+			currLineSpacing = lineSpacingLarge;
+	}
+	txt.setScale(currScale);
 
 	size_t size = str.size() + 1;
  	static wchar_t wbuffer[512];
@@ -154,6 +176,5 @@ void RenderMode::StringControl(const std::string& ctrlStr, Color& colChange)
 	if (ctrlStr == "SMALL...")
 	{
 		currSmall = true;
-		
 	}
 }
