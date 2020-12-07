@@ -40,7 +40,6 @@ void App::ComposeFrame()
 
 void App::RenderFrame()
 {
-	
 	rm.Render(wnd.Gfx());
 	rm.SendNDI(wnd.Gfx());
 }

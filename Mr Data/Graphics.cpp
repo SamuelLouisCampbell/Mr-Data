@@ -20,7 +20,7 @@ Graphics::Graphics(HWND hWnd, int width, int height)
 	DXGI_SWAP_CHAIN_DESC SwapDesc = {};
 	SwapDesc.BufferDesc.Width = 0;
 	SwapDesc.BufferDesc.Height = 0; //0 means look at window and set
-	SwapDesc.BufferDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
+	SwapDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 	SwapDesc.BufferDesc.RefreshRate.Numerator = 0;
 	SwapDesc.BufferDesc.RefreshRate.Denominator = 0;
 	SwapDesc.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
