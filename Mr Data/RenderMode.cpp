@@ -49,8 +49,8 @@ void RenderMode::Update(Graphics& gfx)
 void RenderMode::Render(Graphics& gfx)
 {
 	//get messages and parse out control segments
-	//std::string str = udp_s.GetNetworkMessage();
-	std::string str = "........Hello Sarah!";
+	std::string str = udp_s.GetNetworkMessage();
+	//std::string str = "........Hello Sarah!";
 	std::string controlString = str.substr(0, 8);
 	str.erase(0, 8);
 
