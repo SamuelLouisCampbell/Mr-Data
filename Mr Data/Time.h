@@ -32,9 +32,7 @@ private:
 class Timer
 {
 public:
-	Timer(const char* name)
-		:
-		m_name(name)
+	Timer()
 	{
 		m_startTimePoint = std::chrono::high_resolution_clock::now();
 	}
@@ -50,15 +48,34 @@ public:
 		auto m_endTimePoint = std::chrono::high_resolution_clock::now();
 		long long start = std::chrono::time_point_cast<std::chrono::milliseconds>(m_startTimePoint).time_since_epoch().count();
 		long long end   = std::chrono::time_point_cast<std::chrono::milliseconds>(m_startTimePoint).time_since_epoch().count();
-
-		//std::cout << m_name << " : " << (end - start) << "ms\n";
-
 		m_isStopped = true;
-
 	}
 private:
-	const char* m_name;
 	std::chrono::time_point<std::chrono::steady_clock> m_startTimePoint;
 	bool m_isStopped = false;
 
+};
+
+class FPS
+{
+public:
+	void Update(float deltaTime)
+	{
+		fpsCount++;
+		accumulatedTime += deltaTime;
+		if (accumulatedTime > 1000.0f)
+		{
+			fps = fpsCount;
+			fpsCount = 0;
+			accumulatedTime = 0;	
+		}
+	}
+	int Get() const
+	{
+		return fps;
+	}
+private:
+	int fps = 0;
+	int fpsCount = 0;
+	float accumulatedTime = 0.0f;
 };

@@ -16,14 +16,14 @@ RenderMode::RenderMode(Graphics& gfx)
 void RenderMode::Update(Graphics& gfx)
 {
 	txt.Bind(gfx);
-
+	fps.Update(time.Mark());
 	//get messages from network.
 	udp_s.Recieve();
 
 	if (ImGui::Begin("Text Controls"))
 	{
 		std::stringstream ss;
-		ss << "Time :" << time.Mark();
+		ss << "fps :" << fps.Get(); 
 		ImGui::Text(ss.str().c_str());
 		//display where message came from in imgui
 		ImGui::TextColored({ 1.0f, 0.0f, 0.0f, 1.0f }, udp_s.GetStatusReadout().c_str());
@@ -34,7 +34,7 @@ void RenderMode::Update(Graphics& gfx)
 		ImGui::InputFloat("Large line spacing", &lineSpacingLarge, 0.02f);
 		ImGui::SliderFloat("Delta Alpha (time)", &deltaAlpha, 0.0f, 3.0f);
 		ImGui::SliderFloat("Delta Zoom  (time)", &deltaZoom, 0.01f, 1.0f);
-		ImGui::ColorPicker3("Color", &oldTextCol.r, ImGuiColorEditFlags_::ImGuiColorEditFlags_PickerHueWheel);
+		ImGui::ColorPicker3("Color", &oldTextCol.r, ImGuiColorEditFlags_::ImGuiColorEditFlags_AlphaBar);
 		if (ImGui::Button("Reset"))
 		{
 			textCol = { 1.0f, 1.0f, 1.0f, 1.0f };

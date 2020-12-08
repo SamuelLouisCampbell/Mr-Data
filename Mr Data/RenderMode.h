@@ -19,7 +19,9 @@ private:
 private:
 	Time time;
 	TextNode txt;
+	FPS fps;
 	DirectX::SimpleMath::Vector2 centre;
+
 
 	//NDI stuff
 	NDI_Send ndi;
