@@ -11,7 +11,7 @@ class RenderMode
 {
 public:
 	RenderMode(Graphics& gfx);
-	void Update(Graphics& gfx);
+	void Update(Window& wnd);
 	void Render(Graphics& gfx);
 	void SendNDI(Graphics& gfx); //switched off in debug. Apply painters algorthm for rendering.
 private:
@@ -21,7 +21,6 @@ private:
 	TextNode txt;
 	FPS fps;
 	DirectX::SimpleMath::Vector2 centre;
-
 
 	//NDI stuff
 	NDI_Send ndi;

@@ -3,6 +3,7 @@
 #include <sstream>
 #include "Window_Exception_Macros.h"
 #include "imgui_impl_win32.h"
+#include "Time.h"
 
 const const wchar_t* Window::WindowClass::GetName() noexcept
 {
@@ -51,6 +52,8 @@ Window::Window(int width, int height, std::wstring name)
 	width(width),
 	height(height)
 {
+	Instrumentor::Get().BeginSession("A&B Profiler");
+
 	RECT wr;
 	wr.left = 100;
 	wr.right = width + wr.left;
@@ -90,6 +93,7 @@ Window::~Window()
 {
 	ImGui_ImplWin32_Shutdown();
 	DestroyWindow(hWnd);
+	Instrumentor::Get().EndSession();
 }
 
 void Window::SetTitle(const std::wstring title)

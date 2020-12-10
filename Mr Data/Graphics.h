@@ -58,7 +58,7 @@ public:
 	uint8_t* GetFramePtr() const;
 
 private:
-	bool IMGuiEnabled = true;
+	bool IMGuiEnabled = false;
 	DirectX::XMMATRIX projection;
 	int WindowWidth = 0;
 	int WindowHeight = 0;

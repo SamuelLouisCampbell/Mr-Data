@@ -14,37 +14,42 @@ RenderMode::RenderMode(Graphics& gfx)
 	txt.SetPos(centre);
 }
 
-void RenderMode::Update(Graphics& gfx)
+void RenderMode::Update(Window& wnd)
 {
 	PROFILE_FUNCTION();
-	txt.Bind(gfx);
+	txt.Bind(wnd.Gfx());
 	fps.Update(time.Mark());
 	//get messages from network.
 	udp_s.Recieve();
 	
-
-	if (ImGui::Begin("Text Controls"))
+	std::wstringstream wss;
+	wss << "A&B Text. FPS : " << fps.Get();
+	wnd.SetTitle(wss.str().c_str());
+	if (wnd.Gfx().IsIMGuiEnabled())
 	{
-		
-		//display where message came from in imgui
-		ImGui::TextColored({ 1.0f, 0.0f, 0.0f, 1.0f }, udp_s.GetStatusReadout().c_str());
-		ImGui::TextColored({ 0.0f, 1.0f, 0.0f, 1.0f }, udp_s.GetMessageForGUI().c_str());
-		ImGui::InputFloat("Small text size", &smallScale, 0.02f);
-		ImGui::InputFloat("Small line spacing", &lineSpacingSmall, 0.02f);
-		ImGui::InputFloat("Large text size", &largeScale, 0.02f);
-		ImGui::InputFloat("Large line spacing", &lineSpacingLarge, 0.02f);
-		ImGui::SliderFloat("Delta Alpha (time)", &deltaAlpha, 0.0f, 3.0f);
-		ImGui::SliderFloat("Delta Zoom  (time)", &deltaZoom, 0.01f, 1.0f);
-		ImGui::ColorPicker3("Color", &oldTextCol.r, ImGuiColorEditFlags_::ImGuiColorEditFlags_AlphaBar);
-		if (ImGui::Button("Reset"))
+		if (ImGui::Begin("Text Controls"))
 		{
-			textCol = { 1.0f, 1.0f, 1.0f, 1.0f };
+
+			//display where message came from in imgui
+			ImGui::TextColored({ 1.0f, 0.0f, 0.0f, 1.0f }, udp_s.GetStatusReadout().c_str());
+			ImGui::TextColored({ 0.0f, 1.0f, 0.0f, 1.0f }, udp_s.GetMessageForGUI().c_str());
+			ImGui::InputFloat("Small text size", &smallScale, 0.02f);
+			ImGui::InputFloat("Small line spacing", &lineSpacingSmall, 0.02f);
+			ImGui::InputFloat("Large text size", &largeScale, 0.02f);
+			ImGui::InputFloat("Large line spacing", &lineSpacingLarge, 0.02f);
+			ImGui::SliderFloat("Delta Alpha (time)", &deltaAlpha, 0.0f, 3.0f);
+			ImGui::SliderFloat("Delta Zoom  (time)", &deltaZoom, 0.01f, 1.0f);
+			ImGui::ColorPicker3("Color", &oldTextCol.r, ImGuiColorEditFlags_::ImGuiColorEditFlags_AlphaBar);
+			if (ImGui::Button("Reset"))
+			{
+				textCol = { 1.0f, 1.0f, 1.0f, 1.0f };
+			}
+			txt.setScale(currScale);
+			txt.setRotation(rotation);
+
 		}
-		txt.setScale(currScale);
-		txt.setRotation(rotation);
-		
+		ImGui::End();
 	}
-	ImGui::End();
 }
 
 void RenderMode::Render(Graphics& gfx)
