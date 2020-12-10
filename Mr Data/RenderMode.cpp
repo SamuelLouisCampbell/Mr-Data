@@ -1,6 +1,7 @@
 #include "RenderMode.h"
 #include <cmath>
 
+
 RenderMode::RenderMode(Graphics& gfx)
 	:
 	txt(gfx, 1.0f, 0.0f, L"assets/arial_128.spritefont"),
@@ -15,16 +16,16 @@ RenderMode::RenderMode(Graphics& gfx)
 
 void RenderMode::Update(Graphics& gfx)
 {
+	PROFILE_FUNCTION();
 	txt.Bind(gfx);
 	fps.Update(time.Mark());
 	//get messages from network.
 	udp_s.Recieve();
+	
 
 	if (ImGui::Begin("Text Controls"))
 	{
-		std::stringstream ss;
-		ss << "fps :" << fps.Get(); 
-		ImGui::Text(ss.str().c_str());
+		
 		//display where message came from in imgui
 		ImGui::TextColored({ 1.0f, 0.0f, 0.0f, 1.0f }, udp_s.GetStatusReadout().c_str());
 		ImGui::TextColored({ 0.0f, 1.0f, 0.0f, 1.0f }, udp_s.GetMessageForGUI().c_str());
@@ -48,9 +49,10 @@ void RenderMode::Update(Graphics& gfx)
 
 void RenderMode::Render(Graphics& gfx)
 {
+	PROFILE_FUNCTION();
 	//get messages and parse out control segments
-	std::string str = udp_s.GetNetworkMessage();
-	//std::string str = "........Hello Sarah!";
+	//std::string str = udp_s.GetNetworkMessage();
+	std::string str = "........Hello Sarah!";
 	std::string controlString = str.substr(0, 8);
 	str.erase(0, 8);
 
@@ -137,14 +139,13 @@ void RenderMode::Render(Graphics& gfx)
 
 void RenderMode::SendNDI(Graphics& gfx)
 {
-//#if NDEBUG
-	//Send NDI Frames
+	PROFILE_FUNCTION();
 	ndi.SendNDIFrame(gfx);
-//#endif
 }
 
 void RenderMode::StringControl(const std::string& ctrlStr, Color& colChange)
 {
+	PROFILE_FUNCTION();
 	if (ctrlStr == "RED.....")
 		colChange = Colors::Red;
 	

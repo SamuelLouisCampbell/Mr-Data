@@ -11,9 +11,12 @@ App::App()
 	wnd(1440, 900, L"A&B Text 1440x900"),
 	rm(wnd.Gfx())
 {
+	Instrumentor::Get().BeginSession("A&B Profiler");
 	wnd.Gfx().SetProjection(DirectX::XMMatrixOrthographicOffCenterLH(0.0f, float(wnd.Gfx().GetWindowWidth()),
 							float(wnd.Gfx().GetWindowHeight()), 0.0f, 0.0f, 1.0f));
+
 }
+
 
 int App::Setup()
 {
@@ -21,6 +24,7 @@ int App::Setup()
 	{
 		if (const auto exitCode = Window::ProcessMessages())
 		{
+			Instrumentor::Get().EndSession();
 			return *exitCode;
 		}
 		//wnd.SetWndCursor();

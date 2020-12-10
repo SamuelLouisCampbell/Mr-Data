@@ -2,6 +2,7 @@
 #include <chrono>
 #include <string>
 #include <iomanip>
+#include "BenchMarker.h"
 
 class Time
 {

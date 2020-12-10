@@ -293,6 +293,9 @@
     <ClInclude Include="UDPServer.h">
       <Filter>Header Files\UDP</Filter>
     </ClInclude>
+    <ClInclude Include="BenchMarker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Mr Data.rc">
