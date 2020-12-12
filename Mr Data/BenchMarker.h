@@ -118,4 +118,5 @@ private:
 #define PROFILE_FUNCTION() PROFILE_SCOPE(__FUNCSIG__)
 #else
 #define PROFILE_SCOPE(name)
+#define PROFILE_FUNCTION() NULL;
 #endif
