@@ -13,7 +13,7 @@ public:
 	RenderMode(Graphics& gfx);
 	void Update(Window& wnd);
 	void Render(Graphics& gfx);
-	void SendNDI(Graphics& gfx); //switched off in debug. Apply painters algorthm for rendering.
+	void SendNDI(Graphics& gfx);
 private:
 	void StringControl(const std::string& ctrlStr, Color& colChange);
 private:

@@ -62,6 +62,7 @@ class FPS
 public:
 	void Update(float deltaTime)
 	{
+		PROFILE_FUNCTION();
 		fpsCount++;
 		accumulatedTime += deltaTime;
 		if (accumulatedTime > 1000.0f)

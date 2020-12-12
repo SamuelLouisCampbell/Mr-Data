@@ -112,7 +112,7 @@ private:
     const char* functionName;
 };
 
-#define PROFILING true
+#define PROFILING false
 #if PROFILING
 #define PROFILE_SCOPE(name) InstrumentationTimer timer##__LINE__(name)
 #define PROFILE_FUNCTION() PROFILE_SCOPE(__FUNCSIG__)

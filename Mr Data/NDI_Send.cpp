@@ -21,7 +21,7 @@ NDI_Send::NDI_Send(int in_resX, int in_resY)
 	NDI_video_frame.line_stride_in_bytes = resX * 4;
 	NDI_video_frame.frame_format_type = NDIlib_frame_format_type_progressive;
 	NDI_video_frame.frame_rate_N = 60000;
-	NDI_video_frame.frame_rate_D = 1000;
+	NDI_video_frame.frame_rate_D = 500;
 	OutputDebugString(L"NDI Constructor complete...\n");
 
 }
@@ -30,4 +30,5 @@ void NDI_Send::SendNDIFrame(Graphics& gfx)
 {
 	NDI_video_frame.p_data = &gfx.GetFramePtr()[0];
 	NDIlib_send_send_video_v2( pNDI_send, &NDI_video_frame);
+	NDI_video_frame.p_data = nullptr;
 }

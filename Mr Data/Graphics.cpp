@@ -122,6 +122,7 @@ Graphics::~Graphics()
 
 void Graphics::EndFrame()
 {
+	PROFILE_FUNCTION();
 	HRESULT hr;
 	if (IMGuiEnabled)
 	{
@@ -142,6 +143,7 @@ void Graphics::EndFrame()
 
 void Graphics::BeginFrame(Color clearColor) noexcept
 {
+	PROFILE_FUNCTION();
 	if (IMGuiEnabled)
 	{
 		ImGui_ImplDX11_NewFrame();
@@ -257,6 +259,7 @@ ColorChar Graphics::GetPixel(int x, int y) const
 
 uint8_t* Graphics::GetFramePtr() const
 {
+	PROFILE_FUNCTION();
 	//Create copying/buffer texture
 	wrl::ComPtr<ID3D11Texture2D> pFrame = nullptr;
 	HRESULT hr = pSwapChain->GetBuffer(0, __uuidof(pFrame), &pFrame);
@@ -286,7 +289,6 @@ uint8_t* Graphics::GetFramePtr() const
 
 	//Make nice for others
 	uint8_t* res = reinterpret_cast<uint8_t*>(map.pData);
-
 	return res;
 }
 

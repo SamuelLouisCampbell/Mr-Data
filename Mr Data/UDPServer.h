@@ -5,6 +5,7 @@
 #include <sstream>
 #include <cstring>
 #include <iostream>
+#include "BenchMarker.h"
 
 
 #pragma comment(lib, "ws2_32.lib")
@@ -55,11 +56,13 @@ public:
 
 	std::string GetStatusReadout() const
 	{
+		PROFILE_FUNCTION();
 		return status;
 	}
 
 	bool Recieve()
 	{
+		PROFILE_FUNCTION();
 		ZeroMemory(&client, clientLength);
 
 		if (dataAvailable(s))
@@ -89,17 +92,20 @@ public:
 
 	std::string GetMessageForGUI()
 	{
+		PROFILE_FUNCTION();
 		std::ostringstream oss;
 		oss << "Message Reads: " << message << std::endl;
 		return oss.str();
 	}
 	std::string GetNetworkMessage()
 	{
+		PROFILE_FUNCTION();
 		std::string message = messageBuffer;
 		return message;
 	}
 	std::wstring GetNetworkMessageW()
 	{
+		PROFILE_FUNCTION();
 		size_t size = sizeof(messageBuffer) + 1;
 		static wchar_t wbuffer[bufferSize];
 		size_t outSize;
@@ -109,8 +115,9 @@ public:
 	}
 
 private:
-	bool dataAvailable(int sock, int interval = 1200)
+	bool dataAvailable(int sock, int interval = 200)
 	{
+		PROFILE_FUNCTION();
 		fd_set fds;
 		FD_ZERO(&fds);
 		FD_SET(sock, &fds);

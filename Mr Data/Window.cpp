@@ -5,7 +5,7 @@
 #include "imgui_impl_win32.h"
 #include "Time.h"
 
-const const wchar_t* Window::WindowClass::GetName() noexcept
+const wchar_t* Window::WindowClass::GetName() noexcept
 {
 	return wndClassName;
 }
@@ -91,6 +91,7 @@ Window::Window(int width, int height, std::wstring name)
 
 Window::~Window()
 {
+	pGfx.release();
 	ImGui_ImplWin32_Shutdown();
 	DestroyWindow(hWnd);
 	Instrumentor::Get().EndSession();
@@ -98,6 +99,7 @@ Window::~Window()
 
 void Window::SetTitle(const std::wstring title)
 {
+	PROFILE_FUNCTION();
 	if (SetWindowText(hWnd, title.c_str()) == 0)
 	{
 		THROW_LAST_ERROR

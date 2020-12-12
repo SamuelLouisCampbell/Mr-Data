@@ -12,16 +12,17 @@ RenderMode::RenderMode(Graphics& gfx)
 	centre.x = float(gfx.GetWindowWidth()) / 2.0f;
 	centre.y = float(gfx.GetWindowHeight()) / 2.0f;
 	txt.SetPos(centre);
+	txt.Bind(gfx);
 }
 
 void RenderMode::Update(Window& wnd)
 {
 	PROFILE_FUNCTION();
-	txt.Bind(wnd.Gfx());
-	fps.Update(time.Mark());
+	
 	//get messages from network.
 	udp_s.Recieve();
 	
+	fps.Update(time.Mark());
 	std::wstringstream wss;
 	wss << "A&B Text. FPS : " << fps.Get();
 	wnd.SetTitle(wss.str().c_str());
@@ -56,8 +57,8 @@ void RenderMode::Render(Graphics& gfx)
 {
 	PROFILE_FUNCTION();
 	//get messages and parse out control segments
-	//std::string str = udp_s.GetNetworkMessage();
-	std::string str = "........Hello Sarah!";
+	std::string str = udp_s.GetNetworkMessage();
+	//std::string str = "........Hello Sarah!";
 	std::string controlString = str.substr(0, 8);
 	str.erase(0, 8);
 

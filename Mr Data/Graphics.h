@@ -11,6 +11,7 @@
 #include "Vertex.h"
 #include "Color.h"
 #include "ImGuiManager.h"
+#include "Time.h"
 
 class Graphics
 {
@@ -58,7 +59,7 @@ public:
 	uint8_t* GetFramePtr() const;
 
 private:
-	bool IMGuiEnabled = false;
+	bool IMGuiEnabled = true;
 	DirectX::XMMATRIX projection;
 	int WindowWidth = 0;
 	int WindowHeight = 0;
