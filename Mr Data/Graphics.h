@@ -45,7 +45,6 @@ public:
 	void BeginFrame(Color clearColor) noexcept;
 	float NormaliseVal(float val, float max, float min);
 	void DrawIndexed(UINT count) noexcept;
-	void Draw2DTextures() noexcept;
 	DirectX::XMMATRIX GetProjection() const noexcept;
 	void SetProjection(DirectX::FXMMATRIX proj) noexcept;
 	auto GetDevice() noexcept;

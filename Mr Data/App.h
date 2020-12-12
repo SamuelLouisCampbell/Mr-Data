@@ -14,11 +14,14 @@ public:
 private:
 	void RenderFrame();
 	void ComposeFrame();
+	void EngageMode(bool mode);
 	
 private:
+	bool rMode = true;
 	IMGuiManager img;
 	Window wnd;
-	RenderMode rm;
+	RMData rmd;
+	std::unique_ptr<RenderMode> rm;
 	Color clearColor = Colors::Black;
 
 };

@@ -168,15 +168,6 @@ void Graphics::DrawIndexed(UINT count) noexcept
 	pContext->DrawIndexed(count, 0u, 0u);
 }
 
-void Graphics::Draw2DTextures() noexcept
-{
-	m_spriteBatch->Begin();
-
-	m_spriteBatch->Draw(m_texture.Get(), m_screenPos, nullptr, DirectX::Colors::White, 0.0f, m_origin);
-
-	m_spriteBatch->End();
-}
-
 DirectX::XMMATRIX Graphics::GetProjection() const noexcept
 {
 	return projection;

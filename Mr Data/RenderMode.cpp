@@ -1,13 +1,12 @@
 #include "RenderMode.h"
 #include <cmath>
 
-
-RenderMode::RenderMode(Graphics& gfx)
+RenderMode::RenderMode(Graphics& gfx, RMData& data)
 	:
 	txt(gfx, 1.0f, 0.0f, L"assets/arial_128.spritefont"),
 	ndi(gfx.GetWindowWidth(), gfx.GetWindowHeight()),
-	udp_s(6000),
-	echoClient(5000)
+	udp_s(data.serverPort),
+	echoClient(data.clientPort, data.clientIP)
 {
 	centre.x = float(gfx.GetWindowWidth()) / 2.0f;
 	centre.y = float(gfx.GetWindowHeight()) / 2.0f;

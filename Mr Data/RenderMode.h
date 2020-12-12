@@ -7,10 +7,17 @@
 #include "UDPClient.h"
 #include "UDPServer.h"
 
+static struct RMData
+{
+	uint16_t clientPort;
+	int16_t serverPort;
+	const char* clientIP;
+};
+
 class RenderMode
 {
 public:
-	RenderMode(Graphics& gfx);
+	RenderMode(Graphics& gfx, RMData& data);
 	void Update(Window& wnd);
 	void Render(Graphics& gfx);
 	void SendNDI(Graphics& gfx);
@@ -48,4 +55,5 @@ private:
 	float deltaAlpha = 1.0f;
 
 };
+
 
