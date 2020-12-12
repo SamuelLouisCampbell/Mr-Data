@@ -6,8 +6,6 @@
 #include <cstring>
 #include <iostream>
 #include "BenchMarker.h"
-
-
 #pragma comment(lib, "ws2_32.lib")
 
 class UDPServer

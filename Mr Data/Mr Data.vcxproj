@@ -178,8 +178,6 @@
   <ItemGroup>
     <ClCompile Include="App.cpp" />
     <ClCompile Include="Bindable.cpp" />
-    <ClCompile Include="Box.cpp" />
-    <ClCompile Include="BoxFill.cpp" />
     <ClCompile Include="Drawable.cpp" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="imgui.cpp" />
@@ -191,12 +189,10 @@
     <ClCompile Include="IndexBuffer.cpp" />
     <ClCompile Include="InputLayout.cpp" />
     <ClCompile Include="Keyboard.cpp" />
-    <ClCompile Include="LineMaker.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="MyException.cpp" />
     <ClCompile Include="NDI_Send.cpp" />
     <ClCompile Include="PixelShader.cpp" />
-    <ClCompile Include="BoxOutline.cpp" />
     <ClCompile Include="RenderMode.cpp" />
     <ClCompile Include="Topology.cpp" />
     <ClCompile Include="TransformCbuf.cpp" />
@@ -211,14 +207,9 @@
     <ClInclude Include="BenchMarker.h" />
     <ClInclude Include="Bindable.h" />
     <ClInclude Include="BindableBase.h" />
-    <ClInclude Include="Box.h" />
-    <ClInclude Include="BoxFill.h" />
     <ClInclude Include="Color.h" />
-    <ClInclude Include="Cone.h" />
     <ClInclude Include="ConstantBuffer.h" />
-    <ClInclude Include="Cube.h" />
     <ClInclude Include="Drawable.h" />
-    <ClInclude Include="DrawableBase.h" />
     <ClInclude Include="Gfx_Exception_Macros.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="imconfig.h" />
@@ -231,26 +222,17 @@
     <ClInclude Include="imstb_textedit.h" />
     <ClInclude Include="imstb_truetype.h" />
     <ClInclude Include="IndexBuffer.h" />
-    <ClInclude Include="IndexedLineList.h" />
-    <ClInclude Include="IndexedTriangleList.h" />
     <ClInclude Include="InputLayout.h" />
     <ClInclude Include="Keyboard.h" />
-    <ClInclude Include="Line.h" />
-    <ClInclude Include="LineMaker.h" />
     <ClInclude Include="MD_Math.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="MyException.h" />
     <ClInclude Include="NDI_Send.h" />
     <ClInclude Include="PixelShader.h" />
-    <ClInclude Include="BoxOutline.h" />
-    <ClInclude Include="Plane.h" />
-    <ClInclude Include="Prism.h" />
-    <ClInclude Include="Quad.h" />
     <ClInclude Include="RenderMode.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="StringHandling.h" />
     <ClInclude Include="TextNode.h" />
-    <ClInclude Include="Sphere.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="Topology.h" />
     <ClInclude Include="TransformCbuf.h" />
@@ -338,7 +320,6 @@
     <None Include="assets\arial_64_Italic.spritefont" />
     <None Include="assets\courier_new_32.spritefont" />
     <None Include="assets\courier_new_32_i.spritefont" />
-    <None Include="assets\SpriteFont Instructions" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

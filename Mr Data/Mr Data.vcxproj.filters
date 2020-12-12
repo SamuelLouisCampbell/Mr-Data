@@ -31,9 +31,6 @@
     <Filter Include="Source Files\Drawable">
       <UniqueIdentifier>{8da9d17a-66a2-4f35-aff3-00fd03334b3b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Drawables\Primitives">
-      <UniqueIdentifier>{a0a8f9a9-9a32-401b-bb8f-6af3ce716bac}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Imgui">
       <UniqueIdentifier>{e9cefe60-805c-44ab-b5b5-b7d9caf3e31d}</UniqueIdentifier>
     </Filter>
@@ -90,9 +87,6 @@
     <ClCompile Include="Drawable.cpp">
       <Filter>Source Files\Drawable</Filter>
     </ClCompile>
-    <ClCompile Include="Box.cpp">
-      <Filter>Source Files\Drawable</Filter>
-    </ClCompile>
     <ClCompile Include="imgui.cpp">
       <Filter>Source Files\Imgui</Filter>
     </ClCompile>
@@ -116,15 +110,6 @@
     </ClCompile>
     <ClCompile Include="NDI_Send.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="LineMaker.cpp">
-      <Filter>Source Files\Drawable</Filter>
-    </ClCompile>
-    <ClCompile Include="BoxOutline.cpp">
-      <Filter>Source Files\Drawable</Filter>
-    </ClCompile>
-    <ClCompile Include="BoxFill.cpp">
-      <Filter>Source Files\Drawable</Filter>
     </ClCompile>
     <ClCompile Include="RenderMode.cpp">
       <Filter>Source Files</Filter>
@@ -197,35 +182,8 @@
     <ClInclude Include="BindableBase.h">
       <Filter>Header Files\Bindables</Filter>
     </ClInclude>
-    <ClInclude Include="Drawable.h">
-      <Filter>Header Files\Drawables</Filter>
-    </ClInclude>
-    <ClInclude Include="Box.h">
-      <Filter>Header Files\Drawables</Filter>
-    </ClInclude>
-    <ClInclude Include="DrawableBase.h">
-      <Filter>Header Files\Drawables</Filter>
-    </ClInclude>
-    <ClInclude Include="IndexedTriangleList.h">
-      <Filter>Header Files\Drawables</Filter>
-    </ClInclude>
     <ClInclude Include="MD_Math.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Cone.h">
-      <Filter>Header Files\Drawables\Primitives</Filter>
-    </ClInclude>
-    <ClInclude Include="Cube.h">
-      <Filter>Header Files\Drawables\Primitives</Filter>
-    </ClInclude>
-    <ClInclude Include="Sphere.h">
-      <Filter>Header Files\Drawables\Primitives</Filter>
-    </ClInclude>
-    <ClInclude Include="Plane.h">
-      <Filter>Header Files\Drawables\Primitives</Filter>
-    </ClInclude>
-    <ClInclude Include="Prism.h">
-      <Filter>Header Files\Drawables\Primitives</Filter>
     </ClInclude>
     <ClInclude Include="imconfig.h">
       <Filter>Header Files\Imgui</Filter>
@@ -266,24 +224,6 @@
     <ClInclude Include="NDI_Send.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Quad.h">
-      <Filter>Header Files\Drawables\Primitives</Filter>
-    </ClInclude>
-    <ClInclude Include="IndexedLineList.h">
-      <Filter>Header Files\Drawables</Filter>
-    </ClInclude>
-    <ClInclude Include="Line.h">
-      <Filter>Header Files\Drawables\Primitives</Filter>
-    </ClInclude>
-    <ClInclude Include="LineMaker.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BoxOutline.h">
-      <Filter>Header Files\Drawables</Filter>
-    </ClInclude>
-    <ClInclude Include="BoxFill.h">
-      <Filter>Header Files\Drawables</Filter>
-    </ClInclude>
     <ClInclude Include="RenderMode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -295,6 +235,9 @@
     </ClInclude>
     <ClInclude Include="BenchMarker.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Drawable.h">
+      <Filter>Header Files\Drawables</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -330,9 +273,6 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="assets\courier_new_32_i.spritefont">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="assets\SpriteFont Instructions">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="assets\arial_64.spritefont">

@@ -25,7 +25,6 @@ public:
 		{
 			std::stringstream ss;
 			ss << "Cannot Bind Socket " << WSAGetLastError();
-			OutputDebugStringA(ss.str().c_str());
 			throw std::exception(ss.str().c_str());
 		}
 
@@ -38,7 +37,6 @@ public:
 		{
 			std::stringstream ss;
 			ss << "Bad IP Address " << WSAGetLastError();
-			OutputDebugStringA(ss.str().c_str());
 			throw std::exception(ss.str().c_str());
 		}
 		else
@@ -59,7 +57,6 @@ public:
 		{
 			std::stringstream ss;
 			ss << "Cannot Send Data " << WSAGetLastError();
-			OutputDebugStringA(ss.str().c_str());
 			throw std::exception(ss.str().c_str());
 		}
 	}
