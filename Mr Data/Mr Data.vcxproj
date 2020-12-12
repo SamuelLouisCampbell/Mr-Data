@@ -194,6 +194,7 @@
     <ClCompile Include="NDI_Send.cpp" />
     <ClCompile Include="PixelShader.cpp" />
     <ClCompile Include="RenderMode.cpp" />
+    <ClCompile Include="SetupMode.cpp" />
     <ClCompile Include="Topology.cpp" />
     <ClCompile Include="TransformCbuf.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
@@ -232,6 +233,7 @@
     <ClInclude Include="PixelShader.h" />
     <ClInclude Include="RenderMode.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="SetupMode.h" />
     <ClInclude Include="StringHandling.h" />
     <ClInclude Include="TextNode.h" />
     <ClInclude Include="Time.h" />

@@ -4,6 +4,7 @@
 #include <string>
 #include "BindableBase.h"
 #include "RenderMode.h"
+#include "SetupMode.h"
 
 
 class App
@@ -17,11 +18,12 @@ private:
 	void EngageMode(bool mode);
 	
 private:
-	bool rMode = true;
+	bool rMode = false;
 	IMGuiManager img;
 	Window wnd;
 	RMData rmd;
 	std::unique_ptr<RenderMode> rm;
+	std::unique_ptr<SetupMode> sm;
 	Color clearColor = Colors::Black;
 
 };

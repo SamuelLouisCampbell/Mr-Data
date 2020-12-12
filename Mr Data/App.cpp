@@ -35,7 +35,14 @@ void App::ComposeFrame()
 {
 	PROFILE_FUNCTION();
 	wnd.Gfx().BeginFrame(clearColor);
-	rm->Update(wnd);
+	if (rMode)
+	{
+		rm->Update(wnd);
+	}
+	else
+	{
+		sm->Update();
+	}
 }
 
 void App::EngageMode(bool mode)
@@ -43,7 +50,7 @@ void App::EngageMode(bool mode)
 
 	if (mode == false)
 	{
-
+		sm = std::make_unique<SetupMode>();
 	}
 	else
 	{
@@ -59,6 +66,14 @@ void App::EngageMode(bool mode)
 void App::RenderFrame()
 {
 	PROFILE_FUNCTION();
-	rm->Render(wnd.Gfx());
-	rm->SendNDI(wnd.Gfx());
+	if (rMode)
+	{
+		rm->Render(wnd.Gfx());
+		rm->SendNDI(wnd.Gfx());
+	}
+	else
+	{
+		sm->Render();
+	}
 }
+	
