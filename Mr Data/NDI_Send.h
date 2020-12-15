@@ -8,12 +8,13 @@
 class NDI_Send
 {
 public:
-	NDI_Send(int in_resX = 1440, int in_resY = 900);
+	NDI_Send();
 	~NDI_Send();
+	void NDI_Init(int in_resX = 1440, int in_resY = 900);
 	void SendNDIFrame(Graphics& gfx);
 private:
-	unsigned int resX;
-	unsigned int resY;
+	unsigned int resX = 0;
+	unsigned int resY = 0;
 
 	//ndi stuff
 	NDIlib_send_instance_t pNDI_send;

@@ -5,7 +5,6 @@
 RenderMode::RenderMode(Graphics& gfx, RMData& data)
 	:
 	txt(gfx, 1.0f, 0.0f, L"assets/arial_128.spritefont"),
-	ndi(gfx.GetWindowWidth(), gfx.GetWindowHeight()),
 	echoClient(data.clientPort, data.clientIP),
 	udp_s(data.serverPort)
 {
@@ -17,7 +16,6 @@ RenderMode::RenderMode(Graphics& gfx, RMData& data)
 
 RenderMode::~RenderMode()
 {
-	ndi.~NDI_Send();
 }
 
 void RenderMode::Update(Window& wnd)
@@ -150,11 +148,6 @@ void RenderMode::Render(Graphics& gfx)
 	{
 		MessageBox(nullptr, e.wideWhat(), e.GetType(), MB_OK | MB_ICONASTERISK);
 	}
-}
-
-void RenderMode::SendNDI(Graphics& gfx)
-{
-	ndi.SendNDIFrame(gfx);
 }
 
 bool RenderMode::returnToSetupMode() const

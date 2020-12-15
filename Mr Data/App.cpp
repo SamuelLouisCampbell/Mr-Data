@@ -11,6 +11,8 @@ App::App()
 {
 	wnd.Gfx().SetProjection(DirectX::XMMatrixOrthographicOffCenterLH(0.0f, float(wnd.Gfx().GetWindowWidth()),
 							float(wnd.Gfx().GetWindowHeight()), 0.0f, 0.0f, 1.0f));
+	//setup ndi
+	ndi.NDI_Init(wnd.GetWidth(), wnd.GetHeight());
 	EngageSetupMode();
 }
 
@@ -74,7 +76,7 @@ void App::RenderFrame()
 	if (rMode)
 	{
 		rm->Render(wnd.Gfx());
-		rm->SendNDI(wnd.Gfx());
+		ndi.SendNDIFrame(wnd.Gfx());
 	}
 
 }

@@ -3,11 +3,23 @@
 #include <cassert>
 
 
-NDI_Send::NDI_Send(int in_resX, int in_resY)
-	:
-	resX(in_resX),
-	resY(in_resY)
+NDI_Send::NDI_Send()
 {
+}
+
+NDI_Send::~NDI_Send()
+{
+	NDIlib_destroy();
+}
+
+void NDI_Send::NDI_Init(int in_resX, int in_resY)
+{
+	//check we haven't alrady set res.
+	assert(resX == 0 && resY == 0);
+
+	resX = in_resX;
+	resY = in_resY;
+
 	if (!NDIlib_initialize())
 	{
 		OutputDebugString(L"Cannot run NDI on this architecture.\n");
@@ -23,13 +35,6 @@ NDI_Send::NDI_Send(int in_resX, int in_resY)
 	NDI_video_frame.frame_rate_N = 60000;
 	NDI_video_frame.frame_rate_D = 1000;
 	OutputDebugString(L"NDI Constructor complete...\n");
-}
-
-NDI_Send::~NDI_Send()
-{
-	NDIlib_destroy();
-	NDI_video_frame.p_data = nullptr;
-
 }
 
 void NDI_Send::SendNDIFrame(Graphics& gfx)

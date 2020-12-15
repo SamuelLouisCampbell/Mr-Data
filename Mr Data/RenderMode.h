@@ -22,7 +22,6 @@ public:
 	~RenderMode();
 	void Update(Window& wnd);
 	void Render(Graphics& gfx);
-	void SendNDI(Graphics& gfx);
 	bool returnToSetupMode() const;
 private:
 	void StringControl(const std::string& ctrlStr, Color& colChange);
@@ -33,8 +32,6 @@ private:
 	DirectX::SimpleMath::Vector2 centre;
 	bool returnToSetup = false;
 
-	//NDI stuff
-	NDI_Send ndi;
 
 	//UDP stuff
 	std::thread serverThread;
