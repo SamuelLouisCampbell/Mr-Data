@@ -4,15 +4,14 @@ class SetupMode
 {
 public:
 	void Update();
-	void Render();
 	RMData GetRMData() const;
-	bool InSetupMode() const;
+	bool SetupComplete() const;
 	void SetSetupMode(bool setMode);
 private:
-	RMData rmd;
+	
 	int serverPort = 6000;
 	int clientPort = 5000;
 	std::string IP = "127.0.0.1";
-	bool finished = false;
+	bool setupComplete = false;
 };
 

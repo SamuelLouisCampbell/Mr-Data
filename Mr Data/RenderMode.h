@@ -6,11 +6,12 @@
 #include "Window.h"
 #include "UDPClient.h"
 #include "UDPServer.h"
+#include <thread>
 
-static struct RMData
+struct RMData
 {
 	uint16_t clientPort;
-	int16_t serverPort;
+	uint16_t serverPort;
 	const char* clientIP;
 };
 
@@ -18,9 +19,11 @@ class RenderMode
 {
 public:
 	RenderMode(Graphics& gfx, RMData& data);
+	~RenderMode();
 	void Update(Window& wnd);
 	void Render(Graphics& gfx);
 	void SendNDI(Graphics& gfx);
+	bool returnToSetupMode() const;
 private:
 	void StringControl(const std::string& ctrlStr, Color& colChange);
 private:
@@ -28,11 +31,13 @@ private:
 	TextNode txt;
 	FPS fps;
 	DirectX::SimpleMath::Vector2 centre;
+	bool returnToSetup = false;
 
 	//NDI stuff
 	NDI_Send ndi;
 
 	//UDP stuff
+	std::thread serverThread;
 	UDPClient echoClient;
 	UDPServer udp_s;
 

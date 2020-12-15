@@ -11,7 +11,7 @@ App::App()
 {
 	wnd.Gfx().SetProjection(DirectX::XMMatrixOrthographicOffCenterLH(0.0f, float(wnd.Gfx().GetWindowWidth()),
 							float(wnd.Gfx().GetWindowHeight()), 0.0f, 0.0f, 1.0f));
-	EngageMode(rMode);
+	EngageSetupMode();
 }
 
 int App::Setup()
@@ -38,27 +38,32 @@ void App::ComposeFrame()
 	if (rMode)
 	{
 		rm->Update(wnd);
+		if (rm->returnToSetupMode())
+		{
+			rm.reset();
+			rm = nullptr;
+			sm = std::make_unique<SetupMode>();
+			rMode = false;
+		}
 	}
 	else
 	{
 		sm->Update();
+		if (sm->SetupComplete())
+		{
+			RMData rmd = sm->GetRMData();
+			rm = std::make_unique<RenderMode>(wnd.Gfx(), rmd);
+			rMode = true;
+			sm.reset();
+			sm = nullptr;
+		}
+
 	}
 }
 
-void App::EngageMode(bool mode)
+void App::EngageSetupMode()
 {
-
-	if (mode == false)
-	{
-		sm = std::make_unique<SetupMode>();
-	}
-	else
-	{
-		rmd.clientIP = "127.0.0.1";
-		rmd.clientPort = 5000U;
-		rmd.serverPort = 6000U;
-		rm = std::make_unique<RenderMode>(wnd.Gfx(), rmd);
-	}
+	sm = std::make_unique<SetupMode>();
 }
 
 
@@ -71,9 +76,6 @@ void App::RenderFrame()
 		rm->Render(wnd.Gfx());
 		rm->SendNDI(wnd.Gfx());
 	}
-	else
-	{
-		sm->Render();
-	}
+
 }
 	

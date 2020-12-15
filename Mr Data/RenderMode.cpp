@@ -1,12 +1,13 @@
 #include "RenderMode.h"
 #include <cmath>
+#include <functional>
 
 RenderMode::RenderMode(Graphics& gfx, RMData& data)
 	:
 	txt(gfx, 1.0f, 0.0f, L"assets/arial_128.spritefont"),
 	ndi(gfx.GetWindowWidth(), gfx.GetWindowHeight()),
-	udp_s(data.serverPort),
-	echoClient(data.clientPort, data.clientIP)
+	echoClient(data.clientPort, data.clientIP),
+	udp_s(data.serverPort)
 {
 	centre.x = float(gfx.GetWindowWidth()) / 2.0f;
 	centre.y = float(gfx.GetWindowHeight()) / 2.0f;
@@ -14,12 +15,17 @@ RenderMode::RenderMode(Graphics& gfx, RMData& data)
 	txt.Bind(gfx);
 }
 
+RenderMode::~RenderMode()
+{
+	ndi.~NDI_Send();
+}
+
 void RenderMode::Update(Window& wnd)
 {
 	PROFILE_FUNCTION();
 	
 	//get messages from network.
-	udp_s.Recieve();
+	//serverThread = std::thread{ udp_s, udp_s.Recieve()}; /////problems!!////
 	
 	fps.Update(time.Mark());
 	std::wstringstream wss;
@@ -44,6 +50,10 @@ void RenderMode::Update(Window& wnd)
 			{
 				textCol = { 1.0f, 1.0f, 1.0f, 1.0f };
 			}
+			if (ImGui::Button("Enter Setup"))
+			{
+				returnToSetup = true;
+			}
 			txt.setScale(currScale);
 			txt.setRotation(rotation);
 
@@ -56,8 +66,8 @@ void RenderMode::Render(Graphics& gfx)
 {
 	PROFILE_FUNCTION();
 	//get messages and parse out control segments
-	std::string str = udp_s.GetNetworkMessage();
-	//std::string str = "........Hello Sarah!";
+	//std::string str = udp_s.GetNetworkMessage();
+	std::string str = "........Hello Sarah!";
 	std::string controlString = str.substr(0, 8);
 	str.erase(0, 8);
 
@@ -144,8 +154,12 @@ void RenderMode::Render(Graphics& gfx)
 
 void RenderMode::SendNDI(Graphics& gfx)
 {
-	PROFILE_FUNCTION();
 	ndi.SendNDIFrame(gfx);
+}
+
+bool RenderMode::returnToSetupMode() const
+{
+	return returnToSetup;
 }
 
 void RenderMode::StringControl(const std::string& ctrlStr, Color& colChange)

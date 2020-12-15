@@ -38,7 +38,7 @@ public:
 			std::stringstream ss;
 			ss << "Cannot Bind Socket " << WSAGetLastError();
 			OutputDebugStringA(ss.str().c_str());
-			//throw std::exception(ss.str().c_str());
+			throw std::exception(ss.str().c_str());
 		}
 		else
 		{
@@ -113,7 +113,7 @@ public:
 	}
 
 private:
-	bool dataAvailable(int sock, int interval = 200)
+	bool dataAvailable(int sock, int interval = 600)
 	{
 		PROFILE_FUNCTION();
 		fd_set fds;

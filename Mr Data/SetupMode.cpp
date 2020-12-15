@@ -7,25 +7,29 @@ void SetupMode::Update()
 		ImGui::InputInt("Outgoing Port Number 0 - 65535", &serverPort);
 		ImGui::InputInt("Incoming Port Number 0 - 65535", &clientPort);
 		ImGui::InputText("Remote Machine IP", IP.data(), IP.size());
+		if (ImGui::Button("Compete Setup"))
+		{
+			SetSetupMode(true);
+		}
 	}
 	ImGui::End();
 }
 
-void SetupMode::Render()
-{
-}
-
 RMData SetupMode::GetRMData() const
 {
-    return RMData();
+	RMData rmd;
+	rmd.clientIP = IP.c_str();
+	rmd.clientPort = clientPort;
+	rmd.serverPort = serverPort;
+	return rmd;
 }
 
-bool SetupMode::InSetupMode() const
+bool SetupMode::SetupComplete() const
 {
-	return finished;
+	return setupComplete;
 }
 
 void SetupMode::SetSetupMode(bool setMode)
 {
-	finished = setMode;
+	setupComplete = setMode;
 }

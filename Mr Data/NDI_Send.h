@@ -9,6 +9,7 @@ class NDI_Send
 {
 public:
 	NDI_Send(int in_resX = 1440, int in_resY = 900);
+	~NDI_Send();
 	void SendNDIFrame(Graphics& gfx);
 private:
 	unsigned int resX;
