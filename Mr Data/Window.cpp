@@ -146,6 +146,11 @@ int Window::GetHeight() const noexcept
 	return height;
 }
 
+void Window::DoMessageBox(const std::wstring text, const std::wstring caption)
+{
+	MessageBox(hWnd, text.c_str(), caption.c_str(), MB_OK);
+}
+
 LRESULT Window::HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
 {
 	if (msg == WM_NCCREATE)

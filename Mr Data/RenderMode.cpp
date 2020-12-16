@@ -5,8 +5,8 @@
 RenderMode::RenderMode(Graphics& gfx, RMData& data)
 	:
 	txt(gfx, 1.0f, 0.0f, L"assets/arial_128.spritefont"),
-	echoClient(data.clientPort, data.clientIP),
-	udp_s(data.serverPort)
+	echoClient(data.GetClientPort(), data.GetIP()),
+	udp_s(data.GetServerPort())
 {
 	centre.x = float(gfx.GetWindowWidth()) / 2.0f;
 	centre.y = float(gfx.GetWindowHeight()) / 2.0f;
@@ -23,7 +23,7 @@ void RenderMode::Update(Window& wnd)
 	PROFILE_FUNCTION();
 	
 	//get messages from network.
-	//serverThread = std::thread{ udp_s, udp_s.Recieve()}; /////problems!!////
+	udp_s.Recieve();
 	
 	fps.Update(time.Mark());
 	std::wstringstream wss;
@@ -64,8 +64,8 @@ void RenderMode::Render(Graphics& gfx)
 {
 	PROFILE_FUNCTION();
 	//get messages and parse out control segments
-	//std::string str = udp_s.GetNetworkMessage();
-	std::string str = "........Hello Sarah!";
+	std::string str = udp_s.GetNetworkMessage();
+	//std::string str = "........Hello Sarah!";
 	std::string controlString = str.substr(0, 8);
 	str.erase(0, 8);
 

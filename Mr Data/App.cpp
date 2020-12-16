@@ -50,10 +50,22 @@ void App::ComposeFrame()
 	}
 	else
 	{
+		
 		sm->Update();
+		
 		if (sm->SetupComplete())
 		{
 			RMData rmd = sm->GetRMData();
+			if(!rmd.CheckRMPortsGood())
+			{
+				wnd.DoMessageBox(L"There was a problem with your port selection.\nReverting to Default (Incoming 5000, Outgoing 6000)", L"Port Error");
+				rmd.SetPortToDefault();
+			}
+			if (!rmd.CheckRMIPGood())
+			{
+				wnd.DoMessageBox(L"There was a problem with your IP selection.\nReverting to Default (127.0.0.1)", L"IP Error");
+				rmd.SetIPToDefault();
+			}
 			rm = std::make_unique<RenderMode>(wnd.Gfx(), rmd);
 			rMode = true;
 			sm.reset();

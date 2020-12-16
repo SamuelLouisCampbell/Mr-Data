@@ -113,7 +113,7 @@ public:
 	}
 
 private:
-	bool dataAvailable(int sock, int interval = 600)
+	bool dataAvailable(int sock, int interval = 100)
 	{
 		PROFILE_FUNCTION();
 		fd_set fds;

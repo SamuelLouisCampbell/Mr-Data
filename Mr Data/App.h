@@ -23,7 +23,6 @@ private:
 	bool rMode = false;
 	IMGuiManager img;
 	Window wnd;
-	RMData rmd;
 	std::unique_ptr<RenderMode> rm = nullptr;
 	std::unique_ptr<SetupMode> sm = nullptr;
 	Color clearColor = Colors::Black;

@@ -62,7 +62,7 @@ public:
 	}
 
 private:
-	const unsigned short port; 
+	unsigned short port; 
 	const char* ip_addr;
 	SOCKET out;
 	sockaddr_in serverHint;

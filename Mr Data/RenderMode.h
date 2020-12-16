@@ -8,10 +8,57 @@
 #include "UDPServer.h"
 #include <thread>
 
-struct RMData
+class RMData
 {
-	uint16_t clientPort;
-	uint16_t serverPort;
+public: 
+	RMData(size_t clientPort_in, size_t serverPort_in, const char* clientIP)
+		:
+		clientIP(clientIP),
+		serverPort(serverPort_in),
+		clientPort(clientPort_in)
+	{}
+	bool CheckRMIPGood()
+	{
+		const char* addrBuff; // Thrown away here :-(
+		if (inet_pton(AF_INET, clientIP, &addrBuff) != 1)
+			return false;
+		else
+			return true;
+	}
+	bool CheckRMPortsGood()
+	{
+		if (serverPort == clientPort)
+			return false;
+		if (serverPort >= std::numeric_limits<unsigned short>::max() || serverPort <= 0U)
+			return false;
+		if (clientPort >= std::numeric_limits<unsigned short>::max() || clientPort <= 0U)
+			return false;
+		else return true;
+	}
+	unsigned short GetClientPort() const
+	{
+		return unsigned short(clientPort);
+	}
+	unsigned short GetServerPort() const
+	{
+		return unsigned short(serverPort);
+	}
+	const char* GetIP() const
+	{
+		return clientIP;
+	}
+	void SetPortToDefault()
+	{
+		clientPort = 5000U;
+		serverPort = 6000U;
+	}
+	void SetIPToDefault()
+	{
+		clientIP = "127.0.0.1";
+	}
+private:
+	size_t clientPort;
+	size_t serverPort;
 	const char* clientIP;
 };
 

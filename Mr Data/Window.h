@@ -59,6 +59,7 @@ public:
 	Graphics& Gfx();
 	int GetWidth() const noexcept;
 	int GetHeight() const noexcept;
+	void DoMessageBox(const std::wstring text, const std::wstring caption);
 private:
 	static LRESULT CALLBACK HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
 	static LRESULT CALLBACK HandleMsgThunk(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
