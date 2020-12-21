@@ -1,0 +1,11 @@
+[IncomingPort] #6000
+[OutgoingPort] #5000
+[RemoteIP] #127.0.0.1
+[largeScale] #1.0
+[smallScale] #0.35
+[lineSpacingLarge] #1.65
+[lineSpacingSmall] #0.7
+
+
+
+//Do not change this format, or this file won't be read and it probably will crash your session becuase I'm a lazy programmer.

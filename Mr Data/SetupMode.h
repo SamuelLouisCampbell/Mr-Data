@@ -13,6 +13,10 @@ private:
 	int serverPort = 6000;
 	int clientPort = 5000;
 	std::string IP = "127.0.0.1";
+	float largeScale;
+	float smallScale;
+	float lineSpacingLarge;
+	float lineSpacingSmall;
 	bool setupComplete = false;
 };
 

@@ -5,6 +5,10 @@
 RenderMode::RenderMode(Graphics& gfx, RMData& data)
 	:
 	txt(gfx, 1.0f, 0.0f, L"assets/arial_128.spritefont"),
+	largeScale(data.GetLargeScale()),
+	smallScale(data.GetSmallScale()),
+	lineSpacingLarge(data.GetLargeSpacing()),
+	lineSpacingSmall(data.GetSmallSpacing()),
 	echoClient(data.GetClientPort(), data.GetIP()),
 	udp_s(data.GetServerPort())
 {
@@ -44,9 +48,10 @@ void RenderMode::Update(Window& wnd)
 			ImGui::SliderFloat("Delta Alpha (time)", &deltaAlpha, 0.0f, 3.0f);
 			ImGui::SliderFloat("Delta Zoom  (time)", &deltaZoom, 0.01f, 1.0f);
 			ImGui::ColorPicker3("Color", &oldTextCol.r, ImGuiColorEditFlags_::ImGuiColorEditFlags_AlphaBar);
-			if (ImGui::Button("Reset"))
+			if (ImGui::Button("Reset Color"))
 			{
 				textCol = { 1.0f, 1.0f, 1.0f, 1.0f };
+				oldTextCol = { Colors::White };
 			}
 			if (ImGui::Button("Enter Setup"))
 			{
@@ -65,7 +70,6 @@ void RenderMode::Render(Graphics& gfx)
 	PROFILE_FUNCTION();
 	//get messages and parse out control segments
 	std::string str = udp_s.GetNetworkMessage();
-	//std::string str = "........Hello Sarah!";
 	std::string controlString = str.substr(0, 8);
 	str.erase(0, 8);
 
@@ -116,7 +120,6 @@ void RenderMode::Render(Graphics& gfx)
 
 	try
 	{
-		
 		if (message.size() > 0)
 		{
 			alpha = 1.0f;

@@ -10,11 +10,16 @@
 class RMData
 {
 public: 
-	RMData(size_t clientPort_in, size_t serverPort_in, const char* clientIP)
+	RMData(size_t clientPort_in, size_t serverPort_in, const char* clientIP, float largeScale, 
+		   float smallScale, float lineSpacingLarge, float lineSpacingSmall)
 		:
 		clientIP(clientIP),
 		serverPort(serverPort_in),
-		clientPort(clientPort_in)
+		clientPort(clientPort_in),
+		largeScale(largeScale),
+		smallScale(smallScale),
+		lineSpacingLarge(lineSpacingLarge),
+		lineSpacingSmall(lineSpacingSmall)
 	{}
 	bool CheckRMIPGood()
 	{
@@ -55,10 +60,30 @@ public:
 	{
 		clientIP = "127.0.0.1";
 	}
+	float GetLargeScale() const
+	{
+		return largeScale;
+	}
+	float GetSmallScale() const
+	{
+		return smallScale;
+	}
+	float GetLargeSpacing() const
+	{
+		return lineSpacingLarge;
+	}
+	float GetSmallSpacing() const
+	{
+		return lineSpacingSmall;
+	}
 private:
 	size_t clientPort;
 	size_t serverPort;
 	const char* clientIP;
+	float largeScale;
+	float smallScale;
+	float lineSpacingLarge;
+	float lineSpacingSmall;
 };
 
 class RenderMode

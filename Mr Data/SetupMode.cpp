@@ -23,6 +23,26 @@ bool SetupMode::Init(const std::string filename)
 		std::getline(defFile, line);
 		n = line.find("#");
 		IP = line.substr(n + 1, line.size());
+		//Large Scale Text
+		std::getline(defFile, line);
+		n = line.find("#");
+		substr = line.substr(n + 1, line.size());
+		largeScale = std::stof(substr);
+		//Small Scale Text
+		std::getline(defFile, line);
+		n = line.find("#");
+		substr = line.substr(n + 1, line.size());
+		smallScale = std::stof(substr);
+		//Line Spacing Large
+		std::getline(defFile, line);
+		n = line.find("#");
+		substr = line.substr(n + 1, line.size());
+		lineSpacingLarge = std::stof(substr);
+		//Line Spacing Small
+		std::getline(defFile, line);
+		n = line.find("#");
+		substr = line.substr(n + 1, line.size());
+		lineSpacingSmall = std::stof(substr);
 		//close out
 		defFile.close();
 		return true;
@@ -34,7 +54,7 @@ void SetupMode::Update()
 {
 	if (!isInit)
 	{
-		Init("assets/defaults.txt");
+		Init("assets/renderer_defaults.txt");
 	}
 	if (ImGui::Begin("Setup System"))
 	{
@@ -51,7 +71,8 @@ void SetupMode::Update()
 
 RMData SetupMode::GetRMData() const
 {
-	RMData rmd{ size_t(clientPort), size_t(serverPort), IP.c_str() };
+	RMData rmd{ size_t(clientPort), size_t(serverPort), IP.c_str(),
+				largeScale, smallScale, lineSpacingLarge, lineSpacingSmall };
 	return rmd;
 }
 
