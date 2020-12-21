@@ -6,7 +6,6 @@
 #include "Window.h"
 #include "UDPClient.h"
 #include "UDPServer.h"
-#include <thread>
 
 class RMData
 {
