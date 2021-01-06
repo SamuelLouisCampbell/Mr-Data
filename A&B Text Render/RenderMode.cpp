@@ -8,13 +8,15 @@ RenderMode::RenderMode(Graphics& gfx, RMData& data)
 	largeScale(data.GetLargeScale()),
 	smallScale(data.GetSmallScale()),
 	lineSpacingLarge(data.GetLargeSpacing()),
-	lineSpacingSmall(data.GetSmallSpacing())
+	lineSpacingSmall(data.GetSmallSpacing()),
+	server(60000)
 	
 {
 	centre.x = float(gfx.GetWindowWidth()) / 2.0f;
 	centre.y = float(gfx.GetWindowHeight()) / 2.0f;
 	txt.SetPos(centre);
 	txt.Bind(gfx);
+	server.Start();
 }
 
 RenderMode::~RenderMode()
@@ -26,7 +28,7 @@ void RenderMode::Update(Window& wnd)
 	PROFILE_FUNCTION();
 	
 	//get messages from network.
-	
+	server.Update(-1, false);
 	
 	fps.Update(time.Mark());
 	std::wstringstream wss;
@@ -68,7 +70,8 @@ void RenderMode::Render(Graphics& gfx)
 {
 	PROFILE_FUNCTION();
 	//get messages and parse out control segments
-	std::string str; //= udp_s.GetNetworkMessage();
+	std::string str = server.GetMessageStream();
+	
 	std::string controlString = str.substr(0, 8);
 	str.erase(0, 8);
 

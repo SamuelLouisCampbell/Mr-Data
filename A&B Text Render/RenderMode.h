@@ -5,7 +5,7 @@
 #include "TextNode.h"
 #include "NDI_Send.h"
 #include "Window.h"
-
+#include "TCPNet.h"
 
 
 class RMData
@@ -93,6 +93,8 @@ private:
 	DirectX::SimpleMath::Vector2 centre;
 	bool returnToSetup = false;
 
+	//network
+	CustomServer server;
 
 	//text control
 	Color textCol = { 1.0f, 1.0f, 1.0f, 1.0f };
