@@ -9,6 +9,7 @@ enum class CustomMsgType : uint32_t
 	ServerPing,
 	MessageServer,
 	EchoMessage,
+	HealthCheckServer,
 };
 
 class CustomServer : public netcommon::NetServer<CustomMsgType>
@@ -20,11 +21,11 @@ public:
 	{
 
 	}
-	std::string GetInfoStream()
+	std::string GetInfoStream() const
 	{
 		return information;
 	}
-	std::string GetMessageStream()
+	std::string GetMessageStream() const
 	{
 		return message;
 	}
@@ -34,11 +35,18 @@ protected:
 		netcommon::message<CustomMsgType> msg;
 		msg.header.id = CustomMsgType::ServerAccept;
 		connection->Send(msg);
+	
+		std::stringstream ss;
+		ss << "Client Connected [" << connection->GetUUID() << "]\n";
+		information = ss.str();
+
 		return true;
 	}
 	virtual void OnClientDisconnect(std::shared_ptr<netcommon::connection<CustomMsgType>> connection) override
 	{
-		std::cout << "Removing client [" << connection->GetUUID() << "]\n";
+		std::stringstream ss;
+		ss << "Client Disconnected [" << connection->GetUUID() << "]\n";
+		information = ss.str();
 	}
 	virtual void OnMessage(std::shared_ptr<netcommon::connection<CustomMsgType>> connection, const netcommon::message<CustomMsgType>& msg) override
 	{
@@ -72,7 +80,7 @@ protected:
 	}
 
 private:
-	std::string information;
-	std::string message;
+	std::string information = "";
+	std::string message = "";
 
 };

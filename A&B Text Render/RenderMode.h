@@ -83,7 +83,7 @@ public:
 	~RenderMode();
 	void Update(Window& wnd);
 	void Render(Graphics& gfx);
-	bool returnToSetupMode() const;
+	bool returnToSetupMode();
 private:
 	void StringControl(const std::string& ctrlStr, Color& colChange);
 private:
@@ -94,7 +94,7 @@ private:
 	bool returnToSetup = false;
 
 	//network
-	CustomServer server;
+	std::unique_ptr<CustomServer> server;
 
 	//text control
 	Color textCol = { 1.0f, 1.0f, 1.0f, 1.0f };

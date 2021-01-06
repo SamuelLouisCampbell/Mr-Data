@@ -8,19 +8,21 @@ RenderMode::RenderMode(Graphics& gfx, RMData& data)
 	largeScale(data.GetLargeScale()),
 	smallScale(data.GetSmallScale()),
 	lineSpacingLarge(data.GetLargeSpacing()),
-	lineSpacingSmall(data.GetSmallSpacing()),
-	server(60000)
-	
+	lineSpacingSmall(data.GetSmallSpacing())
 {
 	centre.x = float(gfx.GetWindowWidth()) / 2.0f;
 	centre.y = float(gfx.GetWindowHeight()) / 2.0f;
 	txt.SetPos(centre);
 	txt.Bind(gfx);
-	server.Start();
+	server = std::make_unique<CustomServer>(data.GetServerPort());
+	server->Start();
 }
 
 RenderMode::~RenderMode()
 {
+	server->Stop();
+	server.release();
+	server = nullptr;
 }
 
 void RenderMode::Update(Window& wnd)
@@ -28,7 +30,7 @@ void RenderMode::Update(Window& wnd)
 	PROFILE_FUNCTION();
 	
 	//get messages from network.
-	server.Update(-1, false);
+	server->Update(-1, false);
 	
 	fps.Update(time.Mark());
 	std::wstringstream wss;
@@ -40,7 +42,7 @@ void RenderMode::Update(Window& wnd)
 		{
 
 			//display where message came from in imgui
-			ImGui::TextColored({ 0.0f, 1.0f, 1.0f, 1.0f }, server.GetInfoStream().c_str());
+			ImGui::TextColored({ 0.0f, 1.0f, 1.0f, 1.0f }, server->GetInfoStream().c_str());
 			ImGui::InputFloat("Small text size", &smallScale, 0.02f);
 			ImGui::InputFloat("Small line spacing", &lineSpacingSmall, 0.02f);
 			ImGui::InputFloat("Large text size", &largeScale, 0.02f);
@@ -69,7 +71,7 @@ void RenderMode::Render(Graphics& gfx)
 {
 	PROFILE_FUNCTION();
 	//get messages and parse out control segments
-	std::string str = server.GetMessageStream();
+	std::string str = server->GetMessageStream();
 	
 	std::string controlString = str.substr(0, 8);
 	str.erase(0, 8);
@@ -153,7 +155,7 @@ void RenderMode::Render(Graphics& gfx)
 	}
 }
 
-bool RenderMode::returnToSetupMode() const
+bool RenderMode::returnToSetupMode()
 {
 	return returnToSetup;
 }
