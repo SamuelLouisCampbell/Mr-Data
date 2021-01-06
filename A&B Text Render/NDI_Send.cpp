@@ -32,7 +32,7 @@ void NDI_Send::NDI_Init(int in_resX, int in_resY)
 	NDI_video_frame.FourCC = NDIlib_FourCC_type_RGBA;
 	NDI_video_frame.line_stride_in_bytes = resX * 4;
 	NDI_video_frame.frame_format_type = NDIlib_frame_format_type_progressive;
-	NDI_video_frame.frame_rate_N = 120000;
+	NDI_video_frame.frame_rate_N = 60000;
 	NDI_video_frame.frame_rate_D = 1000;
 	OutputDebugString(L"NDI Constructor complete...\n");
 }

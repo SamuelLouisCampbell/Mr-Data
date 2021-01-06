@@ -40,7 +40,7 @@ void RenderMode::Update(Window& wnd)
 		{
 
 			//display where message came from in imgui
-			//ImGui::TextColored({ 1.0f, 0.0f, 0.0f, 1.0f }, udp_s.GetStatusReadout().c_str());
+			ImGui::TextColored({ 1.0f, 0.0f, 0.0f, 1.0f }, server.GetInfoStream().c_str());
 			//ImGui::TextColored({ 0.0f, 1.0f, 0.0f, 1.0f }, udp_s.GetMessageForGUI().c_str());
 			ImGui::InputFloat("Small text size", &smallScale, 0.02f);
 			ImGui::InputFloat("Small line spacing", &lineSpacingSmall, 0.02f);
@@ -118,7 +118,6 @@ void RenderMode::Render(Graphics& gfx)
 	size_t outSize;
 	mbstowcs_s(&outSize, wbuffer, size, str.c_str(), size); // convert to wsting
 	std::wstring message = wbuffer;
-	//echoClient.UDP_Send(str);
 
 	try
 	{
