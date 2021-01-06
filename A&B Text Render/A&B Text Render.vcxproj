@@ -71,19 +71,19 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(IncludePath)</IncludePath>
+    <IncludePath>C:\Users\Sam Campbell\source\repos\SamCamAsioNetworking\asio-1.18.0\asio-1.18.0\include;C:\Users\Sam Campbell\source\repos\SamCamAsioNetworking\NetCommon;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(IncludePath)</IncludePath>
+    <IncludePath>C:\Users\Sam Campbell\source\repos\SamCamAsioNetworking\asio-1.18.0\asio-1.18.0\include;C:\Users\Sam Campbell\source\repos\SamCamAsioNetworking\NetCommon;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(IncludePath)</IncludePath>
+    <IncludePath>C:\Users\Sam Campbell\source\repos\SamCamAsioNetworking\asio-1.18.0\asio-1.18.0\include;C:\Users\Sam Campbell\source\repos\SamCamAsioNetworking\NetCommon;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(IncludePath)</IncludePath>
+    <IncludePath>C:\Users\Sam Campbell\source\repos\SamCamAsioNetworking\asio-1.18.0\asio-1.18.0\include;C:\Users\Sam Campbell\source\repos\SamCamAsioNetworking\NetCommon;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -235,6 +235,7 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="SetupMode.h" />
     <ClInclude Include="StringHandling.h" />
+    <ClInclude Include="TCPNet.h" />
     <ClInclude Include="TextNode.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="Topology.h" />

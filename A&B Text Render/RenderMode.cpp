@@ -8,9 +8,8 @@ RenderMode::RenderMode(Graphics& gfx, RMData& data)
 	largeScale(data.GetLargeScale()),
 	smallScale(data.GetSmallScale()),
 	lineSpacingLarge(data.GetLargeSpacing()),
-	lineSpacingSmall(data.GetSmallSpacing()),
-	echoClient(data.GetClientPort(), data.GetIP()),
-	udp_s(data.GetServerPort())
+	lineSpacingSmall(data.GetSmallSpacing())
+	
 {
 	centre.x = float(gfx.GetWindowWidth()) / 2.0f;
 	centre.y = float(gfx.GetWindowHeight()) / 2.0f;
@@ -27,7 +26,7 @@ void RenderMode::Update(Window& wnd)
 	PROFILE_FUNCTION();
 	
 	//get messages from network.
-	udp_s.Recieve();
+	
 	
 	fps.Update(time.Mark());
 	std::wstringstream wss;
@@ -39,8 +38,8 @@ void RenderMode::Update(Window& wnd)
 		{
 
 			//display where message came from in imgui
-			ImGui::TextColored({ 1.0f, 0.0f, 0.0f, 1.0f }, udp_s.GetStatusReadout().c_str());
-			ImGui::TextColored({ 0.0f, 1.0f, 0.0f, 1.0f }, udp_s.GetMessageForGUI().c_str());
+			//ImGui::TextColored({ 1.0f, 0.0f, 0.0f, 1.0f }, udp_s.GetStatusReadout().c_str());
+			//ImGui::TextColored({ 0.0f, 1.0f, 0.0f, 1.0f }, udp_s.GetMessageForGUI().c_str());
 			ImGui::InputFloat("Small text size", &smallScale, 0.02f);
 			ImGui::InputFloat("Small line spacing", &lineSpacingSmall, 0.02f);
 			ImGui::InputFloat("Large text size", &largeScale, 0.02f);
@@ -69,7 +68,7 @@ void RenderMode::Render(Graphics& gfx)
 {
 	PROFILE_FUNCTION();
 	//get messages and parse out control segments
-	std::string str = udp_s.GetNetworkMessage();
+	std::string str; //= udp_s.GetNetworkMessage();
 	std::string controlString = str.substr(0, 8);
 	str.erase(0, 8);
 
@@ -116,7 +115,7 @@ void RenderMode::Render(Graphics& gfx)
 	size_t outSize;
 	mbstowcs_s(&outSize, wbuffer, size, str.c_str(), size); // convert to wsting
 	std::wstring message = wbuffer;
-	echoClient.UDP_Send(str);
+	//echoClient.UDP_Send(str);
 
 	try
 	{
@@ -160,7 +159,6 @@ bool RenderMode::returnToSetupMode() const
 
 void RenderMode::StringControl(const std::string& ctrlStr, Color& colChange)
 {
-	PROFILE_FUNCTION();
 	if (ctrlStr == "RED.....")
 		colChange = Colors::Red;
 	

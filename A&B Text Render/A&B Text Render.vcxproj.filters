@@ -248,6 +248,9 @@
     <ClInclude Include="SetupMode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TCPNet.h">
+      <Filter>Header Files\UDP</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="sclighting.ico">

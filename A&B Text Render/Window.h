@@ -1,4 +1,5 @@
 #pragma once
+
 #include "BarebonesWindows.h"
 #include "MyException.h"
 #include "resource.h"

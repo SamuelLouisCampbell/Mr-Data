@@ -1,5 +1,4 @@
-[IncomingPort] #6000
-[OutgoingPort] #5000
+[IncomingPort] #60000
 [RemoteIP] #127.0.0.1
 [largeScale] #1.0
 [smallScale] #0.35

@@ -1,6 +1,7 @@
 #pragma once
 //Use this file to include windows with a minimal required feature set
 
+
 //set unicode
 #ifndef UNICODE
 #define UNICODE
@@ -9,6 +10,12 @@
 //target win7 or later
 #define _WIN32_WINNT 0x0601
 #include <sdkddkver.h>
+
+//include asio to avoid conflicts
+#define ASIO_STANDALONE
+#include <asio.hpp>
+#include <asio/ts/buffer.hpp>
+#include <asio/ts/internet.hpp>
 
 //cut out all of this we do not need this may lead to errors when trying to 
 //do windows stuff, so start by commenting them all out and bringing them back 
@@ -31,7 +38,7 @@
 #define NONLS
 #define NOMEMMGR
 #define NOMETAFILE
-#define NOMINMAX
+//#define NOMINMAX
 #define NOOPENFILE
 #define NOSCROLL
 #define NOSERVICE
@@ -49,7 +56,7 @@
 #define NOIMAGE
 #define NOTAPE
 
-#define STRICT
+//#define STRICT
 
 //and then include windows
 #include <Windows.h>

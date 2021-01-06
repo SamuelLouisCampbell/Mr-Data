@@ -10,8 +10,7 @@ public:
 	void SetSetupMode(bool setMode);
 private:
 	bool isInit = false;
-	int serverPort = 6000;
-	int clientPort = 5000;
+	int serverPort = 60000;
 	std::string IP = "127.0.0.1";
 	float largeScale;
 	float smallScale;

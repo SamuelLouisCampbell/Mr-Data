@@ -1,21 +1,21 @@
 #pragma once
+
 #include "Time.h"
 #include "BindableBase.h"
 #include "TextNode.h"
 #include "NDI_Send.h"
 #include "Window.h"
-#include "UDPClient.h"
-#include "UDPServer.h"
+
+
 
 class RMData
 {
 public: 
-	RMData(size_t clientPort_in, size_t serverPort_in, const char* clientIP, float largeScale, 
+	RMData(size_t serverPort_in, const char* clientIP, float largeScale, 
 		   float smallScale, float lineSpacingLarge, float lineSpacingSmall)
 		:
 		clientIP(clientIP),
 		serverPort(serverPort_in),
-		clientPort(clientPort_in),
 		largeScale(largeScale),
 		smallScale(smallScale),
 		lineSpacingLarge(lineSpacingLarge),
@@ -31,17 +31,9 @@ public:
 	}
 	bool CheckRMPortsGood()
 	{
-		if (serverPort == clientPort)
-			return false;
 		if (serverPort >= std::numeric_limits<unsigned short>::max() || serverPort <= 0U)
 			return false;
-		if (clientPort >= std::numeric_limits<unsigned short>::max() || clientPort <= 0U)
-			return false;
 		else return true;
-	}
-	unsigned short GetClientPort() const
-	{
-		return unsigned short(clientPort);
 	}
 	unsigned short GetServerPort() const
 	{
@@ -53,8 +45,7 @@ public:
 	}
 	void SetPortToDefault()
 	{
-		clientPort = 5000U;
-		serverPort = 6000U;
+		serverPort = 60000U;
 	}
 	void SetIPToDefault()
 	{
@@ -77,7 +68,6 @@ public:
 		return lineSpacingSmall;
 	}
 private:
-	size_t clientPort;
 	size_t serverPort;
 	const char* clientIP;
 	float largeScale;
@@ -103,11 +93,6 @@ private:
 	DirectX::SimpleMath::Vector2 centre;
 	bool returnToSetup = false;
 
-
-	//UDP stuff
-	std::thread serverThread;
-	UDPClient echoClient;
-	UDPServer udp_s;
 
 	//text control
 	Color textCol = { 1.0f, 1.0f, 1.0f, 1.0f };
