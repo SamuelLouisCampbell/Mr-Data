@@ -58,7 +58,10 @@ protected:
 			std::stringstream str;
  			info << "[" << connection->GetUUID() << "]: Has Sent a Message!\n";
 			connection->Send(msg);
-			str << msg.body.data();
+			for (int i = 0; i < msg.size(); i++)
+			{
+				str << msg.body[i];
+			}
 			information = info.str();
 			message = str.str();
 			break;
