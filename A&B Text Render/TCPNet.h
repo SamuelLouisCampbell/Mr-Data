@@ -27,7 +27,13 @@ public:
 	}
 	std::string GetMessageStream() const
 	{
-		return message;
+		return messagestr;
+	}
+	void CheckClientsHealth()
+	{
+		netcommon::message<CustomMsgType> msg;
+		msg.header.id = CustomMsgType::HealthCheckServer;
+		MessageAllClients(msg);
 	}
 protected:
 	virtual bool OnClientConnect(std::shared_ptr<netcommon::connection<CustomMsgType>> connection) override
@@ -35,17 +41,18 @@ protected:
 		netcommon::message<CustomMsgType> msg;
 		msg.header.id = CustomMsgType::ServerAccept;
 		connection->Send(msg);
-	
 		std::stringstream ss;
 		ss << "Client Connected [" << connection->GetUUID() << "]\n";
 		information = ss.str();
-
 		return true;
 	}
 	virtual void OnClientDisconnect(std::shared_ptr<netcommon::connection<CustomMsgType>> connection) override
 	{
 		std::stringstream ss;
-		ss << "Client Disconnected [" << connection->GetUUID() << "]\n";
+		if (connection != nullptr)
+		{
+			ss << "Client Disconnected [" << connection->GetUUID() << "]\n";
+		}
 		information = ss.str();
 	}
 	virtual void OnMessage(std::shared_ptr<netcommon::connection<CustomMsgType>> connection, const netcommon::message<CustomMsgType>& msg) override
@@ -55,7 +62,7 @@ protected:
 		case CustomMsgType::ServerPing:
 		{
 			std::stringstream ss;
-			ss << "[" << connection->GetUUID() << "]: Server Ping\n";
+			ss << "[" << connection->GetUUID() << "]: Ping\n";
 			connection->Send(msg);
 			information = ss.str();
 			break;
@@ -66,21 +73,22 @@ protected:
 			std::stringstream str;
  			info << "[" << connection->GetUUID() << "]: Has Sent a Message!\n";
 			connection->Send(msg);
-			for (int i = 0; i < msg.size(); i++)
+			for (size_t i = 0; i < msg.size(); i++)
 			{
 				str << msg.body[i];
 			}
 			information = info.str();
-			message = str.str();
+			messagestr = str.str();
 			break;
 		}
 		default:
 			break;
 		}
 	}
+	
 
 private:
 	std::string information = "";
-	std::string message = "";
+	std::string messagestr = "";
 
 };

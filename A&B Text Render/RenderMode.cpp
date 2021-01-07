@@ -4,7 +4,7 @@
 
 RenderMode::RenderMode(Graphics& gfx, RMData& data)
 	:
-	txt(gfx, 1.0f, 0.0f, L"assets/arial_128.spritefont"),
+	txt(gfx, 1.0f, 0.0f, L"assets/AB_128.spritefont"),
 	largeScale(data.GetLargeScale()),
 	smallScale(data.GetSmallScale()),
 	lineSpacingLarge(data.GetLargeSpacing()),
@@ -28,10 +28,16 @@ RenderMode::~RenderMode()
 void RenderMode::Update(Window& wnd)
 {
 	PROFILE_FUNCTION();
-	
-	//get messages from network.
+	//run server
 	server->Update(-1, false);
-	
+	//send healthcheck to clients
+	if (netLooper >= 60)
+	{
+		netLooper = 0;
+		server->CheckClientsHealth();
+	}
+	netLooper++;
+
 	fps.Update(time.Mark());
 	std::wstringstream wss;
 	wss << "A&B Text. FPS : " << fps.Get();

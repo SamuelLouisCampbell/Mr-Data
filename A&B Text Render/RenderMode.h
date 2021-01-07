@@ -95,6 +95,7 @@ private:
 
 	//network
 	std::unique_ptr<CustomServer> server;
+	int netLooper = 58;
 
 	//text control
 	Color textCol = { 1.0f, 1.0f, 1.0f, 1.0f };
