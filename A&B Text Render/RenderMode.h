@@ -114,7 +114,6 @@ private:
 	float alpha = 1.0f;
 	float deltaZoom = 0.20f;
 	float deltaAlpha = 1.0f;
-
 };
 
 

@@ -61,13 +61,20 @@ void RenderMode::Update(Window& wnd)
 				textCol = { 1.0f, 1.0f, 1.0f, 1.0f };
 				oldTextCol = { Colors::White };
 			}
+			if (ImGui::Button("Set Large Text"))
+			{
+				currSmall = false;
+			}
+			if (ImGui::Button("Set Small Text"))
+			{
+				currSmall = true;
+			}
 			if (ImGui::Button("Enter Setup"))
 			{
 				returnToSetup = true;
 			}
 			txt.setScale(currScale);
 			txt.setRotation(rotation);
-
 		}
 		ImGui::End();
 	}
@@ -196,7 +203,6 @@ void RenderMode::StringControl(const std::string& ctrlStr, Color& colChange)
 	{
 		currSmall = false;
 	}
-
 	if (ctrlStr == "SMALL...")
 	{
 		currSmall = true;
