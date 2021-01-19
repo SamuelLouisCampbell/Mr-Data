@@ -27,9 +27,9 @@ RenderMode::~RenderMode()
 
 void RenderMode::Update(Window& wnd)
 {
-	PROFILE_FUNCTION();
 	//run server
 	server->Update(-1, false);
+
 	//send healthcheck to clients
 	if (netLooper >= 60)
 	{
@@ -61,17 +61,13 @@ void RenderMode::Update(Window& wnd)
 				textCol = { 1.0f, 1.0f, 1.0f, 1.0f };
 				oldTextCol = { Colors::White };
 			}
-			if (ImGui::Button("Set Large Text"))
+			if (ImGui::Button("Large Text"))
 			{
 				currSmall = false;
 			}
-			if (ImGui::Button("Set Small Text"))
+			if (ImGui::Button("Small Text"))
 			{
 				currSmall = true;
-			}
-			if (ImGui::Button("Enter Setup"))
-			{
-				returnToSetup = true;
 			}
 			txt.setScale(currScale);
 			txt.setRotation(rotation);
@@ -82,7 +78,6 @@ void RenderMode::Update(Window& wnd)
 
 void RenderMode::Render(Graphics& gfx)
 {
-	PROFILE_FUNCTION();
 	//get messages and parse out control segments
 	std::string str = server->GetMessageStream();
 	

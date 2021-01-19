@@ -97,6 +97,7 @@ private:
 	std::unique_ptr<CustomServer> server;
 	int netLooper = 58;
 
+
 	//text control
 	Color textCol = { 1.0f, 1.0f, 1.0f, 1.0f };
 	Color oldTextCol = { 1.0f, 1.0f, 1.0f, 1.0f };

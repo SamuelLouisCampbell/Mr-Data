@@ -58,7 +58,7 @@ void App::ComposeFrame()
 			RMData rmd = sm->GetRMData();
 			if(!rmd.CheckRMPortsGood())
 			{
-				wnd.DoMessageBox(L"There was a problem with your port selection.\nReverting to Default (Incoming 5000, Outgoing 6000)", L"Port Error");
+				wnd.DoMessageBox(L"There was a problem with your port selection.\nReverting to Default", L"Port Error");
 				rmd.SetPortToDefault();
 			}
 			if (!rmd.CheckRMIPGood())
