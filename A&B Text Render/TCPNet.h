@@ -22,7 +22,7 @@ public:
 
 	}
 	std::string GetInfoStream() const
-	{
+ 	{
 		return information;
 	}
 	std::string GetMessageStream() const

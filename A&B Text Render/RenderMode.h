@@ -96,7 +96,7 @@ private:
 	//network
 	std::unique_ptr<CustomServer> server;
 	int netLooper = 58;
-
+	std::string oldInfo = "No Messages";
 
 	//text control
 	Color textCol = { 1.0f, 1.0f, 1.0f, 1.0f };

@@ -48,7 +48,12 @@ void RenderMode::Update(Window& wnd)
 		{
 
 			//display where message came from in imgui
-			ImGui::TextColored({ 0.0f, 1.0f, 1.0f, 1.0f }, server->GetInfoStream().c_str());
+			
+			if (server->GetInfoStream().size() != 0)
+			{
+				oldInfo = server->GetInfoStream();	
+			}
+			ImGui::TextColored({ 0.0f, 1.0f, 1.0f, 1.0f }, oldInfo.c_str());
 			ImGui::InputFloat("Small text size", &smallScale, 0.02f);
 			ImGui::InputFloat("Small line spacing", &lineSpacingSmall, 0.02f);
 			ImGui::InputFloat("Large text size", &largeScale, 0.02f);
@@ -61,11 +66,11 @@ void RenderMode::Update(Window& wnd)
 				textCol = { 1.0f, 1.0f, 1.0f, 1.0f };
 				oldTextCol = { Colors::White };
 			}
-			if (ImGui::Button("Large Text"))
+			if (ImGui::Button("Large Text."))
 			{
 				currSmall = false;
 			}
-			if (ImGui::Button("Small Text"))
+			if (ImGui::Button("Small Text."))
 			{
 				currSmall = true;
 			}
