@@ -10,6 +10,7 @@ enum class CustomMsgType : uint32_t
 	MessageServer,
 	EchoMessage,
 	HealthCheckServer,
+	ServerValidated,
 };
 
 class CustomServer : public netcommon::NetServer<CustomMsgType>
@@ -36,6 +37,12 @@ public:
 		MessageAllClients(msg);
 	}
 protected:
+	virtual void OnClientValidated(std::shared_ptr<netcommon::connection<CustomMsgType>> connection) override
+	{
+		netcommon::message<CustomMsgType> msg;
+		msg.header.id = CustomMsgType::ServerValidated;
+		connection->Send(msg);
+	}
 	virtual bool OnClientConnect(std::shared_ptr<netcommon::connection<CustomMsgType>> connection) override
 	{
 		netcommon::message<CustomMsgType> msg;
