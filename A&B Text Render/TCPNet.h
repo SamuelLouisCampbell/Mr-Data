@@ -11,6 +11,7 @@ enum class CustomMsgType : uint32_t
 	EchoMessage,
 	HealthCheckServer,
 	ServerValidated,
+	MessageVec,
 };
 
 class CustomServer : public netcommon::NetServer<CustomMsgType>
@@ -77,15 +78,32 @@ protected:
 		case CustomMsgType::MessageServer:
 		{
 			std::stringstream info;
-			std::stringstream str;
+			std::string str;
  			info << "[" << connection->GetUUID() << "]: Has Sent a Message!\n";
 			connection->Send(msg);
 			for (size_t i = 0; i < msg.size(); i++)
 			{
-				str << msg.body[i];
+				str.push_back(msg.body[i]);
 			}
 			information = info.str();
-			messagestr = str.str();
+			messagestr = str;
+			break;
+		}
+		case CustomMsgType::MessageVec:
+		{
+			std::vector<uint16_t> vec;
+			for (size_t i = 0; i < msg.size(); i++)
+			{
+				vec.push_back(msg.body[i]);
+			}
+
+			std::string str;
+			for (auto& c : vec)
+			{
+				str.push_back(c);
+			}
+
+			OutputDebugStringA(str.c_str());
 			break;
 		}
 		default:

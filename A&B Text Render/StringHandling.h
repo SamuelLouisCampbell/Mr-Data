@@ -5,7 +5,7 @@
 class StringHandling
 {
 public:
-	StringHandling(std::wstring str)
+	StringHandling(std::string str)
 		:
 		message(str)
 	{
@@ -13,14 +13,14 @@ public:
 		{
 			while (message.find('\r') != std::string::npos)
 			{
-				std::wstring temp = message.substr(0, message.find('\r'));
+				std::string temp = message.substr(0, message.find('\r'));
 				stringies.push_back(temp);
 				message.erase(0, message.find('\r') + 1);
 
 			}
 			while (message.find('\n')!= std::string::npos)
 			{
-				std::wstring temp = message.substr(0, message.find('\n'));
+				std::string temp = message.substr(0, message.find('\n'));
 				stringies.push_back(temp);
 				message.erase(0, message.find('\n') + 1);
 
@@ -29,13 +29,13 @@ public:
 		}
 	}
 
-	std::vector<std::wstring> GetStringies() const
+	std::vector<std::string> GetStringies() const
 	{
 		return stringies;
 	}
 
 private:
-	std::wstring message;
-	std::vector<std::wstring> stringies;
+	std::string message;
+	std::vector<std::string> stringies;
 
 };

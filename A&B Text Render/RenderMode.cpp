@@ -4,7 +4,7 @@
 
 RenderMode::RenderMode(Graphics& gfx, RMData& data)
 	:
-	txt(gfx, 1.0f, 0.0f, L"assets/AB_128.spritefont"),
+	txt(gfx, 1.0f, 0.0f, L"assets/arial_128.spritefont"),
 	largeScale(data.GetLargeScale()),
 	smallScale(data.GetSmallScale()),
 	lineSpacingLarge(data.GetLargeSpacing()),
@@ -127,25 +127,25 @@ void RenderMode::Render(Graphics& gfx)
 	}
 	txt.setScale(currScale);
 
-	size_t size = str.size() + 1;
- 	static wchar_t wbuffer[512];
-	size_t outSize;
-	mbstowcs_s(&outSize, wbuffer, size, str.c_str(), size); // convert to wsting
-	std::wstring message = wbuffer;
+	//size_t size = str.size() + 1;
+ //	static wchar_t wbuffer[512];
+	//size_t outSize;
+	//mbstowcs_s(&outSize, wbuffer, size, str.c_str(), size); // convert to wsting
+	//std::wstring message = wbuffer;
 
 	try
 	{
-		if (message.size() > 0)
+		if (str.size() > 1)
 		{
 			alpha = 1.0f;
 			textCol = oldTextCol;
 			txt.setColor(textCol);
-			txt.DrawCentreAlign(message, currLineSpacing);
-			oldMessage = message;
+			txt.DrawCentreAlign(str, currLineSpacing);
+			oldMessage = str;
 			oldTextCol = textCol;
 			holdingLastMsg = false;
 		}
-		else if (message.size() == 0)
+		else if (str.size() == 1)
 		{
 			holdingLastMsg = true;
 

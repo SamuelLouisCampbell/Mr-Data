@@ -110,7 +110,7 @@ private:
 	bool currSmall = true;
 	float rotation = 0.0f;
 	char buffer[512] = { '\0' };
-	std::wstring oldMessage;
+	std::string oldMessage;
 	bool holdingLastMsg = false;
 	float alpha = 1.0f;
 	float deltaZoom = 0.20f;

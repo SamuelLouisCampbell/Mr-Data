@@ -56,7 +56,7 @@ public:
 	{
 		return size;
 	}
-	void DrawSimple(std::wstring msg)
+	void DrawSimple(std::string msg)
 	{
 		try
 		{
@@ -84,13 +84,13 @@ public:
 		spriteBatchFont->End();
 		
 	}
-	void Draw(std::wstring msg, const float lineSpacing)
+	void Draw(std::string msg, const float lineSpacing)
 	{
 		try
 		{
 			fonts.clear();
 			StringHandling sh(msg);
-			const std::vector<std::wstring> strings = sh.GetStringies();
+			const std::vector<std::string> strings = sh.GetStringies();
 			size = strings.size();
 			DirectX::SimpleMath::Vector2 fontDimmsW;
 			DirectX::SimpleMath::Vector2 fontDimmsH;
@@ -126,13 +126,13 @@ public:
 		}
 
 	}
-	void DrawCentreAlign(const std::wstring msg, const float lineSpacing)
+	void DrawCentreAlign(const std::string msg, const float lineSpacing)
 	{
 		try
 		{
 			fonts.clear();
 			StringHandling sh(msg);
-			const std::vector<std::wstring> strings = sh.GetStringies();
+			const std::vector<std::string> strings = sh.GetStringies();
 			size = strings.size();
 			DirectX::SimpleMath::Vector2 fontHeight;
 
