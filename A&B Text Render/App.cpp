@@ -66,7 +66,7 @@ void App::ComposeFrame()
 				wnd.DoMessageBox(L"There was a problem with your IP selection.\nReverting to Default (127.0.0.1)", L"IP Error");
 				rmd.SetIPToDefault();
 			}
-			rm = std::make_unique<RenderMode>(wnd.Gfx(), rmd);
+			rm = std::make_unique<RenderMode>(wnd, rmd);
 			rMode = true;
 			sm.reset();
 			sm = nullptr;

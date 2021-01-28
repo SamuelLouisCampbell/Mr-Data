@@ -36,12 +36,24 @@ Graphics::Graphics(HWND hWnd, int width, int height)
 
 	HRESULT hr;
 	//Create Device, Front and Back Buffers, Swap Chain and Rendering Context.
-	
+	D3D_FEATURE_LEVEL featureLevels[] =
+	{
+		D3D_FEATURE_LEVEL_11_1,
+		D3D_FEATURE_LEVEL_11_0,
+		D3D_FEATURE_LEVEL_10_1,
+		D3D_FEATURE_LEVEL_10_0,
+		D3D_FEATURE_LEVEL_9_3,
+		D3D_FEATURE_LEVEL_9_2,
+		D3D_FEATURE_LEVEL_9_1
+	};
+	D3D_FEATURE_LEVEL m_featureLevel;
+	UINT creationFlags = D3D11_CREATE_DEVICE_BGRA_SUPPORT;
+
 	hr = D3D11CreateDeviceAndSwapChain(
 		nullptr,
 		D3D_DRIVER_TYPE_HARDWARE,
 		nullptr,
-		D3D11_CREATE_DEVICE_DEBUG,
+		creationFlags,
 		nullptr,
 		0,
 		D3D11_SDK_VERSION,
@@ -181,6 +193,11 @@ void Graphics::SetProjection(DirectX::FXMMATRIX proj) noexcept
 auto Graphics::GetDevice() noexcept
 {
 	return pDevice;
+}
+
+Microsoft::WRL::ComPtr<IDXGISwapChain> Graphics::GetChain() noexcept
+{
+	return pSwapChain;
 }
 
 auto Graphics::GetContext()  noexcept

@@ -2,18 +2,20 @@
 #include <cmath>
 #include <functional>
 
-RenderMode::RenderMode(Graphics& gfx, RMData& data)
+RenderMode::RenderMode(Window& wnd, RMData& data)
 	:
-	txt(gfx, 1.0f, 0.0f, L"assets/arial_128.spritefont"),
+	txt(wnd.Gfx(), 1.0f, 0.0f, L"assets/arial_128.spritefont"),
 	largeScale(data.GetLargeScale()),
 	smallScale(data.GetSmallScale()),
 	lineSpacingLarge(data.GetLargeSpacing()),
-	lineSpacingSmall(data.GetSmallSpacing())
+	lineSpacingSmall(data.GetSmallSpacing()),
+	wnd(wnd),
+	st(wnd.GethWnd(),wnd.Gfx(), {1.0f,1.0f,1.0f,1.0f}, L"ABOVEANDBYOND2013")
 {
-	centre.x = float(gfx.GetWindowWidth()) / 2.0f;
-	centre.y = float(gfx.GetWindowHeight()) / 2.0f;
+	centre.x = float(wnd.Gfx().GetWindowWidth()) / 2.0f;
+	centre.y = float(wnd.Gfx().GetWindowHeight()) / 2.0f;
 	txt.SetPos(centre);
-	txt.Bind(gfx);
+	txt.Bind(wnd.Gfx());
 	server = std::make_unique<CustomServer>(data.GetServerPort());
 	server->Start();
 }
@@ -83,6 +85,7 @@ void RenderMode::Update(Window& wnd)
 
 void RenderMode::Render(Graphics& gfx)
 {
+	
 	//get messages and parse out control segments
 	std::string str = server->GetMessageStream();
 	
@@ -127,45 +130,43 @@ void RenderMode::Render(Graphics& gfx)
 	}
 	txt.setScale(currScale);
 
-	//size_t size = str.size() + 1;
- //	static wchar_t wbuffer[512];
-	//size_t outSize;
-	//mbstowcs_s(&outSize, wbuffer, size, str.c_str(), size); // convert to wsting
-	//std::wstring message = wbuffer;
-
-	try
+	size_t size = str.size() + 1;
+ 	static wchar_t wbuffer[512];
+	size_t outSize;
+	mbstowcs_s(&outSize, wbuffer, size, str.c_str(), size); // convert to wsting
+	std::wstring message = wbuffer;
+	st.Render(message.c_str());
+	if (message.size() > 1)
 	{
-		if (str.size() > 1)
-		{
-			alpha = 1.0f;
-			textCol = oldTextCol;
-			txt.setColor(textCol);
-			txt.DrawCentreAlign(str, currLineSpacing);
-			oldMessage = str;
-			oldTextCol = textCol;
-			holdingLastMsg = false;
-		}
-		else if (str.size() == 1)
-		{
-			holdingLastMsg = true;
-
-			Color preMulAplpha =
-			{
-				textCol.r *= alpha,
-				textCol.g *= alpha,
-				textCol.b *= alpha,
-				textCol.a *= alpha
-			};
-			txt.setColor(preMulAplpha);
-			alpha -= 0.001f * deltaAlpha;
-			txt.DrawCentreAlign(oldMessage, currLineSpacing);
-
-		}
+		alpha = 1.0f;
+		textCol = oldTextCol;
+		//txt.setColor(textCol);
+		//txt.DrawCentreAlign(str, currLineSpacing);
+		//st.Render(message.c_str());
+		//st.SetTextColor(textCol);
+		oldMessage = message;
+		oldTextCol = textCol;
+		holdingLastMsg = false;
 	}
-	catch (const MyException& e)
+	else if (str.size() == 1)
 	{
-		MessageBox(nullptr, e.wideWhat(), e.GetType(), MB_OK | MB_ICONASTERISK);
+		holdingLastMsg = true;
+
+		Color preMulAplpha =
+		{
+			textCol.r *= alpha,
+			textCol.g *= alpha,
+			textCol.b *= alpha,
+			textCol.a *= alpha
+		};
+		//txt.setColor(preMulAplpha);
+		alpha -= 0.001f * deltaAlpha;
+		//st.Render(oldMessage.c_str());
+		//st.SetTextColor(preMulAplpha);
+		//txt.DrawCentreAlign(oldMessage, currLineSpacing);
+
 	}
+	
 }
 
 bool RenderMode::returnToSetupMode()

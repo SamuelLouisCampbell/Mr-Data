@@ -117,6 +117,9 @@
     <ClCompile Include="SetupMode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SimpleText.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BarebonesWindows.h">
@@ -250,6 +253,9 @@
     </ClInclude>
     <ClInclude Include="TCPNet.h">
       <Filter>Header Files\UDP</Filter>
+    </ClInclude>
+    <ClInclude Include="SimpleText.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

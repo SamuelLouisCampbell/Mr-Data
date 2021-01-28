@@ -197,6 +197,7 @@
     <ClCompile Include="PixelShader.cpp" />
     <ClCompile Include="RenderMode.cpp" />
     <ClCompile Include="SetupMode.cpp" />
+    <ClCompile Include="SimpleText.cpp" />
     <ClCompile Include="Topology.cpp" />
     <ClCompile Include="TransformCbuf.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
@@ -236,6 +237,7 @@
     <ClInclude Include="RenderMode.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SetupMode.h" />
+    <ClInclude Include="SimpleText.h" />
     <ClInclude Include="StringHandling.h" />
     <ClInclude Include="TCPNet.h" />
     <ClInclude Include="TextNode.h" />

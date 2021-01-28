@@ -58,6 +58,7 @@ public:
 	void SetTitle(const std::wstring title);
 	static std::optional<int> ProcessMessages();
 	Graphics& Gfx();
+	HWND& GethWnd();
 	int GetWidth() const noexcept;
 	int GetHeight() const noexcept;
 	void DoMessageBox(const std::wstring text, const std::wstring caption);

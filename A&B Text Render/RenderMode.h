@@ -1,11 +1,11 @@
 #pragma once
-
 #include "Time.h"
 #include "BindableBase.h"
 #include "TextNode.h"
 #include "NDI_Send.h"
 #include "Window.h"
 #include "TCPNet.h"
+#include "SimpleText.h"
 
 
 class RMData
@@ -79,7 +79,7 @@ private:
 class RenderMode
 {
 public:
-	RenderMode(Graphics& gfx, RMData& data);
+	RenderMode(Window& wnd,RMData& data);
 	~RenderMode();
 	void Update(Window& wnd);
 	void Render(Graphics& gfx);
@@ -110,11 +110,15 @@ private:
 	bool currSmall = true;
 	float rotation = 0.0f;
 	char buffer[512] = { '\0' };
-	std::string oldMessage;
+	std::wstring oldMessage;
 	bool holdingLastMsg = false;
 	float alpha = 1.0f;
 	float deltaZoom = 0.20f;
 	float deltaAlpha = 1.0f;
+
+	//simple Text
+	Window& wnd;
+	SimpleText st;
 };
 
 

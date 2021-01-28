@@ -48,6 +48,7 @@ public:
 	DirectX::XMMATRIX GetProjection() const noexcept;
 	void SetProjection(DirectX::FXMMATRIX proj) noexcept;
 	auto GetDevice() noexcept;
+	Microsoft::WRL::ComPtr<IDXGISwapChain> GetChain() noexcept;
 	auto GetContext() noexcept;
 	void EnableIMGui() noexcept;
 	void DisableIMGui() noexcept;

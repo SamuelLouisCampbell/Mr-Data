@@ -136,6 +136,11 @@ Graphics& Window::Gfx()
 	return *pGfx;
 }
 
+HWND& Window::GethWnd()
+{
+	return hWnd;
+}
+
 int Window::GetWidth() const noexcept
 {
 	return width;
