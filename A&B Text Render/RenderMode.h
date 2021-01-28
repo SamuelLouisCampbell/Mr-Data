@@ -1,7 +1,6 @@
 #pragma once
 #include "Time.h"
 #include "BindableBase.h"
-#include "TextNode.h"
 #include "NDI_Send.h"
 #include "Window.h"
 #include "TCPNet.h"

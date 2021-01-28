@@ -233,12 +233,6 @@
     <ClInclude Include="RenderMode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="UDPClient.h">
-      <Filter>Header Files\UDP</Filter>
-    </ClInclude>
-    <ClInclude Include="UDPServer.h">
-      <Filter>Header Files\UDP</Filter>
-    </ClInclude>
     <ClInclude Include="BenchMarker.h">
       <Filter>Header Files</Filter>
     </ClInclude>
