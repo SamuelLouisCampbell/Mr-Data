@@ -22,7 +22,8 @@ class SimpleText
 public:
 	SimpleText(HWND& hWnd, Graphics& gfx, const Color color, const wchar_t* fontName);
 	~SimpleText();
-	void Render(const wchar_t* string);
+	void SetupRenderSystem();
+	void Draw(const wchar_t* string);
 	void SetFontSize(const float size);
 	void SetTextColor(const Color& col);
 private:
@@ -39,10 +40,8 @@ private:
 	IDWriteTextLayout* pTextLayout_ = nullptr;
 	IDWriteTextFormat* pTextFormat_ = nullptr;
 	std::wstring str;
-	//const wchar_t* wszText_;
 	UINT32 cTextLength_;
 	ID2D1Factory* pD2DFactory_ = nullptr;
-	//ID2D1HwndRenderTarget* pRT_ = nullptr;
 	ID2D1RenderTarget* pBackBufferTarget = nullptr;
 	IDXGISurface* pBackBuffer = nullptr;
 	ID2D1SolidColorBrush* pColorBrush_ = nullptr;

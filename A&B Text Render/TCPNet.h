@@ -91,29 +91,13 @@ protected:
 		}
 		case CustomMsgType::MessageVec:
 		{
-			std::vector<uint16_t> vec;
-			for (size_t i = 0; i < msg.size(); i++)
-			{
-				vec.push_back(msg.body[i]);
-			}
-
-			std::string str;
-			for (auto& c : vec)
-			{
-				str.push_back(c);
-			}
-
-			OutputDebugStringA(str.c_str());
 			break;
 		}
 		default:
 			break;
 		}
 	}
-	
-
 private:
 	std::string information = "";
 	std::string messagestr = "";
-
 };

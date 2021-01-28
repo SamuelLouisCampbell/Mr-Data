@@ -4,20 +4,19 @@
 
 RenderMode::RenderMode(Window& wnd, RMData& data)
 	:
-	txt(wnd.Gfx(), 1.0f, 0.0f, L"assets/arial_128.spritefont"),
 	largeScale(data.GetLargeScale()),
 	smallScale(data.GetSmallScale()),
 	lineSpacingLarge(data.GetLargeSpacing()),
 	lineSpacingSmall(data.GetSmallSpacing()),
 	wnd(wnd),
 	st(wnd.GethWnd(),wnd.Gfx(), {1.0f,1.0f,1.0f,1.0f}, L"ABOVEANDBYOND2013")
-{
-	centre.x = float(wnd.Gfx().GetWindowWidth()) / 2.0f;
-	centre.y = float(wnd.Gfx().GetWindowHeight()) / 2.0f;
-	txt.SetPos(centre);
-	txt.Bind(wnd.Gfx());
+{	
 	server = std::make_unique<CustomServer>(data.GetServerPort());
 	server->Start();
+
+	//Text Rendering system
+	st.SetupRenderSystem();
+
 }
 
 RenderMode::~RenderMode()
@@ -44,6 +43,7 @@ void RenderMode::Update(Window& wnd)
 	std::wstringstream wss;
 	wss << "A&B Text. FPS : " << fps.Get();
 	wnd.SetTitle(wss.str().c_str());
+
 	if (wnd.Gfx().IsIMGuiEnabled())
 	{
 		if (ImGui::Begin("Text Controls"))
@@ -76,8 +76,6 @@ void RenderMode::Update(Window& wnd)
 			{
 				currSmall = true;
 			}
-			txt.setScale(currScale);
-			txt.setRotation(rotation);
 		}
 		ImGui::End();
 	}
@@ -128,27 +126,28 @@ void RenderMode::Render(Graphics& gfx)
 		if (currLineSpacing > lineSpacingLarge)
 			currLineSpacing = lineSpacingLarge;
 	}
-	txt.setScale(currScale);
+
+	st.SetFontSize(currScale*72.0f);
 
 	size_t size = str.size() + 1;
  	static wchar_t wbuffer[512];
 	size_t outSize;
 	mbstowcs_s(&outSize, wbuffer, size, str.c_str(), size); // convert to wsting
 	std::wstring message = wbuffer;
-	st.Render(message.c_str());
-	if (message.size() > 1)
+	
+	
+	if (message.size() > 0)
 	{
 		alpha = 1.0f;
 		textCol = oldTextCol;
-		//txt.setColor(textCol);
-		//txt.DrawCentreAlign(str, currLineSpacing);
-		//st.Render(message.c_str());
-		//st.SetTextColor(textCol);
+		
+		st.Draw(message.c_str());
+		st.SetTextColor(textCol);
 		oldMessage = message;
 		oldTextCol = textCol;
 		holdingLastMsg = false;
 	}
-	else if (str.size() == 1)
+	else if (message.size() == 0)
 	{
 		holdingLastMsg = true;
 
@@ -159,10 +158,10 @@ void RenderMode::Render(Graphics& gfx)
 			textCol.b *= alpha,
 			textCol.a *= alpha
 		};
-		//txt.setColor(preMulAplpha);
+		
 		alpha -= 0.001f * deltaAlpha;
-		//st.Render(oldMessage.c_str());
-		//st.SetTextColor(preMulAplpha);
+		st.Draw(oldMessage.c_str());
+		st.SetTextColor(preMulAplpha);
 		//txt.DrawCentreAlign(oldMessage, currLineSpacing);
 
 	}

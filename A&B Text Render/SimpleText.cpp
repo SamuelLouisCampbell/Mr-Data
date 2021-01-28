@@ -15,7 +15,7 @@ SimpleText::~SimpleText()
 	ReleaseRescources();
 }
 
-void SimpleText::Render(const wchar_t* string)
+void SimpleText::SetupRenderSystem()
 {
 	SafeRelease(&pBackBuffer);
 	SafeRelease(&pBackBufferTarget);
@@ -44,27 +44,26 @@ void SimpleText::Render(const wchar_t* string)
 			&pBackBufferTarget
 		);
 	}
-	
+
 	hr = CreateDeviceResources();
-
-	if (SUCCEEDED(hr))
-	{
-		pBackBufferTarget->BeginDraw();
-		pBackBufferTarget->SetTransform(D2D1::IdentityMatrix());
-		// Call the DrawText method of this class.
-		DrawText(string);
-
-		if (SUCCEEDED(hr))
-		{
-			pBackBufferTarget->EndDraw();
-		
-		}
-	}
 
 	if (FAILED(hr))
 	{
 		ReleaseRescources();
 	}
+}
+
+void SimpleText::Draw(const wchar_t* string)
+{
+
+	pBackBufferTarget->BeginDraw();
+	pBackBufferTarget->SetTransform(D2D1::IdentityMatrix());
+		// Call the DrawText method of this class.
+	DrawText(string);
+		
+	pBackBufferTarget->EndDraw();
+
+	
 }
 
 void SimpleText::SetFontSize(const float size)
@@ -74,17 +73,7 @@ void SimpleText::SetFontSize(const float size)
 
 void SimpleText::DrawText(const wchar_t* string)
 {
-	
 	str = string;
-	
-	D2D1_RECT_F layoutRect = D2D1::RectF(
-		static_cast<FLOAT>(rc.left) / dpiScaleX_,
-		static_cast<FLOAT>(rc.top) / dpiScaleY_,
-		static_cast<FLOAT>(rc.right - rc.left) / dpiScaleX_,
-		static_cast<FLOAT>(rc.bottom - rc.top) / dpiScaleY_
-	);
-
-	cTextLength_ = (UINT32)wcslen(string);
 
 	GetClientRect(hWnd, &rc);
 	float width = rc.right; /// dpiScaleX_;
@@ -101,11 +90,12 @@ void SimpleText::DrawText(const wchar_t* string)
 	pTextLayout_->SetFontSize(currSize, { 0,str.size() });
 
 	pBackBufferTarget->DrawTextLayout(
-		{0,0},
+		{ 0,0 },
 		pTextLayout_,
 		pColorBrush_
 
 	);
+
 }
 
 void SimpleText::SetTextColor(const Color& col)
@@ -166,7 +156,6 @@ HRESULT SimpleText::CreateDeviceIndependentResources()
 HRESULT SimpleText::CreateDeviceResources()
 {
 	HRESULT hr = 0;
-
 	//get the window size
 	GetClientRect(hWnd, &rc);
 
@@ -174,8 +163,7 @@ HRESULT SimpleText::CreateDeviceResources()
 
 	if (pBackBufferTarget != nullptr)
 	{
-		
-		// Create color brushes.
+		// Create color brush.
 		if (SUCCEEDED(hr))
 		{
 			hr = pBackBufferTarget->CreateSolidColorBrush(

@@ -88,9 +88,8 @@ private:
 	void StringControl(const std::string& ctrlStr, Color& colChange);
 private:
 	Time time;
-	TextNode txt;
 	FPS fps;
-	DirectX::SimpleMath::Vector2 centre;
+	
 	bool returnToSetup = false;
 
 	//network
