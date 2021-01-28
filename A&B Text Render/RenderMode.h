@@ -10,24 +10,15 @@
 class RMData
 {
 public: 
-	RMData(size_t serverPort_in, const char* clientIP, float largeScale, 
+	RMData(size_t serverPort_in, float largeScale, 
 		   float smallScale, float lineSpacingLarge, float lineSpacingSmall)
 		:
-		clientIP(clientIP),
 		serverPort(serverPort_in),
 		largeScale(largeScale),
 		smallScale(smallScale),
 		lineSpacingLarge(lineSpacingLarge),
 		lineSpacingSmall(lineSpacingSmall)
 	{}
-	bool CheckRMIPGood()
-	{
-		const char* addrBuff; // Thrown away here :-(
-		if (inet_pton(AF_INET, clientIP, &addrBuff) != 1)
-			return false;
-		else
-			return true;
-	}
 	bool CheckRMPortsGood()
 	{
 		if (serverPort >= std::numeric_limits<unsigned short>::max() || serverPort <= 0U)
@@ -38,17 +29,9 @@ public:
 	{
 		return unsigned short(serverPort);
 	}
-	const char* GetIP() const
-	{
-		return clientIP;
-	}
 	void SetPortToDefault()
 	{
 		serverPort = 60000U;
-	}
-	void SetIPToDefault()
-	{
-		clientIP = "127.0.0.1";
 	}
 	float GetLargeScale() const
 	{
@@ -68,7 +51,6 @@ public:
 	}
 private:
 	size_t serverPort;
-	const char* clientIP;
 	float largeScale;
 	float smallScale;
 	float lineSpacingLarge;
@@ -102,9 +84,7 @@ private:
 	float largeScale = 1.0f;
 	float smallScale = 0.35f;
 	float currScale = smallScale;
-	float lineSpacingLarge = 1.65f;
-	float lineSpacingSmall = 0.7f;
-	float currLineSpacing = lineSpacingSmall;
+	float lineSpacing = 1.0f;
 	bool currSmall = true;
 	float rotation = 0.0f;
 	char buffer[512] = { '\0' };

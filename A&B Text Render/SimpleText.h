@@ -26,6 +26,7 @@ public:
 	void Draw(const wchar_t* string);
 	void SetFontSize(const float size);
 	void SetTextColor(const Color& col);
+	void SetLineSpacing(const float spacing);
 private:
 	HRESULT CreateDeviceIndependentResources();
 	HRESULT CreateDeviceResources();
@@ -47,6 +48,7 @@ private:
 	ID2D1SolidColorBrush* pColorBrush_ = nullptr;
 	float dpiScaleX_ = 100.0f;
 	float dpiScaleY_ = 100.0f;
+	float lineSpacing = 1.0f;
 	const wchar_t* fontName;
 	Color currColor;
 	float currSize = 72.0f;

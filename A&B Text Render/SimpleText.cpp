@@ -63,7 +63,7 @@ void SimpleText::Draw(const wchar_t* string)
 		
 	pBackBufferTarget->EndDraw();
 
-	
+
 }
 
 void SimpleText::SetFontSize(const float size)
@@ -88,9 +88,10 @@ void SimpleText::DrawText(const wchar_t* string)
 		&pTextLayout_);  // The IDWriteTextLayout interface pointer.
 	
 	pTextLayout_->SetFontSize(currSize, { 0,str.size() });
+	pTextLayout_->SetLineSpacing(DWRITE_LINE_SPACING_METHOD_UNIFORM, lineSpacing * currSize, 1.0f);
 
 	pBackBufferTarget->DrawTextLayout(
-		{ 0,0 },
+		{ 0,(currSize /2.0f) },
 		pTextLayout_,
 		pColorBrush_
 
@@ -106,6 +107,11 @@ void SimpleText::SetTextColor(const Color& col)
 	DWRITE_TEXT_RANGE textRange1 = { 0, str.size() };
 	pTextLayout_->SetDrawingEffect(pColorBrush_, textRange1);
 	SafeRelease(&pTextLayout_);
+}
+
+void SimpleText::SetLineSpacing(const float spacing)
+{
+	lineSpacing = spacing;
 }
 
 HRESULT SimpleText::CreateDeviceIndependentResources()

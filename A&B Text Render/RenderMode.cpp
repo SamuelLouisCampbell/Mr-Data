@@ -6,8 +6,7 @@ RenderMode::RenderMode(Window& wnd, RMData& data)
 	:
 	largeScale(data.GetLargeScale()),
 	smallScale(data.GetSmallScale()),
-	lineSpacingLarge(data.GetLargeSpacing()),
-	lineSpacingSmall(data.GetSmallSpacing()),
+	lineSpacing(data.GetSmallSpacing()),
 	wnd(wnd),
 	st(wnd.GethWnd(),wnd.Gfx(), {1.0f,1.0f,1.0f,1.0f}, L"ABOVEANDBYOND2013")
 {	
@@ -57,15 +56,14 @@ void RenderMode::Update(Window& wnd)
 			}
 			ImGui::TextColored({ 0.0f, 1.0f, 1.0f, 1.0f }, oldInfo.c_str());
 			ImGui::InputFloat("Small text size", &smallScale, 0.02f);
-			ImGui::InputFloat("Small line spacing", &lineSpacingSmall, 0.02f);
 			ImGui::InputFloat("Large text size", &largeScale, 0.02f);
-			ImGui::InputFloat("Large line spacing", &lineSpacingLarge, 0.02f);
+			ImGui::InputFloat("Line spacing", &lineSpacing, 0.02f);
 			ImGui::SliderFloat("Delta Alpha (time)", &deltaAlpha, 0.0f, 3.0f);
 			ImGui::SliderFloat("Delta Zoom  (time)", &deltaZoom, 0.01f, 1.0f);
 			ImGui::ColorPicker3("Color", &oldTextCol.r, ImGuiColorEditFlags_::ImGuiColorEditFlags_AlphaBar);
 			if (ImGui::Button("Reset Color"))
 			{
-				textCol = { 1.0f, 1.0f, 1.0f, 1.0f };
+				textCol = { Colors::White };
 				oldTextCol = { Colors::White };
 			}
 			if (ImGui::Button("Large Text."))
@@ -100,35 +98,20 @@ void RenderMode::Render(Graphics& gfx)
 	if (currSmall)
 	{
 		if(currScale >= smallScale)
-		{
 			currScale -= (smallScale * deltaZoom);
-		}
-		if(currLineSpacing >= lineSpacingSmall)
-		{
-			currLineSpacing -= (lineSpacingSmall *deltaZoom);
-		}
 		if(currScale < smallScale)
 			currScale = smallScale;
-		if (currLineSpacing < lineSpacingSmall)
-			currLineSpacing = lineSpacingSmall;
 	}
 	else
 	{
 		if(currScale <= largeScale)
-		{
 			currScale += (largeScale * deltaZoom);
-		}
-		if(currLineSpacing <= lineSpacingLarge)
-		{
-			currLineSpacing += (lineSpacingLarge * deltaZoom);
-		}
 		if (currScale > largeScale)
 			currScale = largeScale;
-		if (currLineSpacing > lineSpacingLarge)
-			currLineSpacing = lineSpacingLarge;
 	}
 
 	st.SetFontSize(currScale*72.0f);
+	st.SetLineSpacing(lineSpacing);
 
 	size_t size = str.size() + 1;
  	static wchar_t wbuffer[512];
