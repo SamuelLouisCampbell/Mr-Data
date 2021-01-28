@@ -24,16 +24,11 @@ bool SetupMode::Init(const std::string filename)
 		n = line.find("#");
 		substr = line.substr(n + 1, line.size());
 		smallScale = std::stof(substr);
-		//Line Spacing Large
-		std::getline(defFile, line);
-		n = line.find("#");
-		substr = line.substr(n + 1, line.size());
-		lineSpacingLarge = std::stof(substr);
 		//Line Spacing Small
 		std::getline(defFile, line);
 		n = line.find("#");
 		substr = line.substr(n + 1, line.size());
-		lineSpacingSmall = std::stof(substr);
+		lineSpacing = std::stof(substr);
 		//close out
 		defFile.close();
 		return true;
@@ -60,7 +55,7 @@ void SetupMode::Update()
 
 RMData SetupMode::GetRMData() const
 {
-	RMData rmd{ size_t(serverPort), largeScale, smallScale, lineSpacingLarge, lineSpacingSmall };
+	RMData rmd{ size_t(serverPort), largeScale, smallScale, lineSpacing };
 	return rmd;
 }
 

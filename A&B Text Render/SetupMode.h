@@ -14,8 +14,7 @@ private:
 	std::string IP = "127.0.0.1";
 	float largeScale;
 	float smallScale;
-	float lineSpacingLarge;
-	float lineSpacingSmall;
+	float lineSpacing;
 	bool setupComplete = false;
 };
 

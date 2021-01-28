@@ -1,8 +1,7 @@
 [IncomingPort] #6000
-[largeScale] #1.0
-[smallScale] #0.35
-[lineSpacingLarge] #1.65
-[lineSpacingSmall] #0.7
+[largeScale] #2.5
+[smallScale] #0.5
+[lineSpacing] #1.0
 
 
 

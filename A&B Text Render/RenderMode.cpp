@@ -6,7 +6,7 @@ RenderMode::RenderMode(Window& wnd, RMData& data)
 	:
 	largeScale(data.GetLargeScale()),
 	smallScale(data.GetSmallScale()),
-	lineSpacing(data.GetSmallSpacing()),
+	lineSpacing(data.GetSpacing()),
 	wnd(wnd),
 	st(wnd.GethWnd(),wnd.Gfx(), {1.0f,1.0f,1.0f,1.0f}, L"ABOVEANDBYOND2013")
 {	

@@ -11,13 +11,12 @@ class RMData
 {
 public: 
 	RMData(size_t serverPort_in, float largeScale, 
-		   float smallScale, float lineSpacingLarge, float lineSpacingSmall)
+		   float smallScale, float lineSpacing)
 		:
 		serverPort(serverPort_in),
 		largeScale(largeScale),
 		smallScale(smallScale),
-		lineSpacingLarge(lineSpacingLarge),
-		lineSpacingSmall(lineSpacingSmall)
+		lineSpacing(lineSpacing)
 	{}
 	bool CheckRMPortsGood()
 	{
@@ -41,20 +40,15 @@ public:
 	{
 		return smallScale;
 	}
-	float GetLargeSpacing() const
+	float GetSpacing() const
 	{
-		return lineSpacingLarge;
-	}
-	float GetSmallSpacing() const
-	{
-		return lineSpacingSmall;
+		return lineSpacing;
 	}
 private:
 	size_t serverPort;
 	float largeScale;
 	float smallScale;
-	float lineSpacingLarge;
-	float lineSpacingSmall;
+	float lineSpacing;
 };
 
 class RenderMode
