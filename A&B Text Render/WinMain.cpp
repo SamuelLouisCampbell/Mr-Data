@@ -2,6 +2,10 @@
 #define _CRT_SECURE_NO_WARNINGS
 #endif
 
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
+
 #include "App.h"
 #include <string>
 
@@ -28,5 +32,7 @@ int CALLBACK WinMain(
 	{
 		MessageBox(nullptr, L"No Details Available",L"Unknown Exception", MB_OK | MB_ICONEXCLAMATION);
 	}
+	
 	return -1;
+	_CrtDumpMemoryLeaks();
 }

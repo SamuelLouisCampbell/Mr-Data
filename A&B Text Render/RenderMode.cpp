@@ -76,6 +76,7 @@ void RenderMode::Update(Window& wnd)
 			{
 				currSmall = true;
 			}
+
 		}
 		ImGui::End();
 	}
@@ -162,7 +163,6 @@ void RenderMode::Render(Graphics& gfx)
 		alpha -= 0.001f * deltaAlpha;
 		st.Draw(oldMessage.c_str());
 		st.SetTextColor(preMulAplpha);
-		//txt.DrawCentreAlign(oldMessage, currLineSpacing);
 
 	}
 	

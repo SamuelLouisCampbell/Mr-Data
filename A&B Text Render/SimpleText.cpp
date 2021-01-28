@@ -57,7 +57,7 @@ void SimpleText::Draw(const wchar_t* string)
 {
 
 	pBackBufferTarget->BeginDraw();
-	pBackBufferTarget->SetTransform(D2D1::IdentityMatrix());
+	//pBackBufferTarget->SetTransform(D2D1::IdentityMatrix());
 		// Call the DrawText method of this class.
 	DrawText(string);
 		
@@ -95,7 +95,6 @@ void SimpleText::DrawText(const wchar_t* string)
 		pColorBrush_
 
 	);
-
 }
 
 void SimpleText::SetTextColor(const Color& col)
@@ -106,6 +105,7 @@ void SimpleText::SetTextColor(const Color& col)
 		&pColorBrush_);
 	DWRITE_TEXT_RANGE textRange1 = { 0, str.size() };
 	pTextLayout_->SetDrawingEffect(pColorBrush_, textRange1);
+	SafeRelease(&pTextLayout_);
 }
 
 HRESULT SimpleText::CreateDeviceIndependentResources()
@@ -177,8 +177,12 @@ HRESULT SimpleText::CreateDeviceResources()
 
 void SimpleText::ReleaseRescources()
 {
+	SafeRelease(&pDWriteFactory_);
+	SafeRelease(&pTextLayout_);
+	SafeRelease(&pTextFormat_);
+	SafeRelease(&pD2DFactory_);
 	SafeRelease(&pBackBufferTarget);
-	ReleaseColor();
+	SafeRelease(&pColorBrush_);
 }
 
 void SimpleText::ReleaseColor()
