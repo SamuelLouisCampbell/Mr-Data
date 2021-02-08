@@ -84,12 +84,14 @@ void RenderMode::Render(Graphics& gfx)
 {
 	
 	//get messages and parse out control segments
-	std::string str = server->GetMessageStream();
+	std::wstring str = server->GetMessageStream();
+	//std::wstring str = {0x4e, 0x55, 0x4c, 0x4c, 0x2e , 0x2e ,0x2e ,0x2e,
+					   //0x48, 0x65, 0x6c, 0x6c, 0x6f, 0x21, 0x201C };
 	
-	std::string controlString = str.substr(0, 8);
+	std::wstring controlString = str.substr(0, 8);
 	str.erase(0, 8);
 
-	if (controlString != "NULL....")
+	if (controlString != L"NULL....")
 	{
 		StringControl(controlString, oldTextCol);
 	}
@@ -112,26 +114,20 @@ void RenderMode::Render(Graphics& gfx)
 
 	st.SetFontSize(currScale*72.0f);
 	st.SetLineSpacing(lineSpacing);
-
-	size_t size = str.size() + 1;
- 	static wchar_t wbuffer[512];
-	size_t outSize;
-	mbstowcs_s(&outSize, wbuffer, size, str.c_str(), size); // convert to wsting
-	std::wstring message = wbuffer;
 	
 	
-	if (message.size() > 0)
+	if (str.size() > 0)
 	{
 		alpha = 1.0f;
 		textCol = oldTextCol;
 		
-		st.Draw(message.c_str());
+		st.Draw(str.c_str());
 		st.SetTextColor(textCol);
-		oldMessage = message;
+		oldMessage = str;
 		oldTextCol = textCol;
 		holdingLastMsg = false;
 	}
-	else if (message.size() == 0)
+	else if (str.size() == 0)
 	{
 		holdingLastMsg = true;
 
@@ -156,38 +152,35 @@ bool RenderMode::returnToSetupMode()
 	return returnToSetup;
 }
 
-void RenderMode::StringControl(const std::string& ctrlStr, Color& colChange)
+void RenderMode::StringControl(const std::wstring& ctrlStr, Color& colChange)
 {
-	if (ctrlStr == "RED.....")
+	if (ctrlStr == L"RED.....")
 		colChange = Colors::Red;
 	
-	if (ctrlStr == "GREEN...")
+	if (ctrlStr == L"GREEN...")
 		colChange = Colors::Green;
 	
-	if (ctrlStr == "BLUE....")
+	if (ctrlStr == L"BLUE....")
 		colChange = Colors::Blue;
 
-	if (ctrlStr == "CYAN....")
+	if (ctrlStr == L"CYAN....")
 		colChange = Colors::Cyan;
 
-	if (ctrlStr == "MAGENTA.")
+	if (ctrlStr == L"MAGENTA.")
 		colChange = Colors::Magenta;
 
-	if (ctrlStr == "YELLOW..")
+	if (ctrlStr == L"YELLOW..")
 		colChange = Colors::Yellow;
 
-	if (ctrlStr == "WHITE...")
+	if (ctrlStr == L"WHITE...")
 		colChange = Colors::White;
 
-	if (ctrlStr == "ORANGE..")
+	if (ctrlStr == L"ORANGE..")
 		colChange = Colors::Orange;
 
-	if (ctrlStr == "LARGE...")
-	{
+	if (ctrlStr == L"LARGE...")
 		currSmall = false;
-	}
-	if (ctrlStr == "SMALL...")
-	{
+	
+	if (ctrlStr == L"SMALL...")
 		currSmall = true;
-	}
 }

@@ -1,6 +1,10 @@
 #pragma once
 #include <NetCommon.h>
 #include <NetServer.h>
+#include <iostream>
+#include <string>
+#include <locale>
+#include <codecvt>
 
 enum class CustomMsgType : uint32_t
 {
@@ -27,7 +31,7 @@ public:
  	{
 		return information;
 	}
-	std::string GetMessageStream() const
+	std::wstring GetMessageStream() const
 	{
 		return messagestr;
 	}
@@ -85,8 +89,15 @@ protected:
 			{
 				str.push_back(msg.body[i]);
 			}
+			//Deprecated c++11 
+			/*std::wstring_convert<std::codecvt_utf8_utf16<char16_t>> converter;
+			messagestr = converter.from_bytes(str);*/
+			int wcharsNum = MultiByteToWideChar(CP_UTF8,0 , str.c_str(), -1, NULL, 0);
+			wchar_t* wstr = new wchar_t[wcharsNum];
+			MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, wstr, wcharsNum);
+			messagestr = wstr;
+			delete wstr;
 			information = info.str();
-			messagestr = str;
 			break;
 		}
 		case CustomMsgType::MessageVec:
@@ -99,5 +110,5 @@ protected:
 	}
 private:
 	std::string information = "";
-	std::string messagestr = "";
+	std::wstring messagestr = L"";
 };

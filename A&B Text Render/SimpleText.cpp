@@ -76,8 +76,8 @@ void SimpleText::DrawText(const wchar_t* string)
 	str = string;
 
 	GetClientRect(hWnd, &rc);
-	float width = rc.right; /// dpiScaleX_;
-	float height = rc.bottom;// / dpiScaleY_;
+	float width = float(gfx.GetWindowWidth());
+	float height = float(gfx.GetWindowHeight());
 
 	pDWriteFactory_->CreateTextLayout(
 		str.c_str(),      // The string to be laid out and formatted.

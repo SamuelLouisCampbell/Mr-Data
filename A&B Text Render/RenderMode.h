@@ -60,7 +60,7 @@ public:
 	void Render(Graphics& gfx);
 	bool returnToSetupMode();
 private:
-	void StringControl(const std::string& ctrlStr, Color& colChange);
+	void StringControl(const std::wstring& ctrlStr, Color& colChange);
 private:
 	Time time;
 	FPS fps;
