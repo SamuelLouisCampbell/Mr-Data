@@ -180,6 +180,7 @@
   <ItemGroup>
     <ClCompile Include="App.cpp" />
     <ClCompile Include="Bindable.cpp" />
+    <ClCompile Include="DirectWrite.cpp" />
     <ClCompile Include="Drawable.cpp" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="imgui.cpp" />
@@ -213,6 +214,7 @@
     <ClInclude Include="BindableBase.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="ConstantBuffer.h" />
+    <ClInclude Include="DirectWrite.h" />
     <ClInclude Include="Drawable.h" />
     <ClInclude Include="DrawableBase.h" />
     <ClInclude Include="Gfx_Exception_Macros.h" />
@@ -240,7 +242,6 @@
     <ClInclude Include="SimpleText.h" />
     <ClInclude Include="StringHandling.h" />
     <ClInclude Include="TCPNet.h" />
-    <ClInclude Include="TextNode.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="Topology.h" />
     <ClInclude Include="TransformCbuf.h" />

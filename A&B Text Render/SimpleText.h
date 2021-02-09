@@ -32,7 +32,8 @@ private:
 	HRESULT CreateDeviceResources();
 	void ReleaseRescources();
 	void ReleaseColor();
-	void DrawText(const wchar_t* string);
+	void PrepareText(const wchar_t* string);
+	void DrawText();
 private:
 	Graphics& gfx;
 	HWND& hWnd;

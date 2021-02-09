@@ -120,6 +120,9 @@
     <ClCompile Include="SimpleText.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="DirectWrite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BarebonesWindows.h">
@@ -218,9 +221,6 @@
     <ClInclude Include="imstb_truetype.h">
       <Filter>Header Files\Imgui</Filter>
     </ClInclude>
-    <ClInclude Include="TextNode.h">
-      <Filter>Header Files\Bindables</Filter>
-    </ClInclude>
     <ClInclude Include="Color.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -249,6 +249,9 @@
       <Filter>Header Files\UDP</Filter>
     </ClInclude>
     <ClInclude Include="SimpleText.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectWrite.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

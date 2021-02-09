@@ -59,7 +59,8 @@ void SimpleText::Draw(const wchar_t* string)
 	pBackBufferTarget->BeginDraw();
 	//pBackBufferTarget->SetTransform(D2D1::IdentityMatrix());
 		// Call the DrawText method of this class.
-	DrawText(string);
+	PrepareText(string);
+	DrawText();
 		
 	pBackBufferTarget->EndDraw();
 
@@ -71,7 +72,7 @@ void SimpleText::SetFontSize(const float size)
 	currSize = size;
 }
 
-void SimpleText::DrawText(const wchar_t* string)
+void SimpleText::PrepareText(const wchar_t* string)
 {
 	str = string;
 
@@ -86,10 +87,13 @@ void SimpleText::DrawText(const wchar_t* string)
 		width,         // The width of the layout box.
 		height,        // The height of the layout box.
 		&pTextLayout_);  // The IDWriteTextLayout interface pointer.
-	
+
 	pTextLayout_->SetFontSize(currSize, { 0,str.size() });
 	pTextLayout_->SetLineSpacing(DWRITE_LINE_SPACING_METHOD_UNIFORM, lineSpacing * currSize, 1.0f);
+}
 
+void SimpleText::DrawText()
+{
 	pBackBufferTarget->DrawTextLayout(
 		{ 0,(currSize /2.0f) },
 		pTextLayout_,
@@ -199,3 +203,4 @@ void SimpleText::ReleaseColor()
 		pColorBrush_ = nullptr;
 	}
 }
+
