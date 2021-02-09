@@ -84,9 +84,8 @@ void RenderMode::Render(Graphics& gfx)
 {
 	
 	//get messages and parse out control segments
-	std::wstring str = server->GetMessageStream();
-	//std::wstring str = {0x4e, 0x55, 0x4c, 0x4c, 0x2e , 0x2e ,0x2e ,0x2e,
-					   //0x48, 0x65, 0x6c, 0x6c, 0x6f, 0x21, 0x201C };
+	std::wstring str = L"NULL....Hello You!";//server->GetMessageStream();
+	
 	
 	std::wstring controlString = str.substr(0, 8);
 	str.erase(0, 8);

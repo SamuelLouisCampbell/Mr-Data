@@ -162,7 +162,7 @@ void Graphics::BeginFrame(Color clearColor) noexcept
 		ImGui_ImplWin32_NewFrame();
 		ImGui::NewFrame();
 	}
-	const float color[] = { clearColor.r,  clearColor.g,  clearColor.b, 1.0f };
+	const float color[] = { clearColor.r,  clearColor.g,  clearColor.b, clearColor.a };
 	pContext->ClearRenderTargetView(pTarget.Get(), color);
 	pContext->ClearDepthStencilView(pDSV.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0u);
 
