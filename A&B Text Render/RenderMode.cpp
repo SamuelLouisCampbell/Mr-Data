@@ -8,14 +8,16 @@ RenderMode::RenderMode(Window& wnd, RMData& data)
 	smallScale(data.GetSmallScale()),
 	lineSpacing(data.GetSpacing()),
 	wnd(wnd),
-	st(wnd.GethWnd(),wnd.Gfx(), {1.0f,1.0f,1.0f,1.0f}, L"ABOVEANDBYOND2013")
+	st(wnd.GethWnd(),wnd.Gfx(), {1.0f,1.0f,1.0f,1.0f}, L"ABOVEANDBYOND2013"),
+	cText(wnd.GethWnd(), wnd.Gfx())
 {	
 	server = std::make_unique<CustomServer>(data.GetServerPort());
 	server->Start();
 
 	//Text Rendering system
 	st.SetupRenderSystem();
-
+	cText.SetupRenderSystem();
+	
 }
 
 RenderMode::~RenderMode()
@@ -82,11 +84,10 @@ void RenderMode::Update(Window& wnd)
 
 void RenderMode::Render(Graphics& gfx)
 {
-	
+	cText.Draw();
 	//get messages and parse out control segments
-	std::wstring str = L"NULL....Hello You!";//server->GetMessageStream();
-	
-	
+	std::wstring str = L"Hello You!";//server->GetMessageStream();
+
 	std::wstring controlString = str.substr(0, 8);
 	str.erase(0, 8);
 
@@ -120,8 +121,8 @@ void RenderMode::Render(Graphics& gfx)
 		alpha = 1.0f;
 		textCol = oldTextCol;
 		
-		st.Draw(str.c_str());
-		st.SetTextColor(textCol);
+		//st.Draw(str.c_str());
+		//st.SetTextColor(textCol);
 		oldMessage = str;
 		oldTextCol = textCol;
 		holdingLastMsg = false;
@@ -139,8 +140,8 @@ void RenderMode::Render(Graphics& gfx)
 		};
 		
 		alpha -= 0.001f * deltaAlpha;
-		st.Draw(oldMessage.c_str());
-		st.SetTextColor(preMulAplpha);
+		//st.Draw(oldMessage.c_str());
+		//st.SetTextColor(preMulAplpha);
 
 	}
 	

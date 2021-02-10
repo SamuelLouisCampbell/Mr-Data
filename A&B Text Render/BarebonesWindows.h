@@ -61,6 +61,18 @@
 //and then include windows
 #include <Windows.h>
 
+//for text
+#ifndef HINST_THISCOMPONENT
+EXTERN_C IMAGE_DOS_HEADER __ImageBase;
+#define HINST_THISCOMPONENT ((HINSTANCE)&__ImageBase)
+#endif
+#include <dwrite.h>
+#include <d2d1.h>
+#include <wincodec.h>
+#include "SafeRelease.h"
+#pragma comment( lib, "D2d1.lib" )
+#pragma comment( lib, "Dwrite.lib")
+
 //DX toolkit Helpers
 #include <BufferHelpers.h>
 #include <CommonStates.h>

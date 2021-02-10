@@ -180,7 +180,8 @@
   <ItemGroup>
     <ClCompile Include="App.cpp" />
     <ClCompile Include="Bindable.cpp" />
-    <ClCompile Include="DirectWrite.cpp" />
+    <ClCompile Include="CustomText.cpp" />
+    <ClCompile Include="CustomTextRenderer.cpp" />
     <ClCompile Include="Drawable.cpp" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="imgui.cpp" />
@@ -214,7 +215,8 @@
     <ClInclude Include="BindableBase.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="ConstantBuffer.h" />
-    <ClInclude Include="DirectWrite.h" />
+    <ClInclude Include="CustomText.h" />
+    <ClInclude Include="CustomTextRenderer.h" />
     <ClInclude Include="Drawable.h" />
     <ClInclude Include="DrawableBase.h" />
     <ClInclude Include="Gfx_Exception_Macros.h" />
@@ -238,6 +240,7 @@
     <ClInclude Include="PixelShader.h" />
     <ClInclude Include="RenderMode.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="SafeRelease.h" />
     <ClInclude Include="SetupMode.h" />
     <ClInclude Include="SimpleText.h" />
     <ClInclude Include="StringHandling.h" />

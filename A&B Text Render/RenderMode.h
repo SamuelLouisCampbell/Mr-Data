@@ -5,7 +5,7 @@
 #include "Window.h"
 #include "TCPNet.h"
 #include "SimpleText.h"
-
+#include "CustomText.h"
 
 class RMData
 {
@@ -91,6 +91,7 @@ private:
 	//simple Text
 	Window& wnd;
 	SimpleText st;
+	CustomText cText;
 };
 
 
