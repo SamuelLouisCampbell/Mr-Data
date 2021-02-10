@@ -5,14 +5,16 @@ CustomTextRenderer::CustomTextRenderer(
     ID2D1Factory* pD2DFactory,
     ID2D1RenderTarget* pRT,
     ID2D1SolidColorBrush* pOutlineBrush,
-    ID2D1SolidColorBrush* pFillBrush
+    ID2D1SolidColorBrush* pFillBrush,
+    float strokeWidth
 )
     :
     cRefCount_(0),
     pD2DFactory_(pD2DFactory),
     pRT_(pRT),
     pOutlineBrush_(pOutlineBrush),
-    pFillBrush_(pFillBrush)
+    pFillBrush_(pFillBrush),
+    strokeWidth(strokeWidth)
 {
     pD2DFactory_->AddRef();
     pRT_->AddRef();
@@ -98,7 +100,8 @@ IFACEMETHODIMP CustomTextRenderer::DrawGlyphRun(
     // Draw the outline of the glyph run
     pRT_->DrawGeometry(
         pTransformedGeometry,
-        pOutlineBrush_,3.0f
+        pOutlineBrush_,
+        strokeWidth
     );
 
     // Fill in the glyph run
@@ -157,7 +160,8 @@ IFACEMETHODIMP CustomTextRenderer::DrawUnderline(
     // Draw the outline of the rectangle
     pRT_->DrawGeometry(
         pTransformedGeometry,
-        pOutlineBrush_
+        pOutlineBrush_,
+        strokeWidth
     );
 
     // Fill in the rectangle
@@ -215,7 +219,8 @@ IFACEMETHODIMP CustomTextRenderer::DrawStrikethrough(
     // Draw the outline of the rectangle
     pRT_->DrawGeometry(
         pTransformedGeometry,
-        pOutlineBrush_
+        pOutlineBrush_,
+        strokeWidth
     );
 
     // Fill in the rectangle

@@ -53,7 +53,7 @@ private:
     float fontSize = 72.0f;
     float kerning = 1.0f;
     float lineSpacing = 1.0f;
-    float outlineStroke = 3.0f;
+    float strokeWidth = 3.0f;
     Color fillColor;
     Color outlineColor;
     const wchar_t* fontName;

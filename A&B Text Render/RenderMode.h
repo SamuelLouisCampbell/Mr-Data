@@ -79,6 +79,8 @@ private:
 	float smallScale = 0.35f;
 	float currScale = smallScale;
 	float lineSpacing = 1.0f;
+	float strokeWidth = 3.0f;
+	float kerning = 1.0f;
 	bool currSmall = true;
 	float rotation = 0.0f;
 	char buffer[512] = { '\0' };
@@ -90,7 +92,6 @@ private:
 
 	//simple Text
 	Window& wnd;
-	SimpleText st;
 	CustomText cText;
 };
 

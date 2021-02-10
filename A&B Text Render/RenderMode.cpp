@@ -8,14 +8,12 @@ RenderMode::RenderMode(Window& wnd, RMData& data)
 	smallScale(data.GetSmallScale()),
 	lineSpacing(data.GetSpacing()),
 	wnd(wnd),
-	st(wnd.GethWnd(),wnd.Gfx(), {1.0f,1.0f,1.0f,1.0f}, L"ABOVEANDBYOND2013"),
 	cText(wnd.GethWnd(), wnd.Gfx(), L"ABOVEANDBYOND2013")
 {	
 	server = std::make_unique<CustomServer>(data.GetServerPort());
 	server->Start();
 
 	//Text Rendering system
-	st.SetupRenderSystem();
 	cText.SetupRenderSystem();
 	
 }
@@ -60,6 +58,8 @@ void RenderMode::Update(Window& wnd)
 			ImGui::InputFloat("Small text size", &smallScale, 0.02f);
 			ImGui::InputFloat("Large text size", &largeScale, 0.02f);
 			ImGui::InputFloat("Line spacing", &lineSpacing, 0.02f);
+			ImGui::InputFloat("Stroke Width", &strokeWidth, 3.0f);
+			ImGui::InputFloat("Kerning", &kerning, 1.0f);
 			ImGui::SliderFloat("Delta Alpha (time)", &deltaAlpha, 0.0f, 3.0f);
 			ImGui::SliderFloat("Delta Zoom  (time)", &deltaZoom, 0.01f, 1.0f);
 			ImGui::ColorPicker3("Color", &oldTextCol.r, ImGuiColorEditFlags_::ImGuiColorEditFlags_AlphaBar);
@@ -85,7 +85,8 @@ void RenderMode::Update(Window& wnd)
 void RenderMode::Render(Graphics& gfx)
 {
 	//get messages and parse out control segments
-	std::wstring str = L"NULL....HELLO & You!";//server->GetMessageStream();
+	//std::wstring str = L"NULL....HELLO & You!";//server->GetMessageStream();
+	std::wstring str = server->GetMessageStream();
 
 	std::wstring controlString = str.substr(0, 8);
 	str.erase(0, 8);
@@ -111,9 +112,9 @@ void RenderMode::Render(Graphics& gfx)
 			currScale = largeScale;
 	}
 
-	st.SetFontSize(currScale*72.0f);
-	st.SetLineSpacing(lineSpacing);
-	
+	cText.SetOutlineStroke(strokeWidth);
+	cText.SetFontSize(currScale * 72.0f);
+	cText.SetLineSpacing(lineSpacing);
 	
 	if (str.size() > 0)
 	{

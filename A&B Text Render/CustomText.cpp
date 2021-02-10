@@ -73,6 +73,7 @@ void CustomText::Draw(const wchar_t* string)
 
 void CustomText::SetFontSize(const float size)
 {
+    fontSize = size;
 }
 
 void CustomText::SetTextFillColor(const Color& col)
@@ -93,6 +94,7 @@ void CustomText::SetKerning(const float kern)
 
 void CustomText::SetOutlineStroke(const float stroke)
 {
+    strokeWidth = stroke;
 }
 
 HRESULT CustomText::PrepareText(const wchar_t* string)
@@ -108,6 +110,8 @@ HRESULT CustomText::PrepareText(const wchar_t* string)
         gfx.GetWindowHeight(),
         &pTextLayout_);
 
+    pTextLayout_->SetFontSize(fontSize, {0,str.size()});
+    pTextLayout_->SetLineSpacing(DWRITE_LINE_SPACING_METHOD_UNIFORM, lineSpacing * fontSize, 1.0f);
     return hr;
 
 }
@@ -209,7 +213,8 @@ HRESULT CustomText::CreateDeviceResources()
                 pD2DFactory_,
                 pRT_,
                 pBlackBrush_,
-                pFillBrush_
+                pFillBrush_,
+                strokeWidth
             );
         }
     }
@@ -258,11 +263,9 @@ HRESULT CustomText::DrawD2DContent()
 
     hr = CreateDeviceResources();
 
-
     pRT_->BeginDraw();
     pRT_->SetTransform(D2D1::IdentityMatrix());
-   // pRT_->Clear(D2D1::ColorF(D2D1::ColorF::Black));
-
+   
     // Call the DrawText method of this class.
     if (SUCCEEDED(hr))
     {
