@@ -1,9 +1,10 @@
 #include "CustomText.h"
 
-CustomText::CustomText(HWND& hWnd, Graphics& gfx)
+CustomText::CustomText(HWND& hWnd, Graphics& gfx, const wchar_t* fontName)
     :
     hwnd_(hWnd),
-    gfx(gfx)
+    gfx(gfx),
+    fontName(fontName)
 {
     CreateDeviceIndependentResources();
 }
@@ -60,15 +61,55 @@ void CustomText::SetupRenderSystem()
     }
 }
 
-void CustomText::Draw()
+void CustomText::Draw(const wchar_t* string)
 {
-    //pRT_->BeginDraw();
-    //pBackBufferTarget->SetTransform(D2D1::IdentityMatrix());
-        // Call the DrawText method of this class.
-    //PrepareText(string);
-    DrawD2DContent();
+    HRESULT hr;
+    hr = PrepareText(string);
+    if (SUCCEEDED(hr))
+    {
+        DrawD2DContent();
+    }
+}
 
-   // pRT_->EndDraw();
+void CustomText::SetFontSize(const float size)
+{
+}
+
+void CustomText::SetTextFillColor(const Color& col)
+{
+}
+
+void CustomText::SetTextOutlineColor(const Color& col)
+{
+}
+
+void CustomText::SetLineSpacing(const float spacing)
+{
+}
+
+void CustomText::SetKerning(const float kern)
+{
+}
+
+void CustomText::SetOutlineStroke(const float stroke)
+{
+}
+
+HRESULT CustomText::PrepareText(const wchar_t* string)
+{
+    str = string;
+    HRESULT hr = S_OK;
+
+    hr = pDWriteFactory_->CreateTextLayout(
+        str.c_str(),
+        str.size(),
+        pTextFormat_,
+        gfx.GetWindowWidth(),
+        gfx.GetWindowHeight(),
+        &pTextLayout_);
+
+    return hr;
+
 }
 
 HRESULT CustomText::CreateDeviceIndependentResources()
@@ -104,12 +145,12 @@ HRESULT CustomText::CreateDeviceIndependentResources()
     if (SUCCEEDED(hr))
     {
         hr = pDWriteFactory_->CreateTextFormat(
-            L"ABOVEANDBYOND2013",
+            fontName,
             NULL,
             DWRITE_FONT_WEIGHT_REGULAR,
             DWRITE_FONT_STYLE_NORMAL,
             DWRITE_FONT_STRETCH_NORMAL,
-            72.0f,
+            fontSize,
             L"en-us",
             &pTextFormat_
         );
@@ -128,18 +169,6 @@ HRESULT CustomText::CreateDeviceIndependentResources()
         hr = pTextFormat_->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
     }
 
-    // Create a text layout using the text format
-    if (SUCCEEDED(hr))
-    {
-        hr = pDWriteFactory_->CreateTextLayout(
-            wszText_,
-            cTextLength_,
-            pTextFormat_,
-            gfx.GetWindowWidth(),
-            gfx.GetWindowHeight(),
-            &pTextLayout_
-        );
-    }
     return hr;
 }
 
