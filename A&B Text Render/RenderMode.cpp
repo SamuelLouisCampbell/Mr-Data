@@ -62,11 +62,17 @@ void RenderMode::Update(Window& wnd)
 			ImGui::InputFloat("Kerning", &kerning, 1.0f);
 			ImGui::SliderFloat("Delta Alpha (time)", &deltaAlpha, 0.0f, 3.0f);
 			ImGui::SliderFloat("Delta Zoom  (time)", &deltaZoom, 0.01f, 1.0f);
-			ImGui::ColorPicker3("Color", &oldTextCol.r, ImGuiColorEditFlags_::ImGuiColorEditFlags_AlphaBar);
-			if (ImGui::Button("Reset Color"))
+			ImGui::ColorPicker3("Fill Color", &oldFillCol.r, ImGuiColorEditFlags_::ImGuiColorEditFlags_AlphaBar);
+			ImGui::ColorPicker3("Outine Color", &oldOutlineColor.r, ImGuiColorEditFlags_::ImGuiColorEditFlags_AlphaBar);
+			if (ImGui::Button("Reset Fill Color"))
 			{
-				textCol = { Colors::White };
-				oldTextCol = { Colors::White };
+				fillColor = { Colors::White };
+				oldFillCol = { Colors::White };
+			}
+			if (ImGui::Button("Reset Outline Color"))
+			{
+				outlineColor = { Colors::White };
+				oldOutlineColor = { Colors::White };
 			}
 			if (ImGui::Button("Large Text."))
 			{
@@ -85,15 +91,15 @@ void RenderMode::Update(Window& wnd)
 void RenderMode::Render(Graphics& gfx)
 {
 	//get messages and parse out control segments
-	std::wstring str = L"NULL....HELLO & You!";//server->GetMessageStream();
-	//std::wstring str = server->GetMessageStream();
+	//std::wstring str = L"NULL....HELLO & You!";//server->GetMessageStream();
+	std::wstring str = server->GetMessageStream();
 
 	std::wstring controlString = str.substr(0, 8);
 	str.erase(0, 8);
 
 	if (controlString != L"NULL....")
 	{
-		StringControl(controlString, oldTextCol);
+		StringControl(controlString, oldFillCol);
 	}
 	//update current sizes
 	if (currSmall)
@@ -118,30 +124,39 @@ void RenderMode::Render(Graphics& gfx)
 	if (str.size() > 0)
 	{
 		alpha = 1.0f;
-		textCol = oldTextCol;
-		//st.Draw(str.c_str());
-		//cText.ProcessText(str.c_str());
-		cText.SetTextFillColor(textCol);
-		cText.SetTextOutlineColor(textCol);
+		fillColor = oldFillCol;
+		outlineColor = oldOutlineColor;
+		cText.SetTextFillColor(fillColor);
+		cText.SetTextOutlineColor(outlineColor);
 		cText.Draw(str.c_str());
 		oldMessage = str;
-		oldTextCol = textCol;
+		oldFillCol = fillColor;
+		oldOutlineColor = outlineColor;
 		holdingLastMsg = false;
 	}
 	else if (str.size() == 0)
 	{
 		holdingLastMsg = true;
 
-		Color preMulAplpha =
+		Color alphaOutline =
 		{
-			textCol.r *= alpha,
-			textCol.g *= alpha,
-			textCol.b *= alpha,
-			textCol.a *= alpha
+			outlineColor.r *= alpha,
+			outlineColor.g *= alpha,
+			outlineColor.b *= alpha,
+			outlineColor.a *= alpha
+		};
+		Color alphaFill =
+		{
+			fillColor.r *= alpha,
+			fillColor.g *= alpha,
+			fillColor.b *= alpha,
+			fillColor.a *= alpha
 		};
 		
 		alpha -= 0.001f * deltaAlpha;
-		cText.Draw(str.c_str());
+		cText.SetTextFillColor(fillColor);
+		cText.SetTextOutlineColor(outlineColor);
+		cText.Draw(oldMessage.c_str());
 		//st.Draw(oldMessage.c_str());
 		//st.SetTextColor(preMulAplpha);
 
