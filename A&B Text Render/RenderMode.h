@@ -91,6 +91,8 @@ private:
 	float alpha = 1.0f;
 	float deltaZoom = 0.20f;
 	float deltaAlpha = 1.0f;
+	float offsetX = 0;
+	float offsetY = 0;
 
 	//simple Text
 	Window& wnd;

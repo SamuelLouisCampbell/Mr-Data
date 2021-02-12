@@ -18,6 +18,8 @@ public:
     void SetLineSpacing(const float spacing);
     void SetKerning(const float kern);
     void SetOutlineStroke(const float stroke);
+    void SetOffX(const float X);
+    void SetOffY(const float Y);
 
 private:
     HRESULT PrepareText(const wchar_t* string);
@@ -50,6 +52,8 @@ private:
     std::wstring str;
     IDXGISurface* pBackBuffer_ = nullptr;
     Graphics& gfx;
+    float offX = 0;
+    float offY = 0;
     float fontSize = 72.0f;
     float kerning = 1.0f;
     float lineSpacing = 1.0f;

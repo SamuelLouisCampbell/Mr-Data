@@ -19,7 +19,6 @@ CustomText::~CustomText()
     SafeRelease(&pTextFormat_);
     SafeRelease(&pTextLayout_);
     SafeRelease(&pTextRenderer_);
-    //SafeRelease(&pWICFactory_);
 }
 
 void CustomText::SetupRenderSystem()
@@ -94,15 +93,27 @@ void CustomText::SetTextOutlineColor(const Color& col)
 
 void CustomText::SetLineSpacing(const float spacing)
 {
+    lineSpacing = spacing;
 }
 
 void CustomText::SetKerning(const float kern)
 {
+    kerning = kern;
 }
 
 void CustomText::SetOutlineStroke(const float stroke)
 {
     strokeWidth = stroke;
+}
+
+void CustomText::SetOffX(const float X)
+{
+    offX = X;
+}
+
+void CustomText::SetOffY(const float Y)
+{
+    offY = Y;
 }
 
 HRESULT CustomText::PrepareText(const wchar_t* string)
@@ -147,13 +158,6 @@ HRESULT CustomText::CreateDeviceIndependentResources()
         );
     }
 
-    // The string to display.
-    wszText_ = L"HOW DOES IT FEEL TO BE BACK?";
-    cTextLength_ = (UINT32)wcslen(wszText_);
-
-    // Create a text format using Gabriola with a font size of 72.
-    // This sets the default font, weight, stretch, style, and locale.
-
     if (SUCCEEDED(hr))
     {
         hr = pDWriteFactory_->CreateTextFormat(
@@ -167,7 +171,6 @@ HRESULT CustomText::CreateDeviceIndependentResources()
             &pTextFormat_
         );
     }
-
 
     // Center align (horizontally) the text.
     if (SUCCEEDED(hr))
@@ -241,26 +244,13 @@ void CustomText::DiscardDeviceResources()
 HRESULT CustomText::DrawText()
 {
     HRESULT hr = S_OK;
-
-    RECT rc;
-
-    GetClientRect(
-        hwnd_,
-        &rc);
-
-    D2D1_POINT_2F origin = D2D1::Point2F(
-        static_cast<FLOAT>(rc.top / dpiScaleY_),
-        static_cast<FLOAT>(rc.left / dpiScaleX_)
-    );
-
     // Draw the text layout using DirectWrite and the CustomTextRenderer class.
     hr = pTextLayout_->Draw(
         NULL,
         pTextRenderer_,  // Custom text renderer.
-        origin.x,
-        origin.y
+        offX,
+        fontSize + offY
     );
-
 
     return hr;
 }

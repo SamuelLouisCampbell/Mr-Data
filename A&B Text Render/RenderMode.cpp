@@ -58,8 +58,10 @@ void RenderMode::Update(Window& wnd)
 			ImGui::InputFloat("Small text size", &smallScale, 0.02f);
 			ImGui::InputFloat("Large text size", &largeScale, 0.02f);
 			ImGui::InputFloat("Line spacing", &lineSpacing, 0.02f);
-			ImGui::InputFloat("Stroke Width", &strokeWidth, 3.0f);
-			ImGui::InputFloat("Kerning", &kerning, 1.0f);
+			ImGui::InputFloat("Stroke Width", &strokeWidth, 0.02f);
+			ImGui::InputFloat("Offset X", &offsetX, 2.0f);
+			ImGui::InputFloat("Offset Y", &offsetY, 2.0f);
+			ImGui::InputFloat("Kerning", &kerning, 0.2f);
 			ImGui::SliderFloat("Delta Alpha (time)", &deltaAlpha, 0.0f, 3.0f);
 			ImGui::SliderFloat("Delta Zoom  (time)", &deltaZoom, 0.01f, 1.0f);
 			ImGui::ColorPicker3("Fill Color", &oldFillCol.r, ImGuiColorEditFlags_::ImGuiColorEditFlags_AlphaBar);
@@ -120,7 +122,10 @@ void RenderMode::Render(Graphics& gfx)
 	cText.SetOutlineStroke(strokeWidth);
 	cText.SetFontSize(currScale * 72.0f);
 	cText.SetLineSpacing(lineSpacing);
-	
+	cText.SetKerning(kerning);
+	cText.SetOffX(offsetX);
+	cText.SetOffY(offsetY);
+
 	if (str.size() > 0)
 	{
 		alpha = 1.0f;
@@ -157,8 +162,7 @@ void RenderMode::Render(Graphics& gfx)
 		cText.SetTextFillColor(fillColor);
 		cText.SetTextOutlineColor(outlineColor);
 		cText.Draw(oldMessage.c_str());
-		//st.Draw(oldMessage.c_str());
-		//st.SetTextColor(preMulAplpha);
+	
 
 	}
 	
