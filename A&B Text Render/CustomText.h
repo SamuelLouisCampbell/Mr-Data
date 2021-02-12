@@ -11,7 +11,7 @@ public:
     HWND GetHwnd() { return hwnd_; }
     void SetupRenderSystem();
     void Draw(const wchar_t* string);
-
+    void ProcessText(const wchar_t* string);
     void SetFontSize(const float size);
     void SetTextFillColor(const Color& col);
     void SetTextOutlineColor(const Color& col);
@@ -31,8 +31,8 @@ private:
     HWND& hwnd_;
 
     // how much to scale a design that assumes 96-DPI pixels.
-    float dpiScaleX_ = 100.0f;
-    float dpiScaleY_ = 100.0f;
+    float dpiScaleX_ = 96.0f;
+    float dpiScaleY_ = 96.0f;
 
     // Direct2D
     ID2D1Factory* pD2DFactory_ = nullptr;
@@ -54,8 +54,8 @@ private:
     float kerning = 1.0f;
     float lineSpacing = 1.0f;
     float strokeWidth = 3.0f;
-    Color fillColor;
-    Color outlineColor;
+    Color fillColor = Colors::Red;
+    Color outlineColor = Colors::White;
     const wchar_t* fontName;
 
 

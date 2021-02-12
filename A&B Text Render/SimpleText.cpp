@@ -103,15 +103,15 @@ void SimpleText::DrawText()
 }
 
 void SimpleText::SetTextColor(const Color& col)
-{
-	ReleaseColor();
-	pBackBufferTarget->CreateSolidColorBrush(
-		D2D1::ColorF({ col.r,col.g,col.b,col.a }),
-		&pColorBrush_);
-	DWRITE_TEXT_RANGE textRange1 = { 0, str.size() };
-	pTextLayout_->SetDrawingEffect(pColorBrush_, textRange1);
-	SafeRelease(&pTextLayout_);
-}
+	{
+		ReleaseColor();
+		pBackBufferTarget->CreateSolidColorBrush(
+			D2D1::ColorF({ col.r,col.g,col.b,col.a }),
+			&pColorBrush_);
+		DWRITE_TEXT_RANGE textRange1 = { 0, str.size() };
+		pTextLayout_->SetDrawingEffect(pColorBrush_, textRange1);
+		SafeRelease(&pTextLayout_);
+	}
 
 void SimpleText::SetLineSpacing(const float spacing)
 {

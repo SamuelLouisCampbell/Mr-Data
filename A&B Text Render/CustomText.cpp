@@ -69,6 +69,12 @@ void CustomText::Draw(const wchar_t* string)
     {
         DrawD2DContent();
     }
+    SafeRelease(&pTextLayout_);
+}
+
+void CustomText::ProcessText(const wchar_t* string)
+{
+    PrepareText(string);
 }
 
 void CustomText::SetFontSize(const float size)
@@ -78,10 +84,12 @@ void CustomText::SetFontSize(const float size)
 
 void CustomText::SetTextFillColor(const Color& col)
 {
+    fillColor = col;
 }
 
 void CustomText::SetTextOutlineColor(const Color& col)
 {
+    outlineColor = col;
 }
 
 void CustomText::SetLineSpacing(const float spacing)
@@ -193,7 +201,7 @@ HRESULT CustomText::CreateDeviceResources()
         {
             hr = pRT_->CreateSolidColorBrush(
                 D2D1::ColorF(
-                    D2D1::ColorF::White
+                    { outlineColor.r, outlineColor.g, outlineColor.b, outlineColor.a }
                 ),
                 &pBlackBrush_);
         }
@@ -201,7 +209,7 @@ HRESULT CustomText::CreateDeviceResources()
         {
             hr = pRT_->CreateSolidColorBrush(
                 D2D1::ColorF(
-                    D2D1::ColorF::Black
+                    { fillColor.r, fillColor.g, fillColor.b, fillColor.a }
                 ),
                 &pFillBrush_);
         }

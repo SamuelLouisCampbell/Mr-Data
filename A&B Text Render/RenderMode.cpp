@@ -85,8 +85,8 @@ void RenderMode::Update(Window& wnd)
 void RenderMode::Render(Graphics& gfx)
 {
 	//get messages and parse out control segments
-	//std::wstring str = L"NULL....HELLO & You!";//server->GetMessageStream();
-	std::wstring str = server->GetMessageStream();
+	std::wstring str = L"NULL....HELLO & You!";//server->GetMessageStream();
+	//std::wstring str = server->GetMessageStream();
 
 	std::wstring controlString = str.substr(0, 8);
 	str.erase(0, 8);
@@ -95,7 +95,6 @@ void RenderMode::Render(Graphics& gfx)
 	{
 		StringControl(controlString, oldTextCol);
 	}
-
 	//update current sizes
 	if (currSmall)
 	{
@@ -120,9 +119,11 @@ void RenderMode::Render(Graphics& gfx)
 	{
 		alpha = 1.0f;
 		textCol = oldTextCol;
-		cText.Draw(str.c_str());
 		//st.Draw(str.c_str());
-		//st.SetTextColor(textCol);
+		//cText.ProcessText(str.c_str());
+		cText.SetTextFillColor(textCol);
+		cText.SetTextOutlineColor(textCol);
+		cText.Draw(str.c_str());
 		oldMessage = str;
 		oldTextCol = textCol;
 		holdingLastMsg = false;
