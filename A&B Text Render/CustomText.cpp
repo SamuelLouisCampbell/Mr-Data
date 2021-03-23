@@ -69,6 +69,7 @@ void CustomText::Draw(const wchar_t* string)
         DrawD2DContent();
     }
     SafeRelease(&pTextLayout_);
+    SafeRelease(&pTextRenderer_);
 }
 
 void CustomText::ProcessText(const wchar_t* string)

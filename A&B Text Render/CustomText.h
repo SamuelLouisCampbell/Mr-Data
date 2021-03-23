@@ -58,7 +58,7 @@ private:
     float kerning = 1.0f;
     float lineSpacing = 1.0f;
     float strokeWidth = 3.0f;
-    Color fillColor = Colors::Red;
+    Color fillColor = Colors::Black;
     Color outlineColor = Colors::White;
     const wchar_t* fontName;
 

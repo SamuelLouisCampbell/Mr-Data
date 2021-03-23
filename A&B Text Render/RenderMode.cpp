@@ -15,7 +15,6 @@ RenderMode::RenderMode(Window& wnd, RMData& data)
 
 	//Text Rendering system
 	cText.SetupRenderSystem();
-	
 }
 
 RenderMode::~RenderMode()
@@ -64,8 +63,8 @@ void RenderMode::Update(Window& wnd)
 			ImGui::InputFloat("Kerning", &kerning, 0.2f);
 			ImGui::SliderFloat("Delta Alpha (time)", &deltaAlpha, 0.0f, 3.0f);
 			ImGui::SliderFloat("Delta Zoom  (time)", &deltaZoom, 0.01f, 1.0f);
-			ImGui::ColorPicker3("Fill Color", &oldFillCol.r, ImGuiColorEditFlags_::ImGuiColorEditFlags_AlphaBar);
-			ImGui::ColorPicker3("Outine Color", &oldOutlineColor.r, ImGuiColorEditFlags_::ImGuiColorEditFlags_AlphaBar);
+			ImGui::ColorPicker4("Fill Color", &oldFillCol.r, ImGuiColorEditFlags_::ImGuiColorEditFlags_AlphaBar);
+			ImGui::ColorPicker4("Outine Color", &oldOutlineColor.r, ImGuiColorEditFlags_::ImGuiColorEditFlags_AlphaBar);
 			if (ImGui::Button("Reset Fill Color"))
 			{
 				fillColor = { Colors::White };
@@ -162,8 +161,6 @@ void RenderMode::Render(Graphics& gfx)
 		cText.SetTextFillColor(fillColor);
 		cText.SetTextOutlineColor(outlineColor);
 		cText.Draw(oldMessage.c_str());
-	
-
 	}
 	
 }

@@ -73,8 +73,8 @@ private:
 	std::string oldInfo = "No Messages";
 
 	//text control
-	Color fillColor = Colors::Red;
-	Color oldFillCol = Colors::Red;
+	Color fillColor = Colors::Black;
+	Color oldFillCol = Colors::Black;
 	Color outlineColor = Colors::White;
 	Color oldOutlineColor = Colors::White;
 	float largeScale = 1.0f;
