@@ -46,6 +46,7 @@ private:
     IDWriteFactory* pDWriteFactory_ = nullptr;
     IDWriteTextFormat* pTextFormat_ = nullptr;
     IDWriteTextLayout* pTextLayout_ = nullptr;
+    IDWriteTextLayout1* pLayout1_ = nullptr;
     IDWriteTextRenderer* pTextRenderer_ = nullptr;
 
     //My things
@@ -61,8 +62,6 @@ private:
     Color fillColor = Colors::Black;
     Color outlineColor = Colors::White;
     const wchar_t* fontName;
-
-
 
     const wchar_t* wszText_;
     UINT32 cTextLength_;

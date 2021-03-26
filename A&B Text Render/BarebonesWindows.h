@@ -67,6 +67,7 @@ EXTERN_C IMAGE_DOS_HEADER __ImageBase;
 #define HINST_THISCOMPONENT ((HINSTANCE)&__ImageBase)
 #endif
 #include <dwrite.h>
+#include <dwrite_1.h>
 #include <d2d1.h>
 #include <wincodec.h>
 #include "SafeRelease.h"

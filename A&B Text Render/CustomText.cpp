@@ -121,7 +121,7 @@ HRESULT CustomText::PrepareText(const wchar_t* string)
 {
     str = string;
     HRESULT hr = S_OK;
-
+    //CPP File in my PrepareText() Fcuntion.
     hr = pDWriteFactory_->CreateTextLayout(
         str.c_str(),
         str.size(),
@@ -130,9 +130,16 @@ HRESULT CustomText::PrepareText(const wchar_t* string)
         gfx.GetWindowHeight(),
         &pTextLayout_);
 
+    hr = pTextLayout_->QueryInterface(IID_PPV_ARGS(&pLayout1_));
+    if (FAILED(hr))
+    { 
+        return S_FALSE;
+    }
+    
+    pLayout1_->SetCharacterSpacing(kerning,kerning,0.0f, { 0,str.size() });
     pTextLayout_->SetFontSize(fontSize, {0,str.size()});
     pTextLayout_->SetLineSpacing(DWRITE_LINE_SPACING_METHOD_UNIFORM, lineSpacing * fontSize, 1.0f);
-    return hr;
+    return hr;  
 
 }
 
