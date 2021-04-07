@@ -1,5 +1,55 @@
 #include "SetupMode.h"
-#include <fstream>
+
+
+float SetupMode::ReadFloat(const char* delimiter, std::ifstream& file, std::string& line, std::string::size_type& n)
+{
+	if (file.is_open())
+	{
+		std::getline(file, line);
+		n = line.find(delimiter);
+		std::string substr = line.substr(n + 1, line.size());
+		return std::stof(substr);
+	}
+	else
+	{
+		return -1.0f;
+	}
+}
+
+int SetupMode::ReadInt(const char* delimiter, std::ifstream& file, std::string& line, std::string::size_type& n)
+{
+	if (file.is_open())
+	{
+		std::getline(file, line);
+		n = line.find(delimiter);
+		std::string substr = line.substr(n + 1, line.size());
+		return std::stoi(substr);
+	}
+	else
+	{
+		return -1;
+	}
+}
+
+Color SetupMode::ReadColor(const char* delimiter, std::ifstream& file, std::string& line, std::string::size_type& n)
+{
+	if (file.is_open())
+	{
+		std::getline(file, line);
+		n = line.find(delimiter);
+		Color col;
+		col.r = float(std::stoi(line.substr(n + 1, 2), 0, 16));
+		col.g = float(std::stoi(line.substr(n + 3, 2), 0, 16));
+		col.b = float(std::stoi(line.substr(n + 5, 2), 0, 16));
+		col.a = float(std::stoi(line.substr(n + 7, 2), 0, 16));
+		
+		return { col.r / 255.0f,col.g / 255.0f,col.b / 255.0f,col.a / 255.0f };
+	}
+	else
+	{
+		return { 0.0f,1.0f,0.0f,0.0f };
+	}
+}
 
 bool SetupMode::Init(const std::string filename)
 {
@@ -7,30 +57,27 @@ bool SetupMode::Init(const std::string filename)
 	std::string line;
 	std::string::size_type n;
 	std::ifstream defFile(filename);
-	if (defFile.is_open())
+	if (defFile)
 	{
 		//serverPort
-		std::getline(defFile, line);
-		n = line.find("#");
-		std::string substr = line.substr(n+1,line.size());
-		serverPort = std::stoi(substr);
-		//Large Scale Text
-		std::getline(defFile, line);
-		n = line.find("#");
-		substr = line.substr(n + 1, line.size());
-		largeScale = std::stof(substr);
-		//Small Scale Text
-		std::getline(defFile, line);
-		n = line.find("#");
-		substr = line.substr(n + 1, line.size());
-		smallScale = std::stof(substr);
-		//Line Spacing Small
-		std::getline(defFile, line);
-		n = line.find("#");
-		substr = line.substr(n + 1, line.size());
-		lineSpacing = std::stof(substr);
-		//close out
+		serverPort = ReadInt("#", defFile, line, n);
+	
+		TextSettings ts;
+		ts.currFillCol = ReadColor("#", defFile, line, n);
+		ts.currOutlineCol = ReadColor("#", defFile, line, n);
+		ts.largeScale = ReadFloat("#", defFile, line, n);
+		ts.smallScale = ReadFloat("#", defFile, line, n);
+		ts.lineSpacing = ReadFloat("#", defFile, line, n);
+		ts.strokeWidth = ReadFloat("#", defFile, line, n);
+		ts.kerning = ReadFloat("#", defFile, line, n);
+		ts.rotaion = ReadFloat("#", defFile, line, n);
+		ts.deltaZoom = ReadFloat("#", defFile, line, n);
+		ts.deltaAlpha = ReadFloat("#", defFile, line, n);
+		ts.offsetX = ReadFloat("#", defFile, line, n);
+		ts.offsetY = ReadFloat("#", defFile, line, n);
+		textSettings.emplace_back(ts);
 		defFile.close();
+	
 		return true;
 	}
 	return false;
@@ -68,3 +115,6 @@ void SetupMode::SetSetupMode(bool setMode)
 {
 	setupComplete = setMode;
 }
+
+
+

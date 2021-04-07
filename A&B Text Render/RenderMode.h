@@ -6,6 +6,7 @@
 #include "TCPNet.h"
 #include "SimpleText.h"
 #include "CustomText.h"
+#include "TextSettings.h"
 
 class RMData
 {
