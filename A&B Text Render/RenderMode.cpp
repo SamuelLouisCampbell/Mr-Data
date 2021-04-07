@@ -67,12 +67,12 @@ void RenderMode::Update(Window& wnd)
 			ImGui::ColorPicker4("Outine Color", &oldOutlineColor.r, ImGuiColorEditFlags_::ImGuiColorEditFlags_AlphaBar);
 			if (ImGui::Button("Reset Fill Color"))
 			{
-				fillColor = { Colors::White };
+				currFillCol = { Colors::White };
 				oldFillCol = { Colors::White };
 			}
 			if (ImGui::Button("Reset Outline Color"))
 			{
-				outlineColor = { Colors::White };
+				currOutlineCol = { Colors::White };
 				oldOutlineColor = { Colors::White };
 			}
 			if (ImGui::Button("Large Text."))
@@ -128,14 +128,14 @@ void RenderMode::Render(Graphics& gfx)
 	if (str.size() > 0)
 	{
 		alpha = 1.0f;
-		fillColor = oldFillCol;
-		outlineColor = oldOutlineColor;
-		cText.SetTextFillColor(fillColor);
-		cText.SetTextOutlineColor(outlineColor);
+		currFillCol = oldFillCol;
+		currOutlineCol = oldOutlineColor;
+		cText.SetTextFillColor(currFillCol);
+		cText.SetTextOutlineColor(currOutlineCol);
 		cText.Draw(str.c_str());
 		oldMessage = str;
-		oldFillCol = fillColor;
-		oldOutlineColor = outlineColor;
+		oldFillCol = currFillCol;
+		oldOutlineColor = currOutlineCol;
 		holdingLastMsg = false;
 	}
 	else if (str.size() == 0)
@@ -144,22 +144,22 @@ void RenderMode::Render(Graphics& gfx)
 
 		Color alphaOutline =
 		{
-			outlineColor.r *= alpha,
-			outlineColor.g *= alpha,
-			outlineColor.b *= alpha,
-			outlineColor.a *= alpha
+			currOutlineCol.r *= alpha,
+			currOutlineCol.g *= alpha,
+			currOutlineCol.b *= alpha,
+			currOutlineCol.a *= alpha
 		};
 		Color alphaFill =
 		{
-			fillColor.r *= alpha,
-			fillColor.g *= alpha,
-			fillColor.b *= alpha,
-			fillColor.a *= alpha
+			currFillCol.r *= alpha,
+			currFillCol.g *= alpha,
+			currFillCol.b *= alpha,
+			currFillCol.a *= alpha
 		};
 		
 		alpha -= 0.001f * deltaAlpha;
-		cText.SetTextFillColor(fillColor);
-		cText.SetTextOutlineColor(outlineColor);
+		cText.SetTextFillColor(currFillCol);
+		cText.SetTextOutlineColor(currOutlineCol);
 		cText.Draw(oldMessage.c_str());
 	}
 	

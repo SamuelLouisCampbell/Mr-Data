@@ -245,6 +245,7 @@
     <ClInclude Include="SimpleText.h" />
     <ClInclude Include="StringHandling.h" />
     <ClInclude Include="TCPNet.h" />
+    <ClInclude Include="TextSettings.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="Topology.h" />
     <ClInclude Include="TransformCbuf.h" />
