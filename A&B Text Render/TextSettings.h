@@ -1,8 +1,6 @@
 #pragma once
 #include "Color.h"
 
-// struct filled with default values;
-
 struct TextSettings 
 {
 	Color currFillCol;

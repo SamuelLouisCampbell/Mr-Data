@@ -75,7 +75,9 @@ private:
 	bool holdingLastMsg = false;
 	float alpha = 1.0f;
 	std::vector<TextSettings> tSet;
+	TextSettings defaultTextSettings;
 	size_t currSettings = 0;
+	size_t maxSettings = 16;
 
 	//simple Text
 	Window& wnd;

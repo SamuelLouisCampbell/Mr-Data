@@ -8,7 +8,11 @@ RenderMode::RenderMode(Window& wnd, RMData& data)
 	cText(wnd.GethWnd(), wnd.Gfx(), L"ABOVEANDBYOND2013"), 
 	gui(tSet)
 {	
-	tSet.push_back(data.GetSettings());
+	defaultTextSettings = data.GetSettings();
+	for (int i = 0; i < maxSettings; i++)
+	{
+		tSet.push_back(defaultTextSettings);
+	}
 	server = std::make_unique<CustomServer>(data.GetServerPort());
 	server->Start();
 
@@ -45,30 +49,20 @@ void RenderMode::Update(Window& wnd)
 
 	if (wnd.Gfx().IsIMGuiEnabled())
 	{
+		size_t oldSettingIndex = currSettings;
 		gui.ControlWindow(server->GetInfoStream(), currSmall, currSettings);
 		if (currSettings > (tSet.size() -1))
 		{
-			TextSettings ts = tSet[currSettings - 1];
-			ts.currFillCol = { 0.3f, 1.0f, 0.8f, 1.0f };
-			tSet.push_back(ts);
+			tSet.push_back(defaultTextSettings);
+			oldFillCol = defaultTextSettings.currFillCol;
+			oldOutlineColor = defaultTextSettings.currOutlineCol;
 		}
-		std::stringstream ss;
-		ss << "Preset Control : Preset " << currSettings;
-		if (ImGui::Begin(ss.str().c_str()))
+		gui.PrestEditorWindow(currSettings, oldFillCol, oldOutlineColor);
+		if (currSettings != oldSettingIndex)
 		{
-			ImGui::InputFloat("Small text size", &tSet[currSettings].smallScale, 0.02f);
-			ImGui::InputFloat("Large text size", &tSet[currSettings].largeScale, 0.02f);
-			ImGui::InputFloat("Line spacing", &tSet[currSettings].lineSpacing, 0.02f);
-			ImGui::InputFloat("Stroke Width", &tSet[currSettings].strokeWidth, 0.02f);
-			ImGui::InputFloat("Offset X", &tSet[currSettings].offsetX, 2.0f);
-			ImGui::InputFloat("Offset Y", &tSet[currSettings].offsetY, 2.0f);
-			ImGui::InputFloat("Kerning", &tSet[currSettings].kerning, 0.2f);
-			ImGui::SliderFloat("Delta Alpha (time)", &tSet[currSettings].deltaAlpha, 0.0f, 3.0f);
-			ImGui::SliderFloat("Delta Zoom  (time)", &tSet[currSettings].deltaZoom, 0.01f, 1.0f);
-			ImGui::ColorPicker4("Fill Color", &oldFillCol.r, ImGuiColorEditFlags_::ImGuiColorEditFlags_AlphaBar);
-			ImGui::ColorPicker4("Outine Color", &oldOutlineColor.r, ImGuiColorEditFlags_::ImGuiColorEditFlags_AlphaBar);
+			oldFillCol = tSet[currSettings].currFillCol;
+			oldOutlineColor = tSet[currSettings].currOutlineCol;
 		}
-		ImGui::End();
 		
 	}
 }
