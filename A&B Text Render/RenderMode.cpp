@@ -4,15 +4,16 @@
 
 RenderMode::RenderMode(Window& wnd, RMData& data)
 	:
-	largeScale(data.GetLargeScale()),
-	smallScale(data.GetSmallScale()),
-	lineSpacing(data.GetSpacing()),
 	wnd(wnd),
-	cText(wnd.GethWnd(), wnd.Gfx(), L"ABOVEANDBYOND2013")
+	cText(wnd.GethWnd(), wnd.Gfx(), L"ABOVEANDBYOND2013"), 
+	gui(tSet)
 {	
+	tSet.push_back(data.GetSettings());
 	server = std::make_unique<CustomServer>(data.GetServerPort());
 	server->Start();
 
+	oldFillCol = tSet[currSettings].currFillCol;
+	oldOutlineColor = tSet[currSettings].currOutlineCol;
 	//Text Rendering system
 	cText.SetupRenderSystem();
 }
@@ -44,48 +45,31 @@ void RenderMode::Update(Window& wnd)
 
 	if (wnd.Gfx().IsIMGuiEnabled())
 	{
-		if (ImGui::Begin("Text Controls"))
+		gui.ControlWindow(server->GetInfoStream(), currSmall, currSettings);
+		if (currSettings > (tSet.size() -1))
 		{
-
-			//display where message came from in imgui
-			
-			if (server->GetInfoStream().size() != 0)
-			{
-				oldInfo = server->GetInfoStream();	
-			}
-			ImGui::TextColored({ 0.0f, 1.0f, 1.0f, 1.0f }, oldInfo.c_str());
-			ImGui::InputFloat("Small text size", &smallScale, 0.02f);
-			ImGui::InputFloat("Large text size", &largeScale, 0.02f);
-			ImGui::InputFloat("Line spacing", &lineSpacing, 0.02f);
-			ImGui::InputFloat("Stroke Width", &strokeWidth, 0.02f);
-			ImGui::InputFloat("Offset X", &offsetX, 2.0f);
-			ImGui::InputFloat("Offset Y", &offsetY, 2.0f);
-			ImGui::InputFloat("Kerning", &kerning, 0.2f);
-			ImGui::SliderFloat("Delta Alpha (time)", &deltaAlpha, 0.0f, 3.0f);
-			ImGui::SliderFloat("Delta Zoom  (time)", &deltaZoom, 0.01f, 1.0f);
+			TextSettings ts = tSet[currSettings - 1];
+			ts.currFillCol = { 0.3f, 1.0f, 0.8f, 1.0f };
+			tSet.push_back(ts);
+		}
+		std::stringstream ss;
+		ss << "Preset Control : Preset " << currSettings;
+		if (ImGui::Begin(ss.str().c_str()))
+		{
+			ImGui::InputFloat("Small text size", &tSet[currSettings].smallScale, 0.02f);
+			ImGui::InputFloat("Large text size", &tSet[currSettings].largeScale, 0.02f);
+			ImGui::InputFloat("Line spacing", &tSet[currSettings].lineSpacing, 0.02f);
+			ImGui::InputFloat("Stroke Width", &tSet[currSettings].strokeWidth, 0.02f);
+			ImGui::InputFloat("Offset X", &tSet[currSettings].offsetX, 2.0f);
+			ImGui::InputFloat("Offset Y", &tSet[currSettings].offsetY, 2.0f);
+			ImGui::InputFloat("Kerning", &tSet[currSettings].kerning, 0.2f);
+			ImGui::SliderFloat("Delta Alpha (time)", &tSet[currSettings].deltaAlpha, 0.0f, 3.0f);
+			ImGui::SliderFloat("Delta Zoom  (time)", &tSet[currSettings].deltaZoom, 0.01f, 1.0f);
 			ImGui::ColorPicker4("Fill Color", &oldFillCol.r, ImGuiColorEditFlags_::ImGuiColorEditFlags_AlphaBar);
 			ImGui::ColorPicker4("Outine Color", &oldOutlineColor.r, ImGuiColorEditFlags_::ImGuiColorEditFlags_AlphaBar);
-			if (ImGui::Button("Reset Fill Color"))
-			{
-				currFillCol = { Colors::White };
-				oldFillCol = { Colors::White };
-			}
-			if (ImGui::Button("Reset Outline Color"))
-			{
-				currOutlineCol = { Colors::White };
-				oldOutlineColor = { Colors::White };
-			}
-			if (ImGui::Button("Large Text."))
-			{
-				currSmall = false;
-			}
-			if (ImGui::Button("Small Text."))
-			{
-				currSmall = true;
-			}
-
 		}
 		ImGui::End();
+		
 	}
 }
 
@@ -105,37 +89,37 @@ void RenderMode::Render(Graphics& gfx)
 	//update current sizes
 	if (currSmall)
 	{
-		if(currScale >= smallScale)
-			currScale -= (smallScale * deltaZoom);
-		if(currScale < smallScale)
-			currScale = smallScale;
+		if(currScale >= tSet[currSettings].smallScale)
+			currScale -= (tSet[currSettings].smallScale * tSet[currSettings].deltaZoom);
+		if(currScale < tSet[currSettings].smallScale)
+			currScale = tSet[currSettings].smallScale;
 	}
 	else
 	{
-		if(currScale <= largeScale)
-			currScale += (largeScale * deltaZoom);
-		if (currScale > largeScale)
-			currScale = largeScale;
+		if(currScale <= tSet[currSettings].largeScale)
+			currScale += (tSet[currSettings].largeScale * tSet[currSettings].deltaZoom);
+		if (currScale > tSet[currSettings].largeScale)
+			currScale = tSet[currSettings].largeScale;
 	}
 
-	cText.SetOutlineStroke(strokeWidth);
+	cText.SetOutlineStroke(tSet[currSettings].strokeWidth);
 	cText.SetFontSize(currScale * 72.0f);
-	cText.SetLineSpacing(lineSpacing);
-	cText.SetKerning(kerning);
-	cText.SetOffX(offsetX);
-	cText.SetOffY(offsetY);
+	cText.SetLineSpacing(tSet[currSettings].lineSpacing);
+	cText.SetKerning(tSet[currSettings].kerning);
+	cText.SetOffX(tSet[currSettings].offsetX);
+	cText.SetOffY(tSet[currSettings].offsetY);
 
 	if (str.size() > 0)
 	{
 		alpha = 1.0f;
-		currFillCol = oldFillCol;
-		currOutlineCol = oldOutlineColor;
-		cText.SetTextFillColor(currFillCol);
-		cText.SetTextOutlineColor(currOutlineCol);
+		tSet[currSettings].currFillCol = oldFillCol;
+		tSet[currSettings].currOutlineCol = oldOutlineColor;
+		cText.SetTextFillColor(tSet[currSettings].currFillCol);
+		cText.SetTextOutlineColor(tSet[currSettings].currOutlineCol);
 		cText.Draw(str.c_str());
 		oldMessage = str;
-		oldFillCol = currFillCol;
-		oldOutlineColor = currOutlineCol;
+		oldFillCol = tSet[currSettings].currFillCol;
+		oldOutlineColor = tSet[currSettings].currOutlineCol;
 		holdingLastMsg = false;
 	}
 	else if (str.size() == 0)
@@ -144,22 +128,22 @@ void RenderMode::Render(Graphics& gfx)
 
 		Color alphaOutline =
 		{
-			currOutlineCol.r *= alpha,
-			currOutlineCol.g *= alpha,
-			currOutlineCol.b *= alpha,
-			currOutlineCol.a *= alpha
+			tSet[currSettings].currOutlineCol.r *= alpha,
+			tSet[currSettings].currOutlineCol.g *= alpha,
+			tSet[currSettings].currOutlineCol.b *= alpha,
+			tSet[currSettings].currOutlineCol.a *= alpha
 		};
 		Color alphaFill =
 		{
-			currFillCol.r *= alpha,
-			currFillCol.g *= alpha,
-			currFillCol.b *= alpha,
-			currFillCol.a *= alpha
+			tSet[currSettings].currFillCol.r *= alpha,
+			tSet[currSettings].currFillCol.g *= alpha,
+			tSet[currSettings].currFillCol.b *= alpha,
+			tSet[currSettings].currFillCol.a *= alpha
 		};
 		
-		alpha -= 0.001f * deltaAlpha;
-		cText.SetTextFillColor(currFillCol);
-		cText.SetTextOutlineColor(currOutlineCol);
+		alpha -= 0.001f * tSet[currSettings].deltaAlpha;
+		cText.SetTextFillColor(tSet[currSettings].currFillCol);
+		cText.SetTextOutlineColor(tSet[currSettings].currOutlineCol);
 		cText.Draw(oldMessage.c_str());
 	}
 	

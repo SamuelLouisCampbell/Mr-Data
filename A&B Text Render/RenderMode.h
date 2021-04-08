@@ -7,17 +7,15 @@
 #include "SimpleText.h"
 #include "CustomText.h"
 #include "TextSettings.h"
+#include "GUI.h"
 
 class RMData
 {
 public: 
-	RMData(size_t serverPort_in, float largeScale, 
-		   float smallScale, float lineSpacing)
+	RMData(size_t serverPort_in, TextSettings settings)
 		:
 		serverPort(serverPort_in),
-		largeScale(largeScale),
-		smallScale(smallScale),
-		lineSpacing(lineSpacing)
+		settings(settings)
 	{}
 	bool CheckRMPortsGood()
 	{
@@ -33,23 +31,13 @@ public:
 	{
 		serverPort = 60000U;
 	}
-	float GetLargeScale() const
+	TextSettings GetSettings() const
 	{
-		return largeScale;
-	}
-	float GetSmallScale() const
-	{
-		return smallScale;
-	}
-	float GetSpacing() const
-	{
-		return lineSpacing;
+		return settings;
 	}
 private:
 	size_t serverPort;
-	float largeScale;
-	float smallScale;
-	float lineSpacing;
+	TextSettings settings;
 };
 
 class RenderMode
@@ -62,6 +50,8 @@ public:
 	bool returnToSetupMode();
 private:
 	void StringControl(const std::wstring& ctrlStr, Color& colChange);
+	
+
 private:
 	Time time;
 	FPS fps;
@@ -71,29 +61,21 @@ private:
 	//network
 	std::unique_ptr<CustomServer> server;
 	int netLooper = 58;
-	std::string oldInfo = "No Messages";
+	
+	//Gui
+	GUI gui;
 
 	//text control
-	Color currFillCol = Colors::Black;
-	Color oldFillCol = Colors::Black;
-	Color currOutlineCol = Colors::White;
-	Color oldOutlineColor = Colors::White;
-	float largeScale = 1.0f;
-	float smallScale = 0.35f;
-	float currScale = smallScale;
-	float lineSpacing = 1.0f;
-	float strokeWidth = 3.0f;
-	float kerning = 1.0f;
+	Color oldFillCol;
+	Color oldOutlineColor;
+	float currScale;
 	bool currSmall = true;
-	float rotation = 0.0f;
 	char buffer[512] = { '\0' };
 	std::wstring oldMessage;
 	bool holdingLastMsg = false;
 	float alpha = 1.0f;
-	float deltaZoom = 0.20f;
-	float deltaAlpha = 1.0f;
-	float offsetX = 0;
-	float offsetY = 0;
+	std::vector<TextSettings> tSet;
+	size_t currSettings = 0;
 
 	//simple Text
 	Window& wnd;

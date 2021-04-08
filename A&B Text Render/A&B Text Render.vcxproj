@@ -184,6 +184,7 @@
     <ClCompile Include="CustomTextRenderer.cpp" />
     <ClCompile Include="Drawable.cpp" />
     <ClCompile Include="Graphics.cpp" />
+    <ClCompile Include="GUI.cpp" />
     <ClCompile Include="imgui.cpp" />
     <ClCompile Include="imgui_demo.cpp" />
     <ClCompile Include="imgui_draw.cpp" />
@@ -221,6 +222,7 @@
     <ClInclude Include="DrawableBase.h" />
     <ClInclude Include="Gfx_Exception_Macros.h" />
     <ClInclude Include="Graphics.h" />
+    <ClInclude Include="GUI.h" />
     <ClInclude Include="imconfig.h" />
     <ClInclude Include="imgui.h" />
     <ClInclude Include="ImGuiManager.h" />

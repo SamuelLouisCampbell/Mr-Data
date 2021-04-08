@@ -21,6 +21,6 @@ private:
 	float smallScale;
 	float lineSpacing;
 	bool setupComplete = false;
-	std::vector<TextSettings> textSettings;
+	TextSettings ts;
 };
 

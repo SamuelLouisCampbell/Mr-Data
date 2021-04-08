@@ -37,11 +37,11 @@
     <Filter Include="Header Files\Imgui">
       <UniqueIdentifier>{263c194c-40e8-4ed8-b2b8-bcca3897336c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\UDP">
-      <UniqueIdentifier>{6d75b186-57b2-4b78-955b-e4591b41a7b4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Utils">
       <UniqueIdentifier>{30907d5b-77a1-4e22-bac5-4a6b18dde3c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Network">
+      <UniqueIdentifier>{6d75b186-57b2-4b78-955b-e4591b41a7b4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -127,6 +127,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CustomTextRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -222,7 +225,7 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TCPNet.h">
-      <Filter>Header Files\UDP</Filter>
+      <Filter>Header Files\Network</Filter>
     </ClInclude>
     <ClInclude Include="SimpleText.h">
       <Filter>Header Files</Filter>
@@ -267,6 +270,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TextSettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

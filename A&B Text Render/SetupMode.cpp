@@ -62,7 +62,6 @@ bool SetupMode::Init(const std::string filename)
 		//serverPort
 		serverPort = ReadInt("#", defFile, line, n);
 	
-		TextSettings ts;
 		ts.currFillCol = ReadColor("#", defFile, line, n);
 		ts.currOutlineCol = ReadColor("#", defFile, line, n);
 		ts.largeScale = ReadFloat("#", defFile, line, n);
@@ -75,7 +74,7 @@ bool SetupMode::Init(const std::string filename)
 		ts.deltaAlpha = ReadFloat("#", defFile, line, n);
 		ts.offsetX = ReadFloat("#", defFile, line, n);
 		ts.offsetY = ReadFloat("#", defFile, line, n);
-		textSettings.emplace_back(ts);
+		
 		defFile.close();
 	
 		return true;
@@ -102,8 +101,7 @@ void SetupMode::Update()
 
 RMData SetupMode::GetRMData() const
 {
-	RMData rmd{ size_t(serverPort), largeScale, smallScale, lineSpacing };
-	return rmd;
+	return { size_t(serverPort), ts };
 }
 
 bool SetupMode::SetupComplete() const

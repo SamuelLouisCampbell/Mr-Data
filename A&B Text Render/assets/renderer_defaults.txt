@@ -1,11 +1,11 @@
 [IncomingPort] #6000
-[Color currFillCol] #FF0000FF
-[Color currOutlineCol] #FFFFFFFF
+[Color currFillCol] #00FFFFFF
+[Color currOutlineCol] #FFFF00FF
 [float largeScale] #1.0
-[float smallScale] #0.35
+[float smallScale] #3.35
 [float lineSpacing] #1.0
 [float strokeWidth] #3.0
-[float kerning] #1.0
+[float kerning] #0.0
 [float rotation] #0.0
 [float deltaZoom] #0.20
 [float deltaAlpha] #1.0
