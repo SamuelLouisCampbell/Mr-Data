@@ -4,7 +4,9 @@
 struct TextSettings 
 {
 	Color currFillCol;
+	Color oldFillCol;
 	Color currOutlineCol;
+	Color oldOutlineCol;
 	float largeScale;
 	float smallScale;
 	float lineSpacing;

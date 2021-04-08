@@ -12,5 +12,6 @@ public:
 private:
 	std::vector<TextSettings>& tSet;
 	std::string oldInfo = "No Messages";
+
 };
 

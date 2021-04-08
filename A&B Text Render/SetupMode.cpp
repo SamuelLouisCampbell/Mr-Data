@@ -63,7 +63,9 @@ bool SetupMode::Init(const std::string filename)
 		serverPort = ReadInt("#", defFile, line, n);
 	
 		ts.currFillCol = ReadColor("#", defFile, line, n);
+		ts.oldFillCol = ts.currFillCol;
 		ts.currOutlineCol = ReadColor("#", defFile, line, n);
+		ts.oldOutlineCol = ts.currOutlineCol;
 		ts.largeScale = ReadFloat("#", defFile, line, n);
 		ts.smallScale = ReadFloat("#", defFile, line, n);
 		ts.lineSpacing = ReadFloat("#", defFile, line, n);

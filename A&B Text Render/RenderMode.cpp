@@ -114,6 +114,8 @@ void RenderMode::Render(Graphics& gfx)
 		oldMessage = str;
 		oldFillCol = tSet[currSettings].currFillCol;
 		oldOutlineColor = tSet[currSettings].currOutlineCol;
+		tSet[currSettings].oldFillCol = oldFillCol;
+		tSet[currSettings].oldOutlineCol = oldOutlineColor;
 		holdingLastMsg = false;
 	}
 	else if (str.size() == 0)
