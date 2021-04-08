@@ -6,7 +6,7 @@ RenderMode::RenderMode(Window& wnd, RMData& data)
 	:
 	wnd(wnd),
 	cText(wnd.GethWnd(), wnd.Gfx(), L"ABOVEANDBYOND2013"), 
-	gui(tSet)
+	gui(tSet, data.GetSettings())
 {	
 	defaultTextSettings = data.GetSettings();
 	for (int i = 0; i < maxSettings; i++)

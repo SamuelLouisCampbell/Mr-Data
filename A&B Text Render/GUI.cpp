@@ -1,8 +1,42 @@
 #include "GUI.h"
 
-GUI::GUI(std::vector<TextSettings>& settings)
+void GUI::Load(const char* filename, TextSettings defaultSettings)
+{
+	int n;
+	std::ifstream in(filename, std::ios::binary);
+	in.read(reinterpret_cast<char*>(&n), sizeof(n));
+
+	//erase all but the first. 
+	tSet.erase(tSet.begin() + 1, tSet.end());
+	tSet.reserve(n);
+	//load all but the first. 
+	for (int i = 1; i < n; i++)
+	{
+		TextSettings t;
+		t.DeSerialize(in);
+		tSet.push_back(t);
+	}
+	tSet[0] = defaultSettings;
+	in.close();
+}
+
+void GUI::Save(const char* filename)
+{
+	//save all but the first, first is always restored to default. 
+	int n = tSet.size();
+	std::ofstream out(filename, std::ios::binary);
+	out.write(reinterpret_cast<const char*>(&n), sizeof(n));
+	for (int i = 1; i < n; i++ )
+	{
+		tSet[i].Serialize(out);
+	}
+	out.close();
+}
+
+GUI::GUI(std::vector<TextSettings>& settings, TextSettings defaultSettings)
 	:
-	tSet(settings)
+	tSet(settings),
+	defaultSettings(defaultSettings)
 {
 }
 
@@ -18,10 +52,12 @@ void GUI::ControlWindow(const std::string info, bool& textSize, size_t& currSett
 			oldInfo = info;
 		}
 		ImGui::TextColored({ 0.0f,1.0f, 1.0f, 1.0f }, oldInfo.c_str());
+	
 		if (ImGui::Button("Large Text."))
 		{
 			textSize = false;
 		}
+		ImGui::SameLine();
 		if (ImGui::Button("Small Text."))
 		{
 			textSize = true;
@@ -63,7 +99,18 @@ void GUI::ControlWindow(const std::string info, bool& textSize, size_t& currSett
 			ImGui::PopStyleVar(1);
 			ImGui::PopID();	
 		}
+
 		
+		if (ImGui::Button("Save Presets"))
+		{
+			Save("presets.txt");
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Load Presets"))
+		{
+			Load("presets.txt", defaultSettings);
+			currSettings = 0;
+		}		
 	}
 	
 	ImGui::End();
